@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Behavior;
+using GameServices;
 using UnityEngine;
 using System.Collections;
 
@@ -8,6 +9,8 @@ public class WeaponController : MonoBehaviour
   public Light LightSource;
   public AudioSource AudioSource;
   private Transform _parentTransform;
+
+  public Weapon[] Weapons;
 
   // Use this for initialization
   public void Start()
@@ -29,19 +32,24 @@ public class WeaponController : MonoBehaviour
     AudioSource.Play();
 
     RaycastHit hitInfo;
+
+    bool didHit = false;
+
     if (Physics.Raycast(new Ray(_parentTransform.position, _parentTransform.forward), out hitInfo, 100))
     {
       var otherObject = hitInfo.collider.gameObject;
       var killable = otherObject.Get<IKillable>();
       if (killable != null)
       {
-        Debug.Log("Hit Enemy");
-        killable.Damage(50);
+        Logging.Info("Hit Enemy");
+        killable.Damage(Weapons.First().DamagePerShot);
+        didHit = true;
       }
-      else
-      {
-        Debug.Log("Enemy missed");
-      }
+    }
+
+    if (!didHit)
+    {
+      Logging.Info("Missed enemies");
     }
 
     yield return new WaitForSeconds(0.05f);
