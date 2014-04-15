@@ -50,6 +50,8 @@ public class InputManager : MonoBehaviour
       targetVelocity += left;
     }
 
+    _mover.AttemptJump = Input.GetKey(KeyCode.Space);
+
     if (Input.GetKey(KeyCode.D))
     {
       targetVelocity += right;

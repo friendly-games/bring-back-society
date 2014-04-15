@@ -428,6 +428,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxSpeed: 10
   MaxRotation: 5
+  JumpSpeed: 5
   FollowDrag: .200000003
 --- !u!1 &1173993705
 GameObject:
