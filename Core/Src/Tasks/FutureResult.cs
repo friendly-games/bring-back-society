@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Grid.Tasks
+namespace BringBackSociety.Tasks
 {
   /// <summary> The result of a future completing. </summary>
   /// <typeparam name="T"> Generic type parameter. </typeparam>

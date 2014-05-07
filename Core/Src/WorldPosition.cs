@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Grid
+namespace BringBackSociety
 {
   /// <summary> Represents a position aligned to the grid. </summary>
   public struct WorldPosition

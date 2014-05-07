@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace Grid
+namespace BringBackSociety
 {
   /// <summary>
   /// An individual area of the map that is currently loaded into memory.
@@ -13,13 +13,16 @@ namespace Grid
     /// </summary>
     public const int Length = 128;
 
+    /// <summary> Constructor. </summary>
+    /// <param name="coordinate"> The coordinate associated with the chunk. </param>
     public Chunk(ChunkCoordinate coordinate)
     {
       Coordinate = coordinate;
       Offset = new WorldPosition(coordinate.X*Chunk.Length, coordinate.Z*Chunk.Length);
-      Tiles = new Tile[Length*Length*Length];
+      Tiles = new Tile[Length*Length];
     }
 
+    /// <summary> The coordinate associated with the chunk. </summary>
     public ChunkCoordinate Coordinate { get; private set; }
 
     /// <summary>
@@ -59,23 +62,31 @@ namespace Grid
     /// </summary>
     public Tile[] Tiles { get; private set; }
 
+    /// <summary>
+    ///  The tile at the specified world position.
+    /// </summary>
     public Tile this[WorldPosition position]
     {
       get { return this[CoordinateFrom(position)]; }
       set { this[CoordinateFrom(position)] = value; }
     }
 
+    /// <summary>
+    ///  The tile at the specified tile position.
+    /// </summary>
     public Tile this[TileCoordinate position]
     {
       get { return Tiles[position.Index]; }
       set { Tiles[position.Index] = value; }
     }
 
+    /// <summary> Get a tile coordinate from the given position, for this chunk. </summary>
     public TileCoordinate CoordinateFrom(WorldPosition position)
     {
       return new TileCoordinate(position.X - Offset.X, position.Z - Offset.Z);
     }
 
+    /// <summary> Convert a tile coordinate for this chunk into a world position. </summary>
     public WorldPosition GetWorldLocationFrom(TileCoordinate coordinate)
     {
       var local = coordinate.ToWorldPosition();

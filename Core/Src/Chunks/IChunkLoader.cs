@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Grid
+namespace BringBackSociety
 {
   /// <summary> Loads chunks for the world. </summary>
   public interface IChunkLoader

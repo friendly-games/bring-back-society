@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Grid.Tasks
+namespace BringBackSociety.Tasks
 {
   /// <summary> Creates a value that can be used to trigger a future. </summary>
   /// <typeparam name="TResult"> The type of data that the future holds. </typeparam>

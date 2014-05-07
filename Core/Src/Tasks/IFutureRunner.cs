@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Grid.Tasks
+namespace BringBackSociety.Tasks
 {
   public interface IFutureRunner
   {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Grid.Tasks
+namespace BringBackSociety.Tasks
 {
   /// <summary> Executes an enumerator to use yield like await. </summary>
   /// <typeparam name="T"> The return value type of the future. </typeparam>

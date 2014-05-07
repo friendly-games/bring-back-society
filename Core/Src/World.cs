@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Grid.Loaders;
+using BringBackSociety.Loaders;
 using JetBrains.Annotations;
 
-namespace Grid
+namespace BringBackSociety
 {
   /// <summary> Contains all of the chunks in the world. </summary>
   public sealed class World

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Grid
+namespace BringBackSociety
 {
   /// <summary>
   ///  The position of the chunk in the overall world where each increment in x or z represents

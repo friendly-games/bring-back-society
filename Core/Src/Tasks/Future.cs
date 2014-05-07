@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace Grid.Tasks
+namespace BringBackSociety.Tasks
 {
   public abstract class Future : Waiter
   {
