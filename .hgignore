@@ -8,3 +8,9 @@ Temp
 *.orig
 obj/*
 *.suo
+*/bin/*
+
+Assets/Scripts/Core/*.dll
+Assets/Scripts/Core/*.pdb
+Assets/Scripts/Core/*.XML
+Core/packages/*/*
