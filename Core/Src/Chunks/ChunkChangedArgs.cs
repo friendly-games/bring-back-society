@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Grid
+namespace BringBackSociety
 {
   /// <summary> Arguments for chunk changed event. </summary>
   public class ChunkChangedArgs : EventArgs

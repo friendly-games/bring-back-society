@@ -1,4 +1,4 @@
-﻿namespace Grid
+﻿namespace BringBackSociety
 {
   /// <summary>
   /// Information about a single location in a chunk.
