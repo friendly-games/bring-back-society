@@ -24,11 +24,12 @@ namespace BringBackSociety.Chunks.Generators
     /// <inheritdoc/>
     Chunk IChunkGenerator.Generate(ChunkCoordinate location)
     {
+      var world = location.ToWorldPosition();
       var chunk = new Chunk(location);
       for (int x = 0; x < Chunk.Length; x++)
         for (int z = 0; z < Chunk.Length; z++)
         {
-          var noise = _noise.Noise(x, z);
+          var noise = _noise.Noise(world.X + x, world.Z + z);
           chunk.Tiles[new TileCoordinate(x, z).Index] = new Tile
                                                         {
                                                           GroundType = (byte) (noise > 0.5f ? 1 : 0)

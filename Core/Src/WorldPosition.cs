@@ -59,11 +59,13 @@ namespace BringBackSociety
       return String.Format("{0}, {1}", X, Z);
     }
 
+    /// <summary> Add two world positions together. </summary>
     public static WorldPosition operator +(WorldPosition lhs, WorldPosition rhs)
     {
       return new WorldPosition(lhs.X + rhs.X, lhs.Z + rhs.Z);
     }
 
+    /// <summary> Subtract two world positions </summary>
     public static WorldPosition operator -(WorldPosition lhs, WorldPosition rhs)
     {
       return new WorldPosition(lhs.X - rhs.X, lhs.Z - rhs.Z);

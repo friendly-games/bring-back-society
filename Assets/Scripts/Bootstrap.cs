@@ -8,6 +8,8 @@ using System.Collections;
 
 public class Bootstrap : MonoBehaviour
 {
+  private GameObject _player;
+
   public World World { get; set; }
 
   public void Start()
@@ -16,6 +18,8 @@ public class Bootstrap : MonoBehaviour
 
     chunkLoader.Loading += HandleChunkLoading;
     chunkLoader.Saving += HandleChunkSaving;
+
+    _player = GameObject.Find("Player");
 
     World = new World(chunkLoader);
   }
@@ -29,7 +33,7 @@ public class Bootstrap : MonoBehaviour
     var wall = Prefabs.GetPrefab("Wall");
     var allWalls = GameObject.Find("All.Walls");
 
-    var chunkOffset = chunk.Offset.ToVector3()/2;
+    var chunkOffset = chunk.Offset.ToVector3();
 
     for (int x = 0; x < Chunk.Length; x++)
     {
@@ -46,9 +50,15 @@ public class Bootstrap : MonoBehaviour
         }
       }
     }
+
+    Logging.Info("Loading chunk {0} at position {1}, current position: {2}",
+                 chunk.Coordinate,
+                 chunk.Offset,
+                 _player.transform.position.ToWorldPosition());
   }
 
   public void Update()
   {
+    World.Recenter((_player.transform.position).ToWorldPosition());
   }
 }

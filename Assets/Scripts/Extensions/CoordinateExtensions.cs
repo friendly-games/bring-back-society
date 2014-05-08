@@ -15,7 +15,17 @@ namespace Extensions
     /// <returns> position as a Vector3. </returns>
     public static Vector3 ToVector3(this WorldPosition position)
     {
-      return new Vector3(position.X, 0, position.Z);
+      return new Vector3(position.X/2.0f, 0, position.Z/2.0f);
+    }
+
+    /// <summary>
+    ///  Convert a vector3 into a world position
+    /// </summary>
+    /// <param name="position"> The position to act on. </param>
+    /// <returns> position as a WorldPosition. </returns>
+    public static WorldPosition ToWorldPosition(this Vector3 position)
+    {
+      return new WorldPosition(Mathf.FloorToInt(position.x)*2, Mathf.FloorToInt(position.z)*2);
     }
   }
 }

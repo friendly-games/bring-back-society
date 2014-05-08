@@ -32,12 +32,6 @@ namespace BringBackSociety
     public WorldPosition Offset { get; private set; }
 
     /// <summary>
-    /// The position of the chunk in the overall world where each increment in x or z represents
-    /// Chunk.Length tiles.
-    /// </summary>
-    public WorldPosition MacroChunkPosition { get; private set; }
-
-    /// <summary>
     /// The chunk with lower x values, that is directly to the left of this chunk
     /// </summary>
     public Chunk Left { get; set; }
