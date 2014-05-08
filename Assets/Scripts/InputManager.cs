@@ -12,14 +12,21 @@ public class InputManager : MonoBehaviour
   public float DesiredSpeed = 1.0f;
   private Collider _groundCollider;
   private WeaponController _weapon;
+  private GameObject _camera;
+  private Vector3 _playerPositionOffset;
+  private GameObject _player;
 
   public void Start()
   {
-    GameObject playerObject = GameObject.Find("Player");
-    _mover = playerObject.GetComponent<CharacterMover>();
+    _camera = GameObject.Find("Camera");
+
+    _player = GameObject.Find("Player");
+    _mover = _player.GetComponent<CharacterMover>();
 
     _groundCollider = GameObject.Find("Ground").collider;
     _weapon = GameObject.Find("Weapon").GetComponent<WeaponController>();
+
+    _playerPositionOffset = _camera.transform.position - _player.transform.position;
   }
 
   public void Update()
@@ -81,5 +88,7 @@ public class InputManager : MonoBehaviour
 
       _mover.TargetRotation = Quaternion.Euler(targetRotation);
     }
+
+    _camera.transform.position = _player.transform.position + _playerPositionOffset;
   }
 }
