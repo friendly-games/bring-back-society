@@ -42,6 +42,18 @@ namespace BringBackSociety
     /// <summary>
     ///  Re-centers the world on the given chunk, loading neighboring chunks when needed.
     /// </summary>
+    /// <param name="position"> The position to recenter on. </param>
+    public void Recenter(WorldPosition position)
+    {
+      TileCoordinate _1;
+      ChunkCoordinate chunkCoordinate;
+      position.CalculateCoordinates(out chunkCoordinate, out _1);
+      Recenter(chunkCoordinate);
+    }
+
+    /// <summary>
+    ///  Re-centers the world on the given chunk, loading neighboring chunks when needed.
+    /// </summary>
     /// <param name="coordinate"> The position of the chunk to make the center of the world. </param>
     private void Recenter(ChunkCoordinate coordinate)
     {
