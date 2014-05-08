@@ -11,7 +11,7 @@ namespace BringBackSociety
     /// <summary>
     /// The length of a single side of the chunk
     /// </summary>
-    public const int Length = 128;
+    public const int Length = 64;
 
     /// <summary> Constructor. </summary>
     /// <param name="coordinate"> The coordinate associated with the chunk. </param>

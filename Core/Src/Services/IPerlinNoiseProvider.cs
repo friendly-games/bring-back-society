@@ -4,15 +4,6 @@ using System.Linq;
 
 namespace BringBackSociety.Services
 {
-  /// <summary> A service which provides perlin noise. </summary>
-  public interface IPerlinNoiseProvider
-  {
-    /// <summary> Gets a perlin noise generator for the given seed. </summary>
-    /// <param name="seed"> The seed for the generator. </param>
-    /// <returns> An perlin noise generator. </returns>
-    IPerlinNoise Get(long seed);
-  }
-
   /// <summary> Generates perlin noise. </summary>
   public interface IPerlinNoise
   {
