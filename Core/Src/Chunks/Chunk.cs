@@ -22,6 +22,15 @@ namespace BringBackSociety
       Tiles = new Tile[Length*Length];
     }
 
+    /// <summary> User defined data. </summary>
+    public object Tag { get; set; }
+
+    /// <summary> Gets the tag object casted to the correct type. </summary>
+    public T TagValue<T>()
+    {
+      return (T) Tag;
+    }
+
     /// <summary> The coordinate associated with the chunk. </summary>
     public ChunkCoordinate Coordinate { get; private set; }
 

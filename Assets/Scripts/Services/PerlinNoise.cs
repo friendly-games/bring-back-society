@@ -14,7 +14,7 @@ namespace Services
 
     public float Noise(float x, float y)
     {
-      return Mathf.PerlinNoise(x/Chunk.Length*10, y/Chunk.Length*10);
+      return Mathf.PerlinNoise(x/Chunk.Length*2, y/Chunk.Length*2);
     }
   }
 }

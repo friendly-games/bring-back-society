@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using BringBackSociety.Loaders;
-using JetBrains.Annotations;
 
 namespace BringBackSociety
 {
@@ -17,7 +16,11 @@ namespace BringBackSociety
     public World(IChunkLoader loader)
     {
       _manager = new ChunkManager(loader);
+    }
 
+    /// <summary> Initialize the world. </summary>
+    public void Initialize()
+    {
       Recenter(new ChunkCoordinate(0, 0));
     }
 
@@ -63,6 +66,11 @@ namespace BringBackSociety
       foreach (var node in result.Loaded)
       {
         OnChunkChange(new ChunkChangedArgs(node.Chunk, true));
+      }
+
+      foreach (var node in result.Removed)
+      {
+        OnChunkChange(new ChunkChangedArgs(node.Chunk, false));
       }
     }
   }
