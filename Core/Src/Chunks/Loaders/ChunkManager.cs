@@ -40,7 +40,6 @@ namespace BringBackSociety.Loaders
 
       var middleLeft = GetOrLoadNode(new ChunkCoordinate(coordinate.X - 1, coordinate.Z), loadedChunks);
       var middleMiddle = GetOrLoadNode(new ChunkCoordinate(coordinate.X, coordinate.Z), loadedChunks);
-      ;
       var middleRight = GetOrLoadNode(new ChunkCoordinate(coordinate.X + 1, coordinate.Z), loadedChunks);
 
       var bottomLeft = GetOrLoadNode(new ChunkCoordinate(coordinate.X - 1, coordinate.Z - 1), loadedChunks);
@@ -65,7 +64,22 @@ namespace BringBackSociety.Loaders
       ChunkNode.LinkVertically(upperRight, middleRight);
       ChunkNode.LinkVertically(middleRight, bottomRight);
 
-      return new ChunkLoadResult(middleMiddle, loadedChunks);
+      var currentChunks = new ChunkNode[]
+                          {
+                            upperLeft,
+                            upperMiddle,
+                            upperRight,
+                            middleLeft,
+                            middleMiddle,
+                            middleRight,
+                            bottomLeft,
+                            bottomMiddle,
+                            bottomRight,
+                          };
+
+      var removed = RemoveUnneeded(currentChunks);
+
+      return new ChunkLoadResult(middleMiddle, loadedChunks, removed);
     }
 
     /// <summary> Retrieve the node associated with the designated coordinate. </summary>
@@ -91,6 +105,19 @@ namespace BringBackSociety.Loaders
       return node;
     }
 
+    private List<ChunkNode> RemoveUnneeded(IEnumerable<ChunkNode> currentChunks)
+    {
+      var nodesToRemove = _nodeLookups.Values.ToList().Except(currentChunks).ToList();
+
+      foreach (var node in nodesToRemove)
+      {
+        _nodeLookups.Remove(node.Chunk);
+        _nodeLookupByCoordinate.Remove(node.Chunk.Coordinate);
+      }
+
+      return nodesToRemove;
+    }
+
     /// <summary> The result of loading chunks. </summary>
     public class ChunkLoadResult
     {
@@ -98,15 +125,19 @@ namespace BringBackSociety.Loaders
       /// <exception cref="ArgumentNullException"> Thrown when one or more required arguments are null. </exception>
       /// <param name="center"> The center node that was loaded. </param>
       /// <param name="loaded"> All of the chunks that were loaded dynamically into the system. </param>
-      public ChunkLoadResult(ChunkNode center, List<ChunkNode> loaded)
+      /// <param name="removed"> All of the chunks that are pegged for removal.. </param>
+      public ChunkLoadResult(ChunkNode center, List<ChunkNode> loaded, List<ChunkNode> removed)
       {
         if (loaded == null)
           throw new ArgumentNullException("loaded");
         if (center == null)
           throw new ArgumentNullException("center");
+        if (removed == null)
+          throw new ArgumentNullException("removed");
 
         Center = center;
         Loaded = loaded;
+        Removed = removed;
       }
 
       /// <summary> The center node that was loaded. </summary>
@@ -114,6 +145,8 @@ namespace BringBackSociety.Loaders
 
       /// <summary> All of the chunks that were loaded dynamically into the system. </summary>
       public List<ChunkNode> Loaded { get; private set; }
+
+      public List<ChunkNode> Removed { get; set; }
     }
   }
 }

@@ -53,7 +53,7 @@ internal class CharacterMover : MonoBehaviour
       // TODO replace constants
       var ray = new Ray(_transform.position, Vector3.down);
       RaycastHit hitInfo;
-      if (_ground.collider.Raycast(ray, out hitInfo, 1.05f))
+      //if (_ground.collider.Raycast(ray, out hitInfo, 1.05f))
       {
         diffVelocity.y = JumpSpeed;
         _lastJumpTime = DateTime.Now;
