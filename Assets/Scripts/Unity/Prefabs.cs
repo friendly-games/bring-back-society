@@ -15,8 +15,12 @@ public static class Prefabs
     return (GameObject) Resources.Load("Prefabs/" + name);
   }
 
+  /// <summary> Clone a prefab object and return a new instance of it.  </summary>
+  /// <param name="gameObject"> The prefab to clone. </param>
+  /// <param name="position"> The position of the new object. </param>
+  /// <returns> The copy of the prefab. </returns>
   public static GameObject Clone(this GameObject gameObject, Vector3 position)
   {
-    return (GameObject) Object.Instantiate(gameObject, position, new Quaternion());
+    return (GameObject) Object.Instantiate(gameObject, position, Quaternion.identity);
   }
 }
