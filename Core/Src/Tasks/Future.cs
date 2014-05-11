@@ -71,9 +71,9 @@ namespace BringBackSociety.Tasks
 
   internal static class FutureExtensions
   {
-    public static Future<T> ToFuture<T>(this IEnumerable<Coop<T>> coop)
+    public static Future<T> ToFuture<T>(this IEnumerator<Coop<T>> coop)
     {
-      return new EnumeratorFutureRunner<T>(coop).Future;
+      return new CoroutineFutereRunner<T>(new Coroutine<Coop<T>>(coop)).Future;
     }
   }
 }
