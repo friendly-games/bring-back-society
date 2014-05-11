@@ -9,7 +9,7 @@ namespace Tests.Tasks
 {
   internal class TestFuture
   {
-    private IEnumerable<Coop<int>> GetIntegerCoop()
+    private IEnumerator<Coop<int>> GetIntegerCoop()
     {
       yield return 8;
       yield return 9;
@@ -26,7 +26,7 @@ namespace Tests.Tasks
       Assert.AreEqual(10, future.Result);
     }
 
-    private IEnumerable<Coop<string>> NeedToWaitForFuture(Future<string> toWaitFor)
+    private IEnumerator<Coop<string>> NeedToWaitForFuture(Future<string> toWaitFor)
     {
       yield return "what";
       yield return "ok";
@@ -48,7 +48,7 @@ namespace Tests.Tasks
       Assert.AreEqual("What are you waiting for", future.Result);
     }
 
-    private IEnumerable<Coop<int>> ExceptionsPropegate()
+    private IEnumerator<Coop<int>> ExceptionsPropegate()
     {
       yield return 18;
       throw new Exception("It broke");
@@ -79,7 +79,7 @@ namespace Tests.Tasks
       Assert.AreEqual(exception, future.Error.InnerException);
     }
 
-    private IEnumerable<Coop<int>> DisposalsOccur(DoIDispose doIDispose)
+    private IEnumerator<Coop<int>> DisposalsOccur(DoIDispose doIDispose)
     {
       using (doIDispose)
       {
