@@ -88,7 +88,7 @@ namespace BringBackSociety.Tasks
     {
       if (_coroutine.HasError)
       {
-        _futureCompletionSource.SetException(_coroutine.Error ?? _coroutine.DisposalException);
+        _futureCompletionSource.SetException(_coroutine.Error);
       }
       else
       {
