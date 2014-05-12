@@ -52,7 +52,7 @@ namespace BringBackSociety.Tasks
       catch (Exception e)
       {
         IsComplete = true;
-        Error = e;
+        ContinuationException = e;
       }
 
       // if we completed, then dispose
@@ -68,11 +68,17 @@ namespace BringBackSociety.Tasks
     /// </summary>
     public bool IsComplete { get; private set; }
 
+    /// <summary> ContinuationException ?? DisposalException. </summary>
+    public Exception Error
+    {
+      get { return ContinuationException ?? DisposalException; }
+    }
+
     /// <summary>
-    ///  The error that occurred while executing the coroutine.  Null if no error occurred.  Only
-    ///  valid if IsDone is true.
+    ///  The error that occurred while attempting to continue execution enumerator.  Null if no error
+    ///  occurred.  Only valid if IsDone is true.
     /// </summary>
-    public Exception Error { get; private set; }
+    public Exception ContinuationException { get; private set; }
 
     /// <summary>
     ///  The error that occurred while attempting to dispose of the enumerator.  Null if no error
@@ -85,6 +91,9 @@ namespace BringBackSociety.Tasks
     {
       get { return Error != null || DisposalException != null; }
     }
+
+    /// <summary> Data specific to the dispatcher which is executing this coroutine. </summary>
+    ICoroutineDispatcher ICoroutine.Dispatcher { get; set; }
 
     /// <summary> Event that occurs when the coroutine completes. </summary>
     public event EventHandler Completed;

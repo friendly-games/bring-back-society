@@ -6,7 +6,7 @@ using JetBrains.Annotations;
 namespace BringBackSociety.Tasks
 {
   /// <summary> Interface for coroutine. </summary>
-  public interface ICoroutine : IDisposable
+  internal interface ICoroutine : IDisposable
   {
     /// <summary> The last value returned by the coroutine. </summary>
     [CanBeNull]
@@ -21,8 +21,8 @@ namespace BringBackSociety.Tasks
     bool IsComplete { get; }
 
     /// <summary>
-    ///  The error that occurred while executing the coroutine.  Null if no error occurred.  Only
-    ///  valid if IsDone is true.
+    ///  The error that occurred while executing the coroutine or disposing of the coroutine.  Only
+    ///  valid if IsDone is true.  Equivalent to (ContinuationException ?? DisposalException)
     /// </summary>
     [CanBeNull]
     Exception Error { get; }
@@ -34,16 +34,26 @@ namespace BringBackSociety.Tasks
     [CanBeNull]
     Exception DisposalException { get; }
 
+    /// <summary>
+    ///  The error that occurred while attempting to continue execution enumerator.  Null if no error
+    ///  occurred.  Only valid if IsDone is true.
+    /// </summary>
+    [CanBeNull]
+    Exception ContinuationException { get; }
+
     /// <summary> True if either Error or DisposalException is true. </summary>
     bool HasError { get; }
 
     /// <summary> Event that occurs when the coroutine completes. </summary>
     event EventHandler Completed;
+
+    /// <summary> Data specific to the dispatcher which is executing this coroutine. </summary>
+    ICoroutineDispatcher Dispatcher { get; set; }
   }
 
   /// <summary> Interface for coroutine that returns a specific type of value. </summary>
   /// <typeparam name="T"> The type of value that the coroutine returns. </typeparam>
-  public interface ICoroutine<T> : ICoroutine
+  internal interface ICoroutine<T> : ICoroutine
   {
     /// <summary> The last value returned by the coroutine. </summary>
     new T LastValue { get; }
