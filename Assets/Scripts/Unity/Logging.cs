@@ -1,56 +1,67 @@
 ﻿using System;
-using System.Annotations;
 using System.Collections.Generic;
 using System.Linq;
+using log4net.Appender;
+using log4net.Config;
+using log4net.Core;
+using log4net.Layout;
+using UnityEngine;
 
-/// <summary> Performs logging from within unity. </summary>
-public static class Logging
+public class Logging
 {
-  /// <summary> Outputs a debugging message. </summary>
-  /// <param name="message"> The message to output. </param>
-  public static void Error(string message)
+  /// <summary>
+  ///  Configure logging to write to Logs\EventLog.txt and the Unity console output.
+  /// </summary>
+  public static void ConfigureAllLogging()
   {
-    UnityEngine.Debug.LogError(message);
+    var patternLayout = new PatternLayout
+                        {
+                          ConversionPattern = "%date [%thread] %-5level %logger - %message%newline"
+                        };
+    patternLayout.ActivateOptions();
+
+    // setup the appender that writes to Log\EventLog.txt
+    var fileAppender = new RollingFileAppender
+                       {
+                         AppendToFile = false,
+                         File = @"Logs\EventLog.txt",
+                         Layout = patternLayout,
+                         MaxSizeRollBackups = 5,
+                         MaximumFileSize = "1GB",
+                         RollingStyle = RollingFileAppender.RollingMode.Size,
+                         StaticLogFileName = true
+                       };
+    fileAppender.ActivateOptions();
+
+    var unityLogger = new UnityLogger()
+                      {
+                        Layout = new PatternLayout()
+                      };
+    unityLogger.ActivateOptions();
+
+    BasicConfigurator.Configure(unityLogger, fileAppender);
   }
 
-  /// <summary> Outputs a debugging message. </summary>
-  /// <param name="formatString"> The format string for the message. </param>
-  /// <param name="args"> A variable-length parameters list containing arguments. </param>
-  [StringFormatMethod("formatString")]
-  public static void Error(string formatString, params object[] args)
+  /// <summary> An appender which logs to the unity console. </summary>
+  private class UnityLogger : AppenderSkeleton
   {
-    UnityEngine.Debug.LogError(String.Format(formatString, args));
-  }
+    /// <inheritdoc />
+    protected override void Append(LoggingEvent loggingEvent)
+    {
+      string message = RenderLoggingEvent(loggingEvent);
 
-  /// <summary> Outputs a debugging message. </summary>
-  /// <param name="message"> The message to output. </param>
-  public static void Info(string message)
-  {
-    UnityEngine.Debug.Log(message);
-  }
-
-  /// <summary> Outputs a debugging message. </summary>
-  /// <param name="formatString"> The format string for the message. </param>
-  /// <param name="args"> A variable-length parameters list containing arguments. </param>
-  [StringFormatMethod("formatString")]
-  public static void Info(string formatString, params object[] args)
-  {
-    UnityEngine.Debug.Log(String.Format(formatString, args));
-  }
-
-  /// <summary> Outputs a debugging message. </summary>
-  /// <param name="message"> The message to output. </param>
-  public static void Warning(string message)
-  {
-    UnityEngine.Debug.LogWarning(message);
-  }
-
-  /// <summary> Outputs a debugging message. </summary>
-  /// <param name="formatString"> The format string for the message. </param>
-  /// <param name="args"> A variable-length parameters list containing arguments. </param>
-  [StringFormatMethod("formatString")]
-  public static void Warning(string formatString, params object[] args)
-  {
-    UnityEngine.Debug.LogWarning(String.Format(formatString, args));
+      if (loggingEvent.Level == Level.Error)
+      {
+        Debug.LogError(message);
+      }
+      else if (loggingEvent.Level == Level.Warn)
+      {
+        Debug.LogWarning(message);
+      }
+      else
+      {
+        Debug.Log(message);
+      }
+    }
   }
 }

@@ -16,14 +16,15 @@ public class Bootstrap : MonoBehaviour
 
   public CoroutineDispatcher Dispatcher { get; private set; }
 
+  static Bootstrap()
+  {
+    Logging.ConfigureAllLogging();
+  }
+
   public void Start()
   {
     Dispatcher = new CoroutineDispatcher();
-
     var chunkLoader = new SimpleChunkLoader(new PerlinChunkGenerator(new PerlinNoise()));
-
-    //chunkLoader.Loading += HandleChunkLoading;
-    //chunkLoader.Saving += HandleChunkSaving;
 
     _player = GameObject.Find("Player");
 

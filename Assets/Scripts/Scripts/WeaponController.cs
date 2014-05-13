@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Behavior;
+using log4net;
 using UnityEngine;
 
 namespace Scripts
@@ -14,6 +15,8 @@ namespace Scripts
     private Transform _parentTransform;
 
     public Weapon[] Weapons;
+
+    private readonly ILog _log = LogManager.GetLogger(typeof (WeaponController));
 
     // Use this for initialization
     public void Start()
@@ -44,7 +47,7 @@ namespace Scripts
         var killable = otherObject.Get<IKillable>();
         if (killable != null)
         {
-          Logging.Info("Hit Enemy");
+          _log.Info("Hit Enemy");
           killable.Damage(Weapons.First().DamagePerShot);
           didHit = true;
         }
@@ -52,7 +55,7 @@ namespace Scripts
 
       if (!didHit)
       {
-        Logging.Info("Missed enemies");
+        _log.Info("Missed enemies");
       }
 
       yield return new WaitForSeconds(0.05f);
