@@ -5,6 +5,7 @@ using System.Linq;
 using BringBackSociety;
 using BringBackSociety.Tasks;
 using Extensions;
+using log4net;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -19,6 +20,7 @@ internal class ChunkProcessor
   private readonly YieldInstruction _waiter = null;
   private readonly GameObject _wall;
   private readonly GameObject _allWalls;
+  private readonly ILog _log = LogManager.GetLogger(typeof (ChunkProcessor));
 
   /// <summary> Constructor. </summary>
   /// <exception cref="ArgumentNullException"> Thrown when one or more required arguments are null. </exception>
@@ -64,7 +66,7 @@ internal class ChunkProcessor
   /// </summary>
   private IEnumerator DoChunkProcessing()
   {
-    Logging.Info("Starting queue");
+    _log.Info("Processing chunk change");
 
     _isChunkProcessorActive = true;
 
@@ -104,7 +106,7 @@ internal class ChunkProcessor
       yield return _waiter;
     } while (_chunksToLoad.Count > 0 || _chunksToUnload.Count > 0);
 
-    Logging.Info("Existing processing queue");
+    _log.Info("Ending processing chunk change");
     _isChunkProcessorActive = false;
   }
 
