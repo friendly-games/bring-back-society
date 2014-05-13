@@ -73,7 +73,7 @@ namespace BringBackSociety.Tasks
   {
     public static Future<T> ToFuture<T>(this IEnumerator<Coop<T>> coop)
     {
-      return new CoroutineFutereRunner<T>(new Coroutine<Coop<T>>(coop)).Future;
+      return new CoroutineFutureRunner<T>(new Coroutine<Coop<T>>(coop)).Future;
     }
   }
 }

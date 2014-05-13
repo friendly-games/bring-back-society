@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using BringBackSociety;
+using BringBackSociety.Tasks;
 using Extensions;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -10,7 +11,7 @@ using Object = UnityEngine.Object;
 /// <summary> Adds the physics and game objects to the world when a new chunk is created. </summary>
 internal class ChunkProcessor
 {
-  private readonly MonoBehaviour _owner;
+  private readonly CoroutineDispatcher _dispatcher;
   private readonly Queue<Chunk> _chunksToLoad;
   private readonly Queue<Chunk> _chunksToUnload;
   private bool _isChunkProcessorActive;
@@ -21,13 +22,13 @@ internal class ChunkProcessor
 
   /// <summary> Constructor. </summary>
   /// <exception cref="ArgumentNullException"> Thrown when one or more required arguments are null. </exception>
-  /// <param name="owner"> The MonoBehavior that created this processor. </param>
-  public ChunkProcessor(MonoBehaviour owner)
+  /// <param name="dispatcher"> The MonoBehavior that created this processor. </param>
+  public ChunkProcessor(CoroutineDispatcher dispatcher)
   {
-    if (owner == null)
-      throw new ArgumentNullException("owner");
+    if (dispatcher == null)
+      throw new ArgumentNullException("dispatcher");
 
-    _owner = owner;
+    _dispatcher = dispatcher;
     _chunksToLoad = new Queue<Chunk>();
     _chunksToUnload = new Queue<Chunk>();
 
@@ -54,7 +55,7 @@ internal class ChunkProcessor
     // if there isn't already a co-routine, make one
     if (!_isChunkProcessorActive)
     {
-      _owner.StartCoroutine(DoChunkProcessing());
+      _dispatcher.Start(DoChunkProcessing());
     }
   }
 

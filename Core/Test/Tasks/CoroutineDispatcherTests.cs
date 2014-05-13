@@ -14,6 +14,7 @@ namespace Tests.Tasks
     private CoroutineDispatcher _dispatcher;
     private Coroutine _okayCoroutine;
     private Coroutine _waitCoroutine;
+    private Coroutine _exceptionCoroutine;
 
     [SetUp]
     public void Setup()
@@ -21,6 +22,7 @@ namespace Tests.Tasks
       _dispatcher = new CoroutineDispatcher();
       _okayCoroutine = new Coroutine(OkayEnumerator());
       _waitCoroutine = new Coroutine(WaitForCoroutine());
+      _exceptionCoroutine = new Coroutine(Exceptions());
     }
 
     public void Run(int iterations = -1)
@@ -82,6 +84,32 @@ namespace Tests.Tasks
       Assert.IsFalse(_dispatcher.HasWork);
     }
 
+    [Test]
+    [Description("Exceptions are propegated")]
+    public void OriginalExceptionIsPropegated()
+    {
+      _dispatcher.Start(_exceptionCoroutine);
+
+      Run(4);
+
+      try
+      {
+        Run(1);
+      }
+      catch (ArgumentException exception)
+      {
+        Console.WriteLine(exception);
+        Assert.Pass();
+      }
+      catch (Exception exception)
+      {
+        Console.WriteLine(exception);
+        Assert.Fail("Incorrect type of exception was thrown");
+      }
+
+      Assert.Fail();
+    }
+
     private IEnumerator OkayEnumerator()
     {
       for (int i = 0; i < 10; i++)
@@ -97,6 +125,21 @@ namespace Tests.Tasks
         if (i == 5)
         {
           yield return _okayCoroutine;
+        }
+        else
+        {
+          yield return i;
+        }
+      }
+    }
+
+    private IEnumerator Exceptions()
+    {
+      for (int i = 0; i < 10; i++)
+      {
+        if (i == 5)
+        {
+          throw new ArgumentException("Argument not valid");
         }
         else
         {

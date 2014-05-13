@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using BringBackSociety;
 using BringBackSociety.Chunks.Generators;
 using BringBackSociety.Chunks.Loaders;
+using BringBackSociety.Tasks;
 using Extensions;
 using Services;
 using UnityEngine;
@@ -13,8 +14,12 @@ public class Bootstrap : MonoBehaviour
 
   public World World { get; set; }
 
+  public CoroutineDispatcher Dispatcher { get; private set; }
+
   public void Start()
   {
+    Dispatcher = new CoroutineDispatcher();
+
     var chunkLoader = new SimpleChunkLoader(new PerlinChunkGenerator(new PerlinNoise()));
 
     //chunkLoader.Loading += HandleChunkLoading;
@@ -22,7 +27,7 @@ public class Bootstrap : MonoBehaviour
 
     _player = GameObject.Find("Player");
 
-    var processor = new ChunkProcessor(this);
+    var processor = new ChunkProcessor(Dispatcher);
 
     World = new World(chunkLoader);
     World.ChunkChange += processor.HandleChunkChange;
@@ -32,6 +37,8 @@ public class Bootstrap : MonoBehaviour
 
   public void Update()
   {
+    Dispatcher.Continue();
+
     World.Recenter((_player.transform.position).ToWorldPosition());
   }
 }

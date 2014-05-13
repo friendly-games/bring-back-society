@@ -95,7 +95,7 @@ namespace BringBackSociety.Tasks
         var coroutine = first.Value;
         _failedNodes.RemoveFirst();
 
-        throw new Exception("Exception thrown while executing co-routine", coroutine.Error);
+        throw coroutine.Error.PreserveStackTrace();
       }
     }
 
