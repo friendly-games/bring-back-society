@@ -6,14 +6,14 @@ namespace BringBackSociety.Tasks
 {
   /// <summary> Executes an enumerator to use yield like await. </summary>
   /// <typeparam name="T"> The return value type of the future. </typeparam>
-  public sealed class CoroutineFutereRunner<T> : IFutureRunner
+  public sealed class CoroutineFutureRunner<T> : IFutureRunner
   {
     private readonly ICoroutine<Coop<T>> _coroutine;
 
     private readonly FutureCompletionSource<T> _futureCompletionSource;
     private T _lastValue;
 
-    public CoroutineFutereRunner(Coroutine<Coop<T>> coroutine)
+    public CoroutineFutureRunner(Coroutine<Coop<T>> coroutine)
     {
       if (coroutine == null)
         throw new ArgumentNullException("coroutine");
