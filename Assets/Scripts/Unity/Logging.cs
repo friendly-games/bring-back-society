@@ -33,7 +33,7 @@ public class Logging
                        };
     fileAppender.ActivateOptions();
 
-    var unityLogger = new UnityLogger()
+    var unityLogger = new UnityLogger
                       {
                         Layout = new PatternLayout()
                       };

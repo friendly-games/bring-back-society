@@ -13,8 +13,8 @@ using Object = UnityEngine.Object;
 internal class ChunkProcessor
 {
   private readonly CoroutineDispatcher _dispatcher;
-  private readonly Queue<Chunk> _chunksToLoad;
-  private readonly Queue<Chunk> _chunksToUnload;
+  private readonly LinkedList<Chunk> _chunksToLoad;
+  private readonly LinkedList<Chunk> _chunksToUnload;
   private bool _isChunkProcessorActive;
 
   private readonly YieldInstruction _waiter = null;
@@ -31,8 +31,8 @@ internal class ChunkProcessor
       throw new ArgumentNullException("dispatcher");
 
     _dispatcher = dispatcher;
-    _chunksToLoad = new Queue<Chunk>();
-    _chunksToUnload = new Queue<Chunk>();
+    _chunksToLoad = new LinkedList<Chunk>();
+    _chunksToUnload = new LinkedList<Chunk>();
 
     _isChunkProcessorActive = false;
 
@@ -45,13 +45,30 @@ internal class ChunkProcessor
   {
     var chunk = args.Chunk;
 
+    // TODO make the node have a boolean indicating if it should still be loaded
     if (args.WasLoaded)
     {
-      _chunksToLoad.Enqueue(chunk);
+      // if we're trying to load one that was just unloaded, remove it from the unload list
+      if (_chunksToUnload.Contains(chunk))
+      {
+        _chunksToUnload.Remove(chunk);
+      }
+      else
+      {
+        _chunksToLoad.AddLast(chunk);
+      }
     }
     else
     {
-      _chunksToUnload.Enqueue(chunk);
+      // if we're trying to unload one that was just loaded, remove it from the load list
+      if (_chunksToLoad.Contains(chunk))
+      {
+        _chunksToLoad.Remove(chunk);
+      }
+      else
+      {
+        _chunksToUnload.AddLast(chunk);
+      }
     }
 
     // if there isn't already a co-routine, make one
@@ -76,7 +93,8 @@ internal class ChunkProcessor
     {
       if (_chunksToLoad.Count > 0)
       {
-        var chunk = _chunksToLoad.Dequeue();
+        var chunk = _chunksToLoad.First.Value;
+        _chunksToLoad.RemoveFirst();
 
         var chunkObject = new GameObject("Chunk[" + chunk.Coordinate + "]");
         var chunkOffset = chunk.Offset.ToVector3();
@@ -97,9 +115,11 @@ internal class ChunkProcessor
 
         chunk.Tag = chunkObject;
       }
-      else if (_chunksToUnload.Count > 0)
+
+      while (_chunksToUnload.Count > 0)
       {
-        var chunk = _chunksToUnload.Dequeue();
+        var chunk = _chunksToUnload.First.Value;
+        _chunksToUnload.RemoveFirst();
         Object.Destroy(chunk.TagValue<GameObject>());
       }
 

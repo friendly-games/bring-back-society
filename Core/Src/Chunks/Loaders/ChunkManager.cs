@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
+using log4net;
 
 namespace BringBackSociety.Loaders
 {
@@ -11,6 +12,8 @@ namespace BringBackSociety.Loaders
 
     private readonly Dictionary<Chunk, ChunkNode> _nodeLookups;
     private readonly Dictionary<ChunkCoordinate, ChunkNode> _nodeLookupByCoordinate;
+
+    private readonly ILog _log = LogManager.GetLogger(typeof (ChunkManager));
 
     /// <summary> Constructor. </summary>
     /// <param name="loader"> The api to use to load and ave chunks. </param>
@@ -27,59 +30,48 @@ namespace BringBackSociety.Loaders
     /// <param name="includeSurrounding"> true to include surrounding nodes, false otherwise. </param>
     public ChunkLoadResult Load(ChunkCoordinate coordinate, bool includeSurrounding)
     {
-      /*
-       * UL UC UR
-       * ML MM MR
-       * BL BM BR
-       */
+      // how far from the center point should chunks be loaded for
+      const int radiusLength = 2;
+
       var loadedChunks = new List<ChunkNode>();
+      var nodesToLoadSiblingsOf = new Queue<ChunkNode>();
 
-      var upperLeft = GetOrLoadNode(new ChunkCoordinate(coordinate.X - 1, coordinate.Z + 1), loadedChunks);
-      var upperMiddle = GetOrLoadNode(new ChunkCoordinate(coordinate.X, coordinate.Z + 1), loadedChunks);
-      var upperRight = GetOrLoadNode(new ChunkCoordinate(coordinate.X + 1, coordinate.Z + 1), loadedChunks);
+      var low = new ChunkCoordinate(coordinate.X - radiusLength, coordinate.Z - radiusLength);
+      var high = new ChunkCoordinate(coordinate.X + radiusLength, coordinate.Z + radiusLength);
 
-      var middleLeft = GetOrLoadNode(new ChunkCoordinate(coordinate.X - 1, coordinate.Z), loadedChunks);
-      var middleMiddle = GetOrLoadNode(new ChunkCoordinate(coordinate.X, coordinate.Z), loadedChunks);
-      var middleRight = GetOrLoadNode(new ChunkCoordinate(coordinate.X + 1, coordinate.Z), loadedChunks);
+      var removed = RemoveTooFar(low, high);
 
-      var bottomLeft = GetOrLoadNode(new ChunkCoordinate(coordinate.X - 1, coordinate.Z - 1), loadedChunks);
-      var bottomMiddle = GetOrLoadNode(new ChunkCoordinate(coordinate.X, coordinate.Z - 1), loadedChunks);
-      var bottomRight = GetOrLoadNode(new ChunkCoordinate(coordinate.X + 1, coordinate.Z - 1), loadedChunks);
+      var firstNode = GetOrLoadNode(low, loadedChunks);
+      nodesToLoadSiblingsOf.Enqueue(firstNode);
 
-      ChunkNode.LinkHorizontally(upperLeft, upperMiddle);
-      ChunkNode.LinkHorizontally(upperMiddle, upperRight);
+      ChunkNode current = null;
 
-      ChunkNode.LinkHorizontally(middleLeft, middleMiddle);
-      ChunkNode.LinkHorizontally(middleMiddle, middleRight);
+      while (nodesToLoadSiblingsOf.Count > 0)
+      {
+        var node = nodesToLoadSiblingsOf.Dequeue();
+        var curCoordinate = node.Chunk.Coordinate;
 
-      ChunkNode.LinkHorizontally(bottomLeft, bottomMiddle);
-      ChunkNode.LinkHorizontally(bottomMiddle, bottomRight);
+        if (node.Chunk.Coordinate.Equals(coordinate))
+        {
+          current = node;
+        }
 
-      ChunkNode.LinkVertically(upperLeft, middleLeft);
-      ChunkNode.LinkVertically(middleLeft, bottomLeft);
+        if (node.Chunk.Coordinate.X < high.X)
+        {
+          var right = GetOrLoadNode(new ChunkCoordinate(curCoordinate.X + 1, curCoordinate.Z), loadedChunks);
+          ChunkNode.LinkHorizontally(node, right);
+          nodesToLoadSiblingsOf.Enqueue(right);
+        }
 
-      ChunkNode.LinkVertically(upperMiddle, middleMiddle);
-      ChunkNode.LinkVertically(middleMiddle, bottomMiddle);
+        if (node.Chunk.Coordinate.Z < high.Z)
+        {
+          var above = GetOrLoadNode(new ChunkCoordinate(curCoordinate.X, curCoordinate.Z + 1), loadedChunks);
+          ChunkNode.LinkVertically(above, node);
+          nodesToLoadSiblingsOf.Enqueue(above);
+        }
+      }
 
-      ChunkNode.LinkVertically(upperRight, middleRight);
-      ChunkNode.LinkVertically(middleRight, bottomRight);
-
-      var currentChunks = new ChunkNode[]
-                          {
-                            upperLeft,
-                            upperMiddle,
-                            upperRight,
-                            middleLeft,
-                            middleMiddle,
-                            middleRight,
-                            bottomLeft,
-                            bottomMiddle,
-                            bottomRight,
-                          };
-
-      var removed = RemoveUnneeded(currentChunks);
-
-      return new ChunkLoadResult(middleMiddle, loadedChunks, removed);
+      return new ChunkLoadResult(current, loadedChunks, removed);
     }
 
     /// <summary> Retrieve the node associated with the designated coordinate. </summary>
@@ -105,17 +97,30 @@ namespace BringBackSociety.Loaders
       return node;
     }
 
-    private List<ChunkNode> RemoveUnneeded(IEnumerable<ChunkNode> currentChunks)
+    private void Remove(ChunkNode node)
     {
-      var nodesToRemove = _nodeLookups.Values.ToList().Except(currentChunks).ToList();
+      _nodeLookups.Remove(node.Chunk);
+      _nodeLookupByCoordinate.Remove(node.Chunk.Coordinate);
+    }
 
-      foreach (var node in nodesToRemove)
+    private List<ChunkNode> RemoveTooFar(ChunkCoordinate low, ChunkCoordinate high)
+    {
+      var toRemove = _nodeLookups.Values.Where(n =>
       {
-        _nodeLookups.Remove(node.Chunk);
-        _nodeLookupByCoordinate.Remove(node.Chunk.Coordinate);
+        var offset = n.Chunk.Coordinate;
+
+        return offset.X < low.X
+               || offset.Z < low.Z
+               || offset.X > high.X
+               || offset.Z > high.Z;
+      }).ToList();
+
+      foreach (var node in toRemove)
+      {
+        Remove(node);
       }
 
-      return nodesToRemove;
+      return toRemove;
     }
 
     /// <summary> The result of loading chunks. </summary>
