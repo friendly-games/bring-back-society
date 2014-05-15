@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Behavior;
 using BringBackSociety;
 using BringBackSociety.Tasks;
 using Extensions;
@@ -114,6 +115,8 @@ internal class ChunkProcessor
         }
 
         chunk.Tag = chunkObject;
+        var wallParentKillable = chunkObject.AddComponent<WallProviderParentKillable>();
+        wallParentKillable.Chunk = chunk;
       }
 
       while (_chunksToUnload.Count > 0)
@@ -144,7 +147,7 @@ internal class ChunkProcessor
 
       if (tile.GroundType > 0)
       {
-        var position = chunkOffset + new Vector3(x, _wall.transform.localScale.y / 2, z) / 2;
+        var position = chunkOffset + new Vector3(x, _wall.transform.position.y, z) / 2;
         var newWall = _wall.Clone(position);
         newWall.transform.parent = chunkObject.transform;
       }

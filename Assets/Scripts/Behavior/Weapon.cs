@@ -8,10 +8,16 @@ namespace Behavior
   [Serializable]
   public class Weapon
   {
+    /// <summary> The name of the weapon. </summary>
     public string Name;
 
+    /// <summary> The amount of damage done per bullet hit. </summary>
     public int DamagePerShot;
 
-    public int ClipSize;
+    /// <summary> The number of bullets in each clip. </summary>
+    public int ClipSize = 3;
+
+    /// <summary> The maximum distance the weapon can be fired </summary>
+    public float MaxDistance = 100;
   }
 }

@@ -41,14 +41,18 @@ namespace Scripts
 
       bool didHit = false;
 
-      if (Physics.Raycast(new Ray(_parentTransform.position, _parentTransform.forward), out hitInfo, 100))
+      var weapon = Weapons.First();
+
+      if (Physics.Raycast(new Ray(_parentTransform.position, _parentTransform.forward),
+                          out hitInfo,
+                          weapon.MaxDistance))
       {
-        var otherObject = hitInfo.collider.gameObject;
-        var killable = otherObject.Get<IKillable>();
+        var killable = hitInfo.collider.gameObject.Get<IKillable>();
+
         if (killable != null)
         {
           _log.Info("Hit Enemy");
-          killable.Damage(Weapons.First().DamagePerShot);
+          killable.Damage(weapon.DamagePerShot);
           didHit = true;
         }
       }

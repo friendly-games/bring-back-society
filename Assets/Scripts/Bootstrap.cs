@@ -5,11 +5,14 @@ using BringBackSociety.Chunks.Generators;
 using BringBackSociety.Chunks.Loaders;
 using BringBackSociety.Tasks;
 using Extensions;
+using log4net;
 using Services;
 using UnityEngine;
 
 public class Bootstrap : MonoBehaviour
 {
+  private static readonly ILog _log;
+
   private GameObject _player;
 
   public World World { get; set; }
@@ -19,6 +22,7 @@ public class Bootstrap : MonoBehaviour
   static Bootstrap()
   {
     Logging.ConfigureAllLogging();
+    _log = LogManager.GetLogger(typeof (Bootstrap));
   }
 
   public void Start()
