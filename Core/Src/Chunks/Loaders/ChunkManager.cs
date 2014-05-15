@@ -31,7 +31,7 @@ namespace BringBackSociety.Loaders
     public ChunkLoadResult Load(ChunkCoordinate coordinate, bool includeSurrounding)
     {
       // how far from the center point should chunks be loaded for
-      const int radiusLength = 2;
+      const int radiusLength = 1;
 
       var loadedChunks = new List<ChunkNode>();
       var nodesToLoadSiblingsOf = new Queue<ChunkNode>();

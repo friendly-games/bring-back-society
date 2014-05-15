@@ -20,6 +20,7 @@ namespace Scripts
     private GameObject _camera;
     private Vector3 _playerPositionOffset;
     private GameObject _player;
+    private float _playerY;
 
     public void Start()
     {
@@ -31,6 +32,7 @@ namespace Scripts
       _groundCollider = GameObject.Find("Ground").collider;
       _weapon = GameObject.Find("Weapon").GetComponent<WeaponController>();
 
+      _playerY = _player.transform.position.y;
       _playerPositionOffset = _camera.transform.position - _player.transform.position;
     }
 
@@ -43,9 +45,9 @@ namespace Scripts
 
       Vector3 forward = Vector3.forward;
       //Vector3 forward = Vector3.forward;
-      Vector3 backward = Quaternion.AngleAxis(180, Vector3.up)*forward;
-      Vector3 left = Quaternion.AngleAxis(-90, Vector3.up)*forward;
-      Vector3 right = Quaternion.AngleAxis(90, Vector3.up)*forward;
+      Vector3 backward = Quaternion.AngleAxis(180, Vector3.up) * forward;
+      Vector3 left = Quaternion.AngleAxis(-90, Vector3.up) * forward;
+      Vector3 right = Quaternion.AngleAxis(90, Vector3.up) * forward;
 
       if (Input.GetKey(KeyCode.W))
       {
@@ -94,7 +96,10 @@ namespace Scripts
         _mover.TargetRotation = Quaternion.Euler(targetRotation);
       }
 
-      _camera.transform.position = _player.transform.position + _playerPositionOffset;
+      var position = _player.transform.position;
+      position.y = _playerY;
+
+      _camera.transform.position = position + _playerPositionOffset;
     }
   }
 }

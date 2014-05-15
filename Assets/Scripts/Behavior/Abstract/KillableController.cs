@@ -19,7 +19,7 @@ namespace Behavior
     /// <param name="damageAmount">The amount of damage to perform. </param>
     public static void Damage(this IKillable killable, int damageAmount)
     {
-      killable.Health -= (int) (damageAmount/killable.Resistance.BulletResistance);
+      killable.Health -= (int) (damageAmount / killable.Resistance.BulletResistance);
 
       if (killable.Health <= 0)
       {
