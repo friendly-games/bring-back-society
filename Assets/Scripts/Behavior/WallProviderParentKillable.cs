@@ -9,21 +9,19 @@ using UnityEngine;
 namespace Behavior
 {
   /// <summary> Provides the walls with the ability to be killed. </summary>
-  internal class WallProviderParentKillable : ExtendedBehaviour, IProviderParent<IKillable>, IKillable
+  internal class WallProviderParentKillable : ExtendedBehaviour, IProviderParent<IKillable>
   {
-    private static readonly ILog _log = LogManager.GetLogger(typeof (WallProviderParentKillable));
-    private TileCoordinate _tileCoordinate;
-    private GameObject _currentChild;
-
     /// <summary> Create a new instance. </summary>
     /// TODO - this should be done in the Unity Editor somehow
     public WallProviderParentKillable()
     {
       resistance = new Resistance();
+      _child = new ChildKillable(this);
     }
 
     public Resistance resistance;
-    public int maxHealth;
+    public int maxHealth = 100;
+    private readonly ChildKillable _child;
 
     /// <summary> The chunk associated with the killable. </summary>
     public Chunk Chunk { get; set; }
@@ -41,47 +39,85 @@ namespace Behavior
     {
       var worldPosition = child.transform.position.ToWorldPosition();
       ChunkCoordinate chunkCoordinate;
-      worldPosition.CalculateCoordinates(out chunkCoordinate, out _tileCoordinate);
-
-      _currentChild = child;
-
-      _log.InfoFormat("World Position: {0}", child.transform.position.ToWorldPosition());
+      TileCoordinate tileCoordinate;
+      worldPosition.CalculateCoordinates(out chunkCoordinate, out tileCoordinate);
+      _child.SetCurrent(child, tileCoordinate);
     }
 
     /// <inheritdoc />
     IKillable IProviderParent<IKillable>.Implementation
     {
-      get { return this; }
+      get { return _child; }
     }
 
     #endregion
 
     #region IKillable implementation
 
-    /// <inheritdoc />
-    Resistance IKillable.Resistance
+    /// <summary> A returnable Killable instance object </summary>
+    private class ChildKillable : IKillable
     {
-      get { return resistance; }
-    }
+      private readonly WallProviderParentKillable _parent;
+      private TileCoordinate _tileCoordinate;
+      private GameObject _currentChild;
 
-    /// <inheritdoc />
-    int IKillable.MaxHealth
-    {
-      get { return maxHealth; }
-    }
+      public ChildKillable(WallProviderParentKillable parent)
+      {
+        _parent = parent;
+      }
 
-    /// <inheritdoc />
-    int IKillable.Health
-    {
-      get { return Chunk.Tiles[_tileCoordinate.Index].Type != 0 ? 20 : 0; }
-      set { }
-    }
+      /// <inheritdoc />
+      Resistance IKillable.Resistance
+      {
+        get { return _parent.resistance; }
+      }
 
-    /// <inheritdoc />
-    void IKillable.Destroy()
-    {
-      Chunk.Tiles[_tileCoordinate.Index] = new Tile();
-      Destroy(_currentChild);
+      /// <inheritdoc />
+      int IKillable.MaxHealth
+      {
+        get { return _parent.maxHealth; }
+      }
+
+      /// <inheritdoc />
+      int IKillable.Health
+      {
+        get { return _parent.Chunk.Tiles[_tileCoordinate.Index].WallData.Health; }
+        set
+        {
+          if (value <= 0)
+          {
+            _parent.Chunk.Tiles[_tileCoordinate.Index].WallData.Health = 0;
+          }
+          else
+          {
+            _parent.Chunk.Tiles[_tileCoordinate.Index].WallData.Health = (byte) value;
+          }
+        }
+      }
+
+      /// <inheritdoc />
+      void IKillable.Destroy()
+      {
+        _parent.Chunk.Tiles[_tileCoordinate.Index] = new Tile();
+        Destroy(_currentChild);
+      }
+
+      /// <summary>
+      ///  Set the killable to operate on the given child at the given tile coordinate.
+      /// </summary>
+      /// <param name="child"> The child whose data should be represented by this killable. </param>
+      /// <param name="tileCoordinate"> The tile coordinate that the child is located at. </param>
+      public void SetCurrent(GameObject child, TileCoordinate tileCoordinate)
+      {
+        _currentChild = child;
+        _tileCoordinate = tileCoordinate;
+      }
+
+      /// <inheritdoc />
+      public override string ToString()
+      {
+        return String.Format("[Name='Wall', Chunk={0}, Tile={1}]", _parent.Chunk, _tileCoordinate);
+      }
     }
 
     #endregion

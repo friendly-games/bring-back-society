@@ -18,8 +18,8 @@ namespace BringBackSociety
     public Chunk(ChunkCoordinate coordinate)
     {
       Coordinate = coordinate;
-      Offset = new WorldPosition(coordinate.X*Chunk.Length, coordinate.Z*Chunk.Length);
-      Tiles = new Tile[Length*Length];
+      Offset = new WorldPosition(coordinate.X * Chunk.Length, coordinate.Z * Chunk.Length);
+      Tiles = new Tile[Length * Length];
     }
 
     /// <summary> User defined data. </summary>
@@ -94,6 +94,12 @@ namespace BringBackSociety
     {
       var local = coordinate.ToWorldPosition();
       return new WorldPosition(local.X + Offset.X, local.Z + Offset.Z);
+    }
+
+    /// <inheritdoc />
+    public override string ToString()
+    {
+      return Coordinate.ToString();
     }
   }
 }
