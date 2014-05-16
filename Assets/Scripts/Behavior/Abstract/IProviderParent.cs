@@ -6,8 +6,7 @@ using UnityEngine;
 namespace Behavior
 {
   /// <summary> An object that provides some sort of interface for it's children. </summary>
-  /// <typeparam name="T"> The type of interface that the parent provides. </typeparam>
-  public interface IProviderParent<T>
+  public interface IProviderParent
   {
     /// <summary> Query if the designated child is applicable for this interface. </summary>
     /// <param name="child"> The child to check if it is applicable. </param>
@@ -20,7 +19,7 @@ namespace Behavior
     /// <param name="child"> The child to have the Implementation property operate on. </param>
     void With(GameObject child);
 
-    /// <summary> Gets the Implementation with the values for the given child object. </summary>
-    T Implementation { get; }
+    /// <summary> The current active child. </summary>
+    IComponent Component { get; }
   }
 }

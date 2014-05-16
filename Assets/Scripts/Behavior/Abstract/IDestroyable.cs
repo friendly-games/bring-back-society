@@ -5,7 +5,7 @@ using System.Linq;
 namespace Behavior
 {
   /// <summary> Represents an object that is killable. </summary>
-  public interface IKillable
+  public interface IDestroyable : IComponent
   {
     /// <summary> The resistance of the object. </summary>
     Resistance Resistance { get; }
