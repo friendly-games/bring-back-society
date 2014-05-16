@@ -47,7 +47,7 @@ namespace Scripts
                           out hitInfo,
                           weapon.MaxDistance))
       {
-        var killable = hitInfo.collider.gameObject.Get<IKillable>();
+        var killable = hitInfo.collider.gameObject.Get<IDestroyable>();
 
         if (killable != null)
         {

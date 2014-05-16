@@ -9,19 +9,19 @@ using UnityEngine;
 namespace Behavior
 {
   /// <summary> Provides the walls with the ability to be killed. </summary>
-  internal class WallProviderParentKillable : ExtendedBehaviour, IProviderParent<IKillable>
+  internal class WallProviderParentKillable : ExtendedBehaviour, IProviderParent
   {
     /// <summary> Create a new instance. </summary>
     /// TODO - this should be done in the Unity Editor somehow
     public WallProviderParentKillable()
     {
       resistance = new Resistance();
-      _child = new ChildKillable(this);
+      _child = new ChildDestroyable(this);
     }
 
     public Resistance resistance;
     public int maxHealth = 100;
-    private readonly ChildKillable _child;
+    private readonly ChildDestroyable _child;
 
     /// <summary> The chunk associated with the killable. </summary>
     public Chunk Chunk { get; set; }
@@ -29,13 +29,13 @@ namespace Behavior
     #region IProviderParent<IKillable> Implementation
 
     /// <inheritdoc />
-    bool IProviderParent<IKillable>.IsApplicable(GameObject child)
+    bool IProviderParent.IsApplicable(GameObject child)
     {
       return true;
     }
 
     /// <inheritdoc />
-    void IProviderParent<IKillable>.With(GameObject child)
+    void IProviderParent.With(GameObject child)
     {
       var worldPosition = child.transform.position.ToWorldPosition();
       ChunkCoordinate chunkCoordinate;
@@ -44,8 +44,7 @@ namespace Behavior
       _child.SetCurrent(child, tileCoordinate);
     }
 
-    /// <inheritdoc />
-    IKillable IProviderParent<IKillable>.Implementation
+    public IComponent Component
     {
       get { return _child; }
     }
@@ -55,31 +54,31 @@ namespace Behavior
     #region IKillable implementation
 
     /// <summary> A returnable Killable instance object </summary>
-    private class ChildKillable : IKillable
+    private class ChildDestroyable : IDestroyable, INamed, ITileItem
     {
       private readonly WallProviderParentKillable _parent;
       private TileCoordinate _tileCoordinate;
       private GameObject _currentChild;
 
-      public ChildKillable(WallProviderParentKillable parent)
+      public ChildDestroyable(WallProviderParentKillable parent)
       {
         _parent = parent;
       }
 
       /// <inheritdoc />
-      Resistance IKillable.Resistance
+      Resistance IDestroyable.Resistance
       {
         get { return _parent.resistance; }
       }
 
       /// <inheritdoc />
-      int IKillable.MaxHealth
+      int IDestroyable.MaxHealth
       {
         get { return _parent.maxHealth; }
       }
 
       /// <inheritdoc />
-      int IKillable.Health
+      int IDestroyable.Health
       {
         get { return _parent.Chunk.Tiles[_tileCoordinate.Index].WallData.Health; }
         set
@@ -96,7 +95,7 @@ namespace Behavior
       }
 
       /// <inheritdoc />
-      void IKillable.Destroy()
+      void IDestroyable.Destroy()
       {
         _parent.Chunk.Tiles[_tileCoordinate.Index] = new Tile();
         Destroy(_currentChild);
@@ -117,6 +116,21 @@ namespace Behavior
       public override string ToString()
       {
         return String.Format("[Name='Wall', Chunk={0}, Tile={1}]", _parent.Chunk, _tileCoordinate);
+      }
+
+      public string Name
+      {
+        get { return "Wall"; }
+      }
+
+      public TileCoordinate TileCoordinate
+      {
+        get { return _tileCoordinate; }
+      }
+
+      public ChunkCoordinate ChunkCoordinate
+      {
+        get { return _parent.Chunk.Coordinate; }
       }
     }
 

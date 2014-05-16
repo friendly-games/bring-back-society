@@ -2,7 +2,7 @@
 using UnityEngine;
 
 /// <summary> MonoBehavoir for a killable object. </summary>
-public class Killable : MonoBehaviour, IKillable
+public class Killable : MonoBehaviour, IDestroyable
 {
   /// <summary> The maximum health amount of health for this entity. </summary>
   public int maxHealth = 100;
@@ -10,13 +10,13 @@ public class Killable : MonoBehaviour, IKillable
   /// <summary> The resistance. </summary>
   public Resistance resistance;
 
-  Resistance IKillable.Resistance
+  Resistance IDestroyable.Resistance
   {
     get { return resistance; }
   }
 
   /// <summary> The maximum amount of health that the entity can have. </summary>
-  int IKillable.MaxHealth
+  int IDestroyable.MaxHealth
   {
     get { return maxHealth; }
   }
@@ -31,7 +31,7 @@ public class Killable : MonoBehaviour, IKillable
   }
 
   /// <inheritdoc />
-  void IKillable.Destroy()
+  void IDestroyable.Destroy()
   {
     Destroy(gameObject);
   }
