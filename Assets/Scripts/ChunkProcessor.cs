@@ -145,7 +145,7 @@ internal class ChunkProcessor
       var coordinate = new TileCoordinate(x, z);
       var tile = chunk.Tiles[coordinate.Index];
 
-      if (tile.GroundType > 0)
+      if (tile.Wall > 0)
       {
         var position = chunkOffset + new Vector3(x, _wall.transform.position.y, z) / 2;
         var newWall = _wall.Clone(position);

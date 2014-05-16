@@ -32,7 +32,11 @@ namespace BringBackSociety.Chunks.Generators
           var noise = _noise.Noise(world.X + x, world.Z + z);
           chunk.Tiles[new TileCoordinate(x, z).Index] = new Tile
                                                         {
-                                                          GroundType = (byte) (noise > 0.5f ? 1 : 0)
+                                                          Wall = (byte) (noise > 0.5f ? 1 : 0),
+                                                          WallData =
+                                                          {
+                                                            Health = (byte) (noise * byte.MaxValue)
+                                                          }
                                                         };
         }
       return chunk;
