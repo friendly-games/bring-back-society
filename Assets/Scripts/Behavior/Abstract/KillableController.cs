@@ -8,7 +8,8 @@ namespace Behavior
   /// <summary> Controls the behavior of killables. </summary>
   internal static class KillableController
   {
-    private static readonly ILog _log = LogManager.GetLogger(typeof (KillableController));
+    /// <summary> Provides logging for the class. </summary>
+    private static readonly ILog Log = LogManager.GetLogger(typeof (KillableController));
 
     /// <summary> Initialize a killable object. </summary>
     /// <param name="destroyable"> The killable to act on. </param>
@@ -23,7 +24,7 @@ namespace Behavior
     public static void Damage(this IDestroyable destroyable, int damageAmount)
     {
       destroyable.Health -= (int) (damageAmount / destroyable.Resistance.BulletResistance);
-      _log.InfoFormat("Damaged {0}. Health remaining: {1}", destroyable, destroyable.Health);
+      Log.InfoFormat("Damaged {0}. Health remaining: {1}", destroyable, destroyable.Health);
 
       if (destroyable.Health <= 0)
       {

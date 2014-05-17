@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Behavior;
+using Drawing;
 using log4net;
 using UnityEngine;
 
@@ -14,9 +15,12 @@ namespace Scripts
     public AudioSource AudioSource;
     private Transform _parentTransform;
 
-    public Weapon[] Weapons;
-
     private readonly ILog _log = LogManager.GetLogger(typeof (WeaponController));
+    private int _curWeaponIndex;
+
+    private PropertyDrawer _weaponDrawer;
+    private Weapon[] _weapons;
+    private int[] _counts;
 
     // Use this for initialization
     public void Start()
@@ -25,6 +29,13 @@ namespace Scripts
 
       LightSource = GetComponentsInChildren<Light>().First();
       AudioSource = GetComponentsInChildren<AudioSource>().First();
+
+      _weaponDrawer = new PropertyDrawer("Weapons", Screen.width - 120, 10);
+
+      _weapons = GlobalResources.Instance.Weapons;
+      _counts = Enumerable.Repeat(20, _weapons.Length).ToArray();
+
+      SwitchWeapons(0);
     }
 
     public void Fire()
@@ -32,8 +43,34 @@ namespace Scripts
       StartCoroutine(FireWeapon());
     }
 
+    public void SwitchWeapons(int weapon)
+    {
+      if (_curWeaponIndex >= 0 && _curWeaponIndex < _weapons.Length)
+      {
+        _curWeaponIndex = weapon;
+        _log.InfoFormat("Switched weapon to {0}", _weapons[_curWeaponIndex].Name);
+      }
+    }
+
+    public void OnGUI()
+    {
+      _weaponDrawer.Start();
+
+      for (var i = 0; i < _weapons.Length; i++)
+      {
+        _weaponDrawer.AddItem(_weapons[i].Name, _counts[i].ToString());
+      }
+      _weaponDrawer.Draw();
+    }
+
     private IEnumerator FireWeapon()
     {
+      var curWeapon = _weapons[_curWeaponIndex];
+
+      // if they can't afford it, early exit
+      if (_counts[_curWeaponIndex] <= 0)
+        yield break;
+
       LightSource.enabled = true;
       AudioSource.Play();
 
@@ -41,25 +78,19 @@ namespace Scripts
 
       bool didHit = false;
 
-      var weapon = Weapons.First();
-
       if (Physics.Raycast(new Ray(_parentTransform.position, _parentTransform.forward),
                           out hitInfo,
-                          weapon.MaxDistance))
+                          curWeapon.MaxDistance))
       {
         var killable = hitInfo.collider.gameObject.Get<IDestroyable>();
 
         if (killable != null)
         {
           _log.Info("Hit Enemy");
-          killable.Damage(weapon.DamagePerShot);
+          killable.Damage(curWeapon.DamagePerShot);
           didHit = true;
+          _counts[_curWeaponIndex]--;
         }
-      }
-
-      if (!didHit)
-      {
-        _log.Info("Missed enemies");
       }
 
       yield return new WaitForSeconds(0.05f);

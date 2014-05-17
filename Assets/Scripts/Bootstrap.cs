@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Behavior;
 using BringBackSociety;
 using BringBackSociety.Chunks.Generators;
 using BringBackSociety.Chunks.Loaders;
@@ -12,9 +13,11 @@ using UnityEngine;
 
 public class Bootstrap : MonoBehaviour
 {
-  private static readonly ILog _log;
+  private static readonly ILog Log;
 
   private GameObject _player;
+
+  private readonly PropertyDrawer _currentObjectDrawer = new PropertyDrawer("Current Item", 10, 10);
 
   public World World { get; set; }
 
@@ -23,13 +26,14 @@ public class Bootstrap : MonoBehaviour
   static Bootstrap()
   {
     Logging.ConfigureAllLogging();
-    _log = LogManager.GetLogger(typeof (Bootstrap));
+    Log = LogManager.GetLogger(typeof (Bootstrap));
   }
 
   public void Start()
   {
     Dispatcher = new CoroutineDispatcher();
     var chunkLoader = new SimpleChunkLoader(new PerlinChunkGenerator(new PerlinNoise()));
+    GlobalResources.Initialize(GameObject.Find("Global").GetComponent<GlobalResources>());
 
     _player = GameObject.Find("Player");
 
@@ -48,8 +52,6 @@ public class Bootstrap : MonoBehaviour
     World.Recenter((_player.transform.position).ToWorldPosition());
   }
 
-  private readonly PropertyDrawer drawer = new PropertyDrawer();
-
   public void OnGUI()
   {
     RaycastHit hitInfo;
@@ -58,8 +60,8 @@ public class Bootstrap : MonoBehaviour
                         100))
     {
       var component = hitInfo.collider.gameObject.Get();
-      drawer.With(component);
-      drawer.Draw();
+      _currentObjectDrawer.Add(component);
+      _currentObjectDrawer.Draw();
     }
   }
 }

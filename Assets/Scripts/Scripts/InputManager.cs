@@ -76,6 +76,16 @@ namespace Scripts
         _weapon.Fire();
       }
 
+      if (Input.GetKey(KeyCode.Alpha1))
+      {
+        _weapon.SwitchWeapons(0);
+      }
+
+      if (Input.GetKey(KeyCode.Alpha2))
+      {
+        _weapon.SwitchWeapons(1);
+      }
+
       targetVelocity.Normalize();
 
       _mover.TargetVelocity = targetVelocity;

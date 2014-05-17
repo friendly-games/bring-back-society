@@ -339,6 +339,7 @@ GameObject:
   - 114: {fileID: 879935291}
   - 114: {fileID: 879935292}
   - 114: {fileID: 879935290}
+  - 114: {fileID: 879935293}
   m_Layer: 0
   m_Name: Global
   m_TagString: Untagged
@@ -392,6 +393,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Target: {fileID: 980673493}
   DesiredSpeed: 1
+--- !u!114 &879935293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 879935288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2744594180131d439a2c53745e805fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Weapons:
+  - Name: Pistol
+    DamagePerShot: 50
+    ClipSize: 3
+    MaxDistance: 100
+  - Name: Uzi
+    DamagePerShot: 20
+    ClipSize: 20
+    MaxDistance: 30
 --- !u!1 &980673493
 GameObject:
   m_ObjectHideFlags: 0
@@ -579,11 +600,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LightSource: {fileID: 62416472}
   AudioSource: {fileID: 62416473}
-  Weapons:
-  - Name: Pistol
-    DamagePerShot: 50
-    ClipSize: 3
-    MaxDistance: 100
 --- !u!1 &1257855359
 GameObject:
   m_ObjectHideFlags: 0
