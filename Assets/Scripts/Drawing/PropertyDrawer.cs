@@ -10,20 +10,26 @@ namespace Drawing
   /// <summary> Draws the properties of an item in the upper left. </summary>
   public class PropertyDrawer
   {
+    private readonly string _titleText;
+    private readonly int _xLoc;
+    private readonly int _yLoc;
     private const int LineHeight = 18;
     private readonly List<KeyValuePair<string, string>> _items;
 
     /// <summary> Draws the properties of a component in the upper left of the screen. </summary>
-    public PropertyDrawer()
+    public PropertyDrawer(string titleText, int xLoc, int yLoc)
     {
+      _titleText = titleText;
+      _xLoc = xLoc;
+      _yLoc = yLoc;
       _items = new List<KeyValuePair<string, string>>();
     }
 
     /// <summary> Use the details from this component for drawing purposes. </summary>
     /// <param name="component"> The component whose information should be processed. </param>
-    public void With(IComponent component)
+    public void Add(IComponent component)
     {
-      _items.Clear();
+      Start();
 
       var name = component as INamed;
       if (name != null)
@@ -46,10 +52,16 @@ namespace Drawing
       }
     }
 
+    /// <summary> Start drawing a new scene. </summary>
+    public void Start()
+    {
+      _items.Clear();
+    }
+
     /// <summary> Add a key value pair to be drawn. </summary>
     /// <param name="name"> The name of the item to draw. </param>
     /// <param name="value"> The value of the item to draw. </param>
-    private void AddItem(string name, string value)
+    public void AddItem(string name, string value)
     {
       _items.Add(new KeyValuePair<string, string>(name, value));
     }
@@ -57,16 +69,19 @@ namespace Drawing
     /// <summary> Draw the actual properties associated with the current item. </summary>
     public void Draw()
     {
-      int line = 30;
+      int height = LineHeight * (_items.Count + 1) + 10;
+      GUILayout.BeginArea(new Rect(_xLoc, _yLoc, 120, height));
+      GUI.Box(new Rect(0, 0, 120, height), _titleText);
 
-      GUI.Box(new Rect(10, 10, 120, LineHeight * (_items.Count + 1) + 10), "Current Item");
+      int line = 18;
 
       foreach (var kvp in _items)
       {
-        GUI.Label(new Rect(20, line, 50, 20), kvp.Key);
-        GUI.Label(new Rect(72, line, 50, 20), kvp.Value);
+        GUI.Label(new Rect(10, line, 50, 20), kvp.Key);
+        GUI.Label(new Rect(60, line, 50, 20), kvp.Value);
         line += LineHeight;
       }
+      GUILayout.EndArea();
     }
   }
 }
