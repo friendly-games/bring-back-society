@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Behavior;
 using BringBackSociety;
 using BringBackSociety.Chunks.Generators;
 using BringBackSociety.Chunks.Loaders;
 using BringBackSociety.Tasks;
+using Drawing;
 using Extensions;
 using log4net;
 using Services;
@@ -48,7 +48,7 @@ public class Bootstrap : MonoBehaviour
     World.Recenter((_player.transform.position).ToWorldPosition());
   }
 
-  private readonly GuiDrawer drawer = new GuiDrawer();
+  private readonly PropertyDrawer drawer = new PropertyDrawer();
 
   public void OnGUI()
   {
@@ -58,48 +58,8 @@ public class Bootstrap : MonoBehaviour
                         100))
     {
       var component = hitInfo.collider.gameObject.Get();
-
-      drawer.Start();
-
-      var name = component as INamed;
-      if (name != null)
-      {
-        drawer.DrawItem("Name:", name.Name);
-      }
-
-      var destroyable = component as IDestroyable;
-      if (destroyable != null)
-      {
-        drawer.DrawItem("Health:", destroyable.Health.ToString());
-      }
-
-      var tileItem = component as ITileItem;
-      if (tileItem != null)
-      {
-        drawer.DrawItem("Chunk:", tileItem.TileCoordinate.ToString());
-        drawer.DrawItem("Tile:", tileItem.ChunkCoordinate.ToString());
-        drawer.DrawItem("World:",
-                        new WorldPosition(tileItem.ChunkCoordinate, tileItem.TileCoordinate).ToString());
-      }
-    }
-  }
-
-  private class GuiDrawer
-  {
-    private int _line = 0;
-
-    public void Start()
-    {
-      _line = 30;
-      GUI.Box(new Rect(10, 10, 120, 120), "Current Item");
-    }
-
-    public void DrawItem(string name, string value)
-    {
-      GUI.Label(new Rect(20, _line, 50, 20), name);
-      GUI.Label(new Rect(72, _line, 50, 20), value);
-
-      _line += 18;
+      drawer.With(component);
+      drawer.Draw();
     }
   }
 }
