@@ -22,9 +22,21 @@ namespace Behavior
     public float maxDistance = 100;
 
     /// <inheritdoc />
-    string IFireableWeaponModel.Name
+    string IItemModel.Name
     {
       get { return name; }
+    }
+
+    /// <inheritdoc />
+    int IItemModel.StackAmount
+    {
+      // TODO
+      get { return 1; }
+    }
+
+    public IUiResource Resource
+    {
+      get { return null; }
     }
 
     /// <inheritdoc />
