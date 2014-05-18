@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Behavior;
+using BringBackSociety.Controllers;
 using BringBackSociety.Items;
 using Drawing;
 using log4net;
@@ -17,13 +18,13 @@ namespace Scripts
     private Transform _parentTransform;
 
     /// <summary> Provides logging for the class. </summary>
-    private static readonly ILog Log = LogManager.GetLogger(typeof (WeaponFirer));
+    private static readonly ILog Log = LogManager.GetLogger(typeof(WeaponFirer));
 
     private int _curWeaponIndex;
 
     private PropertyDrawer _weaponDrawer;
-    private IFireableWeaponModel[] _fireableWeaponsModel;
-    private int[] _counts;
+    private StorageContainer _inventory;
+    private StorageContainer.Cursor _currentWeapon;
 
     // Use this for initialization
     public void Start()
@@ -35,8 +36,11 @@ namespace Scripts
 
       _weaponDrawer = new PropertyDrawer("Weapons", Screen.width - 120, 10);
 
-      _fireableWeaponsModel = GlobalResources.Instance.Weapons;
-      _counts = Enumerable.Repeat(20, _fireableWeaponsModel.Length).ToArray();
+      _inventory = new StorageContainer(10);
+      GlobalResources.Instance.Weapons.Take(10)
+                     .Select(w => new InventoryStack(w, 20))
+                     .ToList()
+                     .ForEach(itemStack => _inventory.AddToStorage(itemStack));
 
       SwitchWeapons(0);
     }
@@ -48,30 +52,46 @@ namespace Scripts
 
     public void SwitchWeapons(int weapon)
     {
-      if (_curWeaponIndex >= 0 && _curWeaponIndex < _fireableWeaponsModel.Length)
-      {
-        _curWeaponIndex = weapon;
-        Log.InfoFormat("Switched weapon to {0}", _fireableWeaponsModel[_curWeaponIndex].Name);
-      }
+      if (weapon < 0 || weapon >= _inventory.Slots.Count)
+        return;
+
+      _curWeaponIndex = weapon;
+      _currentWeapon = _inventory.GetCursor(_curWeaponIndex);
+      var itemSlot = _inventory.Slots[weapon];
+
+      Log.InfoFormat("Switched weapon to {0}", itemSlot);
     }
 
     public void OnGUI()
     {
       _weaponDrawer.Start();
 
-      for (var i = 0; i < _fireableWeaponsModel.Length; i++)
+      for (var i = 0; i < _inventory.Slots.Count; i++)
       {
-        _weaponDrawer.AddItem(_fireableWeaponsModel[i].Name, _counts[i].ToString());
+        var slot = _inventory.Slots[i];
+
+        string label = (i + 1).ToString();
+
+        if (slot.IsEmpty)
+        {
+          _weaponDrawer.AddItem(label + " - ", " - ");
+        }
+        else
+        {
+          _weaponDrawer.AddItem(label + " - " + slot.Model.Name, slot.Quantity.ToString());
+        }
       }
+
       _weaponDrawer.Draw();
     }
 
     private IEnumerator FireWeapon()
     {
-      var curWeapon = _fireableWeaponsModel[_curWeaponIndex];
+      var itemQuanity = _inventory.GetStack(_currentWeapon);
+      var weapon = itemQuanity.Model as IFireableWeaponModel;
 
       // if they can't afford it, early exit
-      if (_counts[_curWeaponIndex] <= 0)
+      if (itemQuanity.IsEmpty || weapon == null)
         yield break;
 
       LightSource.enabled = true;
@@ -81,15 +101,16 @@ namespace Scripts
 
       if (Physics.Raycast(new Ray(_parentTransform.position, _parentTransform.forward),
                           out hitInfo,
-                          curWeapon.MaxDistance))
+                          weapon.MaxDistance))
       {
         var killable = hitInfo.collider.gameObject.Get<IDestroyable>();
 
         if (killable != null)
         {
           Log.Info("Hit Enemy");
-          Damage(killable, curWeapon.DamagePerShot);
-          _counts[_curWeaponIndex]--;
+          Damage(killable, weapon.DamagePerShot);
+
+          _inventory.Decrement(_currentWeapon);
         }
       }
 

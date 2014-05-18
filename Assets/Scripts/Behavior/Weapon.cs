@@ -31,7 +31,7 @@ namespace Behavior
     int IItemModel.StackAmount
     {
       // TODO
-      get { return 1; }
+      get { return 100; }
     }
 
     public IUiResource Resource
