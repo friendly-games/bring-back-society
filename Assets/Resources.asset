@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Name: Resources
   m_EditorClassIdentifier: 
   Weapons:
-  - Name: Pistol
-    DamagePerShot: 50
-    ClipSize: 10
-    MaxDistance: 100
-  - Name: Uzi
-    DamagePerShot: 20
-    ClipSize: 20
-    MaxDistance: 50
+  - name: Pistol
+    damagePerShot: 50
+    clipSize: 10
+    maxDistance: 100
+  - name: Uzi
+    damagePerShot: 20
+    clipSize: 20
+    maxDistance: 50
