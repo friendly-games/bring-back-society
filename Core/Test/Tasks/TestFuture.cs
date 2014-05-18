@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using BringBackSociety.Tasks;
-using NUnit.Framework;
+using Xunit;
 
 namespace Tests.Tasks
 {
-  internal class TestFuture
+  public class TestFuture
   {
     private IEnumerator<Coop<int>> GetIntegerCoop()
     {
@@ -16,14 +16,14 @@ namespace Tests.Tasks
       yield return Coop.Value(10);
     }
 
-    [Test]
+    [Fact]
     [Description("It works")]
     public void It_works()
     {
       var future = GetIntegerCoop().ToFuture();
 
-      Assert.IsTrue(future.IsCompleted);
-      Assert.AreEqual(10, future.Result);
+      Assert.True(future.IsCompleted);
+      Assert.Equal(10, future.Result);
     }
 
     private IEnumerator<Coop<string>> NeedToWaitForFuture(Future<string> toWaitFor)
@@ -34,18 +34,18 @@ namespace Tests.Tasks
       yield return "What" + toWaitFor.Result;
     }
 
-    [Test]
+    [Fact]
     [Description("Waiting for futures works")]
     public void Waiting_for_futures_works()
     {
       var waitFor = new FutureCompletionSource<string>();
 
       var future = NeedToWaitForFuture(waitFor.Future).ToFuture();
-      Assert.IsFalse(future.IsCompleted);
+      Assert.False(future.IsCompleted);
 
       waitFor.SetResult(" are you waiting for");
-      Assert.IsTrue(future.IsCompleted);
-      Assert.AreEqual("What are you waiting for", future.Result);
+      Assert.True(future.IsCompleted);
+      Assert.Equal("What are you waiting for", future.Result);
     }
 
     private IEnumerator<Coop<int>> ExceptionsPropegate()
@@ -54,18 +54,18 @@ namespace Tests.Tasks
       throw new Exception("It broke");
     }
 
-    [Test]
+    [Fact]
     [Description("Exceptions do propegate")]
     public void Exceptions_do_propegate()
     {
       var future = ExceptionsPropegate().ToFuture();
 
-      Assert.IsTrue(future.IsCompleted);
-      Assert.IsNotNull(future.Error);
-      Assert.AreEqual(future.Error.Message, "It broke");
+      Assert.True(future.IsCompleted);
+      Assert.NotNull(future.Error);
+      Assert.Equal(future.Error.Message, "It broke");
     }
 
-    [Test]
+    [Fact]
     [Description("Exceptions propegate from other futures")]
     public void Exceptions_propegate_from_other_futures()
     {
@@ -75,8 +75,8 @@ namespace Tests.Tasks
       var future = NeedToWaitForFuture(waitFor.Future).ToFuture();
       waitFor.SetException(exception);
 
-      Assert.IsTrue(future.IsCompleted);
-      Assert.AreEqual(exception, future.Error.InnerException);
+      Assert.True(future.IsCompleted);
+      Assert.Equal(exception, future.Error.InnerException);
     }
 
     private IEnumerator<Coop<int>> DisposalsOccur(DoIDispose doIDispose)
@@ -88,18 +88,18 @@ namespace Tests.Tasks
       }
     }
 
-    [Test]
+    [Fact]
     [Description("Disposals occur")]
     public void Disposals_occur()
     {
       var doIDispose = new DoIDispose();
 
-      Assert.IsFalse(doIDispose.Disposed);
+      Assert.False(doIDispose.Disposed);
       var future = DisposalsOccur(doIDispose).ToFuture();
 
-      Assert.IsTrue(future.IsCompleted);
-      Assert.IsNotNull(future.Error);
-      Assert.IsTrue(doIDispose.Disposed);
+      Assert.True(future.IsCompleted);
+      Assert.NotNull(future.Error);
+      Assert.True(doIDispose.Disposed);
     }
 
     private class DoIDispose : IDisposable
