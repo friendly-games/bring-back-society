@@ -12,7 +12,7 @@ public class GlobalResources : ScriptableObject
   public static GlobalResources Instance { get; private set; }
 
   /// <summary> All of the weapons in the game. </summary>
-  public Weapon[] Weapons;
+  public Weapon[] FireableWeaponsModel;
 
   public static void Initialize(GlobalResources instance)
   {
