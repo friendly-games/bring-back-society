@@ -13,15 +13,13 @@ using UnityEngine;
 
 public class Bootstrap : MonoBehaviour
 {
+  public GlobalResources GlobalResources;
+
   private static readonly ILog Log;
 
   private GameObject _player;
 
   private readonly PropertyDrawer _currentObjectDrawer = new PropertyDrawer("Current Item", 10, 10);
-
-  public World World { get; set; }
-
-  public CoroutineDispatcher Dispatcher { get; private set; }
 
   static Bootstrap()
   {
@@ -33,7 +31,7 @@ public class Bootstrap : MonoBehaviour
   {
     Dispatcher = new CoroutineDispatcher();
     var chunkLoader = new SimpleChunkLoader(new PerlinChunkGenerator(new PerlinNoise()));
-    GlobalResources.Initialize(GameObject.Find("Global").GetComponent<GlobalResources>());
+    GlobalResources.Initialize(GlobalResources);
 
     _player = GameObject.Find("Player");
 
@@ -44,6 +42,10 @@ public class Bootstrap : MonoBehaviour
 
     World.Initialize();
   }
+
+  public World World { get; set; }
+
+  public CoroutineDispatcher Dispatcher { get; private set; }
 
   public void Update()
   {

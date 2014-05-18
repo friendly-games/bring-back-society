@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Behavior
+namespace BringBackSociety.Items
 {
   /// <summary> The relative strength of an entity. </summary>
   [Serializable]

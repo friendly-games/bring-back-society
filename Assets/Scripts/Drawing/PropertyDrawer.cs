@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Behavior;
 using BringBackSociety;
+using BringBackSociety.Items;
 using UnityEngine;
 
 namespace Drawing
