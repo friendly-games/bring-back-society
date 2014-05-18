@@ -69,6 +69,27 @@ namespace BringBackSociety.Controllers
       return _slots[cursor.SlotNumber];
     }
 
+    /// <summary> Decrements the inventory by one unit </summary>
+    /// <param name="cursor"> The position from which to get the stack. </param>
+    /// <returns> true if it succeeds, false if it fails. </returns>
+    public bool Decrement(Cursor cursor)
+    {
+      if (cursor.Parent != this)
+        return false;
+
+      var value = _slots[cursor.SlotNumber];
+      if (value.IsEmpty)
+      {
+        _slots[cursor.SlotNumber] = InventoryStack.Empty;
+        return false;
+      }
+      else
+      {
+        _slots[cursor.SlotNumber] = _slots[cursor.SlotNumber].Plus(-1);
+        return true;
+      }
+    }
+
     /// <summary> Remove the stack at the designated location. </summary>
     /// <param name="cursor"> The position from which to remove the stack. </param>
     /// <returns> The stack of the items at the designated location, removed from this container. </returns>
