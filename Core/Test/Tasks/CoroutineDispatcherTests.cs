@@ -1,23 +1,21 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using BringBackSociety.Tasks;
-using NUnit.Framework;
+using Xunit;
 
 namespace Tests.Tasks
 {
-  internal class CoroutineDispatcherTests
+  public class CoroutineDispatcherTests
   {
-    private CoroutineDispatcher _dispatcher;
-    private Coroutine _okayCoroutine;
-    private Coroutine _waitCoroutine;
-    private Coroutine _exceptionCoroutine;
+    private readonly CoroutineDispatcher _dispatcher;
+    private readonly Coroutine _okayCoroutine;
+    private readonly Coroutine _waitCoroutine;
+    private readonly Coroutine _exceptionCoroutine;
 
-    [SetUp]
-    public void Setup()
+    public CoroutineDispatcherTests()
     {
       _dispatcher = new CoroutineDispatcher();
       _okayCoroutine = new Coroutine(OkayEnumerator());
@@ -43,7 +41,7 @@ namespace Tests.Tasks
       }
     }
 
-    [Test]
+    [Fact]
     [Description("Dispatcher works")]
     public void Dispatcher_works()
     {
@@ -51,40 +49,40 @@ namespace Tests.Tasks
 
       Run();
 
-      Assert.IsTrue(_okayCoroutine.IsComplete);
-      Assert.IsFalse(_dispatcher.HasWork);
+      Assert.True(_okayCoroutine.IsComplete);
+      Assert.False(_dispatcher.HasWork);
     }
 
-    [Test]
+    [Fact]
     [Description("Waiting works")]
     public void Waiting_works()
     {
       _dispatcher.Start(_waitCoroutine);
 
-      Assert.IsFalse(_waitCoroutine.IsComplete);
+      Assert.False(_waitCoroutine.IsComplete);
       Run(14);
 
       // should not be done
-      Assert.IsFalse(_waitCoroutine.IsComplete);
-      Assert.IsFalse(_okayCoroutine.IsComplete);
+      Assert.False(_waitCoroutine.IsComplete);
+      Assert.False(_okayCoroutine.IsComplete);
 
       // okay should be done, wait should not
       Run(1);
-      Assert.IsTrue(_okayCoroutine.IsComplete);
-      Assert.IsFalse(_waitCoroutine.IsComplete);
+      Assert.True(_okayCoroutine.IsComplete);
+      Assert.False(_waitCoroutine.IsComplete);
 
       // wait shouldn't yet, we're one step away
       Run(4);
-      Assert.IsFalse(_waitCoroutine.IsComplete);
+      Assert.False(_waitCoroutine.IsComplete);
 
       // should be good now
       Run(1);
-      Assert.IsTrue(_waitCoroutine.IsComplete);
+      Assert.True(_waitCoroutine.IsComplete);
 
-      Assert.IsFalse(_dispatcher.HasWork);
+      Assert.False(_dispatcher.HasWork);
     }
 
-    [Test]
+    [Fact]
     [Description("Exceptions are propegated")]
     public void OriginalExceptionIsPropegated()
     {
@@ -99,15 +97,15 @@ namespace Tests.Tasks
       catch (ArgumentException exception)
       {
         Console.WriteLine(exception);
-        Assert.Pass();
+        return;
       }
       catch (Exception exception)
       {
         Console.WriteLine(exception);
-        Assert.Fail("Incorrect type of exception was thrown");
+        Assert.False(true, "Incorrect type of exception was thrown");
       }
 
-      Assert.Fail();
+      Assert.False(true);
     }
 
     private IEnumerator OkayEnumerator()
