@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BringBackSociety;
+using BringBackSociety.Items;
 using Extensions;
 using log4net;
 using UnityEngine;

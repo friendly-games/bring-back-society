@@ -1,4 +1,5 @@
 ﻿using Behavior;
+using BringBackSociety.Items;
 using UnityEngine;
 
 /// <summary> MonoBehavoir for a killable object. </summary>
@@ -9,6 +10,8 @@ public class Killable : MonoBehaviour, IDestroyable
 
   /// <summary> The resistance. </summary>
   public Resistance resistance;
+
+  private int _health;
 
   Resistance IDestroyable.Resistance
   {
@@ -22,7 +25,11 @@ public class Killable : MonoBehaviour, IDestroyable
   }
 
   /// <summary> The health of the object. </summary>
-  public int Health { get; set; }
+  int IDestroyable.Health
+  {
+    get { return _health; }
+    set { _health = value; }
+  }
 
   /// <inheritdoc />
   public void Start()

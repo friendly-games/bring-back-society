@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Behavior
+namespace BringBackSociety.Items
 {
   /// <summary> Represents an object that is killable. </summary>
   public interface IDestroyable : IComponent

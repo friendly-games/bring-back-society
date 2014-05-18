@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Behavior
+namespace BringBackSociety.Items
 {
   /// <summary> An item that is placed in a tile location. </summary>
   public interface INamed : IComponent

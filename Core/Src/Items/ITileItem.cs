@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BringBackSociety;
 
-namespace Behavior
+namespace BringBackSociety.Items
 {
   /// <summary> An item that is placed in a tile location. </summary>
   public interface ITileItem : IComponent
