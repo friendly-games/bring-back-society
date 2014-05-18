@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BringBackSociety.Actions;
+using BringBackSociety.Controllers;
 
 namespace BringBackSociety.Items
 {
   /// <summary> A single weapon which can be fired against an enemy. </summary>
-  public interface IFireableWeaponModel
+  public interface IFireableWeaponModel : IItemModel
   {
-    /// <summary> The name of the weapon. </summary>
-    string Name { get; }
-
     /// <summary> The amount of damage done per bullet hit. </summary>
     int DamagePerShot { get; }
 

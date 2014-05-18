@@ -8,10 +8,11 @@ using BringBackSociety.Tasks;
 using Drawing;
 using Extensions;
 using log4net;
+using Scripts;
 using Services;
 using UnityEngine;
 
-public class Bootstrap : MonoBehaviour
+public class Bootstrap : MonoBehaviour, IGui
 {
   public GlobalResources GlobalResources;
 
@@ -24,14 +25,15 @@ public class Bootstrap : MonoBehaviour
   static Bootstrap()
   {
     Logging.ConfigureAllLogging();
-    Log = LogManager.GetLogger(typeof (Bootstrap));
+    Log = LogManager.GetLogger(typeof(Bootstrap));
   }
 
   public void Start()
   {
+    GlobalResources.Initialize(GlobalResources);
+
     Dispatcher = new CoroutineDispatcher();
     var chunkLoader = new SimpleChunkLoader(new PerlinChunkGenerator(new PerlinNoise()));
-    GlobalResources.Initialize(GlobalResources);
 
     _player = GameObject.Find("Player");
 

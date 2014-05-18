@@ -16,7 +16,7 @@ namespace Tests.Tasks
       yield return Coop.Value(10);
     }
 
-    [Fact]
+    [Fact(DisplayName = "")]
     [Description("It works")]
     public void It_works()
     {

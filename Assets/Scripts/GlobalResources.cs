@@ -6,13 +6,13 @@ using UnityEngine;
 public class GlobalResources : ScriptableObject
 {
   /// <summary> Provides logging for the class. </summary>
-  private static readonly ILog Log = LogManager.GetLogger(typeof (GlobalResources));
+  private static readonly ILog Log = LogManager.GetLogger(typeof(GlobalResources));
 
   /// <summary> The singleton for this class. </summary>
   public static GlobalResources Instance { get; private set; }
 
   /// <summary> All of the weapons in the game. </summary>
-  public Weapon[] FireableWeaponsModel;
+  public Weapon[] Weapons;
 
   public static void Initialize(GlobalResources instance)
   {

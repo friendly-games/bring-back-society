@@ -7,12 +7,12 @@ using BringBackSociety.Items;
 namespace BringBackSociety.Controllers
 {
   /// <summary> A projectile weapon item. </summary>
-  internal class ProjectileWeaponInventoryItem
+  public class FireableWeaponInventoryItem
   {
     /// <summary> Constructor. </summary>
     /// <exception cref="ArgumentNullException"> Thrown when one or more required arguments are null. </exception>
     /// <param name="fireableWeaponModel"> The weapon that this inventory item wraps. </param>
-    public ProjectileWeaponInventoryItem(IFireableWeaponModel fireableWeaponModel)
+    public FireableWeaponInventoryItem(IFireableWeaponModel fireableWeaponModel)
     {
       if (fireableWeaponModel == null)
         throw new ArgumentNullException("fireableWeaponModel");

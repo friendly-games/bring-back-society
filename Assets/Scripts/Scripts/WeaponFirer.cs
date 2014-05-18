@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Scripts
 {
-  public class WeaponFirer : MonoBehaviour
+  public class WeaponFirer : MonoBehaviour, IGui
   {
     public Light LightSource;
     public AudioSource AudioSource;
@@ -35,7 +35,7 @@ namespace Scripts
 
       _weaponDrawer = new PropertyDrawer("Weapons", Screen.width - 120, 10);
 
-      _fireableWeaponsModel = GlobalResources.Instance.FireableWeaponsModel;
+      _fireableWeaponsModel = GlobalResources.Instance.Weapons;
       _counts = Enumerable.Repeat(20, _fireableWeaponsModel.Length).ToArray();
 
       SwitchWeapons(0);
@@ -78,8 +78,6 @@ namespace Scripts
       AudioSource.Play();
 
       RaycastHit hitInfo;
-
-      bool didHit = false;
 
       if (Physics.Raycast(new Ray(_parentTransform.position, _parentTransform.forward),
                           out hitInfo,
