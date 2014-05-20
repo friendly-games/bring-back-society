@@ -578,8 +578,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a148237248f2f041a5e5a2486aa7d95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LightSource: {fileID: 62416472}
-  AudioSource: {fileID: 62416473}
 --- !u!1 &1257855359
 GameObject:
   m_ObjectHideFlags: 0

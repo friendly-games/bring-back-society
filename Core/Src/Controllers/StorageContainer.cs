@@ -184,9 +184,11 @@ namespace BringBackSociety.Controllers
         SlotNumber = slot;
       }
 
-      internal StorageContainer Parent;
+      /// <summary> The parent. </summary>
+      public readonly StorageContainer Parent;
 
-      internal int SlotNumber;
+      /// <summary> The slot number. </summary>
+      public readonly int SlotNumber;
     }
   }
 }
