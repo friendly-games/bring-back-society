@@ -32,12 +32,11 @@ public class Bootstrap : MonoBehaviour, IGui
   {
     GlobalResources.Initialize(GlobalResources);
 
-    Dispatcher = new CoroutineDispatcher();
     var chunkLoader = new SimpleChunkLoader(new PerlinChunkGenerator(new PerlinNoise()));
 
     _player = GameObject.Find("Player");
 
-    var processor = new ChunkProcessor(Dispatcher);
+    var processor = new ChunkProcessor(View.Dispatcher);
 
     World = new World(chunkLoader);
     World.ChunkChange += processor.HandleChunkChange;
@@ -47,11 +46,9 @@ public class Bootstrap : MonoBehaviour, IGui
 
   public World World { get; set; }
 
-  public CoroutineDispatcher Dispatcher { get; private set; }
-
   public void Update()
   {
-    Dispatcher.Continue();
+    View.Dispatcher.Continue();
 
     World.Recenter((_player.transform.position).ToWorldPosition());
   }
