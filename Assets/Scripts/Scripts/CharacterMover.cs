@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Scripts
 {
-  [RequireComponent(typeof (Rigidbody))]
+  [RequireComponent(typeof(Rigidbody))]
   internal class CharacterMover : MonoBehaviour
   {
     public float MaxSpeed = 100.0f;
@@ -53,8 +53,8 @@ namespace Scripts
       if (AttemptJump && DateTime.Now - _lastJumpTime > TimeSpan.FromMilliseconds(100))
       {
         // TODO replace constants
-        var ray = new Ray(_transform.position, Vector3.down);
-        RaycastHit hitInfo;
+        // var ray = new Ray(_transform.position, Vector3.down);
+        //RaycastHit hitInfo;
         //if (_ground.collider.Raycast(ray, out hitInfo, 1.05f))
         {
           diffVelocity.y = JumpSpeed;
@@ -66,7 +66,7 @@ namespace Scripts
 
       _transform.rotation = Quaternion.Slerp(_transform.rotation,
                                              TargetRotation,
-                                             Time.deltaTime*MaxRotation);
+                                             Time.deltaTime * MaxRotation);
     }
   }
 }

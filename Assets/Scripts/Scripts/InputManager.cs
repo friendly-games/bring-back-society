@@ -16,7 +16,7 @@ namespace Scripts
 
     public float DesiredSpeed = 1.0f;
     private Collider _groundCollider;
-    private WeaponFirer _weapon;
+    private Bootstrap _weapon;
     private GameObject _camera;
     private Vector3 _playerPositionOffset;
     private GameObject _player;
@@ -30,7 +30,7 @@ namespace Scripts
       _mover = _player.GetComponent<CharacterMover>();
 
       _groundCollider = GameObject.Find("Ground").collider;
-      _weapon = GameObject.Find("Weapon").GetComponent<WeaponFirer>();
+      _weapon = GameObject.Find("Global").GetComponent<Bootstrap>();
 
       _playerY = _player.transform.position.y;
       _playerPositionOffset = _camera.transform.position - _player.transform.position;

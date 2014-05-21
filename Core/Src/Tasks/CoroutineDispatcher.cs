@@ -35,6 +35,7 @@ namespace BringBackSociety.Tasks
     ///  Add a new coroutine to be executed by this dispatcher when Continue() is invoked.
     /// </summary>
     /// <param name="coroutine"> The coroutine to execute. </param>
+    /// <param name="executeFirstStep"> True to forward the coroutine forward one step default. </param>
     private CoroutineData Enqueue(ICoroutine coroutine, bool executeFirstStep = true)
     {
       if (coroutine == null)

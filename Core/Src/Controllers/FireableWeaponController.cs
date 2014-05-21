@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using BringBackSociety.Items;
 using BringBackSociety.Services;
 using log4net;
 
 namespace BringBackSociety.Controllers
 {
+  /// <summary> Handles firing of projectile weapons. </summary>
   public class FireableWeaponController
   {
     /// <summary> Provides logging for the class. </summary>
@@ -16,6 +16,7 @@ namespace BringBackSociety.Controllers
     private readonly IRaycastService _raycastService;
     private readonly IFirableWeaponView _weaponView;
 
+    /// <summary> Constructor. </summary>
     public FireableWeaponController(IRaycastService raycastService, IFirableWeaponView weaponView)
     {
       _raycastService = raycastService;

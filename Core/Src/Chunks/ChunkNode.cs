@@ -1,8 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
-namespace BringBackSociety
+namespace BringBackSociety.Chunks
 {
+  /// <summary> Holds a chunk and references to its siblings. </summary>
   public class ChunkNode
   {
     /// <summary>
@@ -40,6 +43,7 @@ namespace BringBackSociety
     /// <summary> The chunk associated with this node. </summary>
     public Chunk Chunk { get; set; }
 
+    /// <summary> Set the left and right properties to point to each other. </summary>
     public static void LinkHorizontally(ChunkNode lhs, ChunkNode rhs)
     {
       Debug.Assert(lhs.Chunk.Offset.Z == rhs.Chunk.Offset.Z);
@@ -49,6 +53,7 @@ namespace BringBackSociety
       rhs.Left = lhs;
     }
 
+    /// <summary> Set the Back and Front properties to point to each other. </summary>
     public static void LinkVertically(ChunkNode upper, ChunkNode lower)
     {
       Debug.Assert(upper.Chunk.Offset.X == lower.Chunk.Offset.X);

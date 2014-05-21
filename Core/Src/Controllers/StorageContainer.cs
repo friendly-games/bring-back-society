@@ -131,7 +131,7 @@ namespace BringBackSociety.Controllers
     /// <summary> Puts items of the designated into the designated empty slot. </summary>
     /// <param name="slotNumber"> The position in which to put the stack. </param>
     /// <param name="stack"> The stack to add to the storage. </param>
-    /// <returns> The remaining items that could not be placed in the designated slot. </returns
+    /// <returns> The remaining items that could not be placed in the designated slot. </returns>
     private InventoryStack Put(int slotNumber, InventoryStack stack)
     {
       if (!_slots[slotNumber].IsEmpty)

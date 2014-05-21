@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BringBackSociety.Items;
+using UnityEngine;
 
 namespace Behavior
 {
@@ -20,6 +21,12 @@ namespace Behavior
 
     /// <summary> The maximum distance the weapon can be fired </summary>
     public float maxDistance = 100;
+
+    /// <summary> The flash that occurs when the weapon is fired. </summary>
+    public Light lightFlash;
+
+    /// <summary> Audio that occurs when the weapon is fired </summary>
+    public AudioSource audioSource;
 
     /// <inheritdoc />
     string IItemModel.Name
