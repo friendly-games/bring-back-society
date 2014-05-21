@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Behavior;
 using BringBackSociety.Items;
 using BringBackSociety.Services;
 using UnityEngine;
@@ -15,26 +16,31 @@ namespace Services
     private readonly Light _light;
     private readonly AudioSource _audio;
 
-    public FirableWeaponView(MonoBehaviour owner, Light light, AudioSource audio)
+    public FirableWeaponView(MonoBehaviour owner)
     {
+      var weaponGameObject = GameObject.Find("Weapon");
+
       _owner = owner;
-      _light = light;
-      _audio = audio;
+      _light = weaponGameObject.GetComponentsInChildren<Light>().First();
+      _audio = weaponGameObject.GetComponentsInChildren<AudioSource>().First();
     }
 
     void IFirableWeaponView.FireWeapon(IActor actor, IFireableWeaponModel weapon)
     {
-      //var actualWeapon = (Weapon) weapon;
-      _owner.StartCoroutine(FireWeapon());
+      var actualWeapon = (Weapon) weapon;
+      _owner.StartCoroutine(FireWeapon(actualWeapon));
     }
 
-    private IEnumerator FireWeapon()
+    private IEnumerator FireWeapon(Weapon actualWeapon)
     {
-      _light.enabled = true;
-      _audio.Play();
+      var light = _light ?? actualWeapon.lightFlash;
+      var audio = _audio ?? actualWeapon.audioSource;
+
+      light.enabled = true;
+      audio.Play();
 
       yield return new WaitForSeconds(0.05f);
-      _light.enabled = false;
+      light.enabled = false;
     }
   }
 }

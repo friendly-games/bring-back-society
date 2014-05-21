@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using BringBackSociety.Controllers;
-using BringBackSociety.Items;
 using BringBackSociety.Services;
-using log4net;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Services
@@ -13,6 +12,7 @@ namespace Services
   internal class Player : IActor
   {
     /// <summary> The game object that represents the physical player of the object. </summary>
+    [UsedImplicitly]
     private readonly GameObject _gameObject;
 
     public Player(GameObject gameObject)

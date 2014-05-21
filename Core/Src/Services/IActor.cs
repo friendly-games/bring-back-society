@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using BringBackSociety.Controllers;
-using BringBackSociety.Items;
 
 namespace BringBackSociety.Services
 {
@@ -14,14 +13,6 @@ namespace BringBackSociety.Services
 
     /// <summary> The selected slot of the player. </summary>
     StorageContainer.Cursor EquippedWeapon { get; }
-  }
-
-  /// <summary> Handles the logic for instances of IFireableWeapon. </summary>
-  public class FireableWeaponDispatcher
-  {
-    public void Dispatch(IFireableWeaponModel weapon)
-    {
-    }
   }
 
   ///// <summary> Represents the inventory for a player. </summary>

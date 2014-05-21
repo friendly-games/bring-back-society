@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using Behavior;
+using System.Linq;
 using BringBackSociety;
 using BringBackSociety.Chunks.Generators;
 using BringBackSociety.Chunks.Loaders;
+using BringBackSociety.Controllers;
+using BringBackSociety.Items;
+using BringBackSociety.Services;
 using BringBackSociety.Tasks;
 using Drawing;
 using Extensions;
@@ -18,9 +21,11 @@ public class Bootstrap : MonoBehaviour, IGui
 
   private static readonly ILog Log;
 
-  private GameObject _player;
-
   private readonly PropertyDrawer _currentObjectDrawer = new PropertyDrawer("Current Item", 10, 10);
+  private readonly PropertyDrawer _weaponDrawer = new PropertyDrawer("Weapons", Screen.width - 120, 10);
+
+  private FireableWeaponController _firableWeaponController;
+  private Player _player;
 
   static Bootstrap()
   {
@@ -32,11 +37,41 @@ public class Bootstrap : MonoBehaviour, IGui
   {
     GlobalResources.Initialize(GlobalResources);
 
+    _player = new Player(GameObject.Find("Player"));
+
+    InitializeServices();
+    InitializeViews();
+    GenerateWorld();
+  }
+
+  public World World { get; set; }
+
+  /// <summary> Initializes all of the services for the game. </summary>
+  private void InitializeServices()
+  {
+    AllServices.RaycastService = new RaycastService();
+    AllServices.Dispatcher = new CoroutineDispatcher();
+  }
+
+  /// <summary> Initializes the views for the game. </summary>
+  private void InitializeViews()
+  {
+    var weaponView = new FirableWeaponView(this);
+
+    _firableWeaponController = new FireableWeaponController(AllServices.RaycastService, weaponView);
+
+    GlobalResources.Instance.Weapons.Take(10)
+                   .Select(w => new InventoryStack(w, 20))
+                   .ToList()
+                   .ForEach(itemStack => _player.Inventory.AddToStorage(itemStack));
+
+    SwitchWeapons(0);
+  }
+
+  private void GenerateWorld()
+  {
+    var processor = new ChunkProcessor(AllServices.Dispatcher);
     var chunkLoader = new SimpleChunkLoader(new PerlinChunkGenerator(new PerlinNoise()));
-
-    _player = GameObject.Find("Player");
-
-    var processor = new ChunkProcessor(View.Dispatcher);
 
     World = new World(chunkLoader);
     World.ChunkChange += processor.HandleChunkChange;
@@ -44,25 +79,70 @@ public class Bootstrap : MonoBehaviour, IGui
     World.Initialize();
   }
 
-  public World World { get; set; }
+  public void Fire()
+  {
+    _firableWeaponController.FireWeapon(_player);
+  }
+
+  public void SwitchWeapons(int weapon)
+  {
+    var inventory = _player.Inventory;
+    if (weapon < 0 || weapon >= inventory.Slots.Count)
+      return;
+
+    _player.EquippedWeapon = inventory.GetCursor(weapon);
+
+    Log.InfoFormat("Switched weapon to {0}", inventory.Slots[weapon]);
+  }
 
   public void Update()
   {
-    View.Dispatcher.Continue();
+    AllServices.Dispatcher.Continue();
 
-    World.Recenter((_player.transform.position).ToWorldPosition());
+    World.Recenter(_player.Transform.position.ToWorldPosition());
   }
 
   public void OnGUI()
   {
-    RaycastHit hitInfo;
-    if (Physics.Raycast(new Ray(_player.transform.position, _player.transform.forward),
-                        out hitInfo,
-                        100))
+    DrawLookAtItem();
+    DrawWeaponList();
+  }
+
+  private void DrawLookAtItem()
+  {
+    var component = AllServices.RaycastService.Raycast<IComponent>(_player, 100);
+    if (component != null)
     {
-      var component = hitInfo.collider.gameObject.Get();
       _currentObjectDrawer.Add(component);
       _currentObjectDrawer.Draw();
     }
+  }
+
+  private void DrawWeaponList()
+  {
+    _weaponDrawer.Start();
+
+    var inventory = _player.Inventory;
+    for (var i = 0; i < inventory.Slots.Count; i++)
+    {
+      var slot = inventory.Slots[i];
+
+      string label = (i + 1).ToString();
+
+      if (slot.IsEmpty)
+      {
+        _weaponDrawer.AddItem(label + " - ", " - ");
+      }
+      else if (i == _player.EquippedWeapon.SlotNumber)
+      {
+        _weaponDrawer.AddItem("*" + " " + slot.Model.Name, slot.Quantity.ToString());
+      }
+      else
+      {
+        _weaponDrawer.AddItem(label + " " + slot.Model.Name, slot.Quantity.ToString());
+      }
+    }
+
+    _weaponDrawer.Draw();
   }
 }
