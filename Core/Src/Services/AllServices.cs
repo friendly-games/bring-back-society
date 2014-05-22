@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using BringBackSociety.Tasks;
 
 namespace BringBackSociety.Services
@@ -15,5 +16,8 @@ namespace BringBackSociety.Services
 
     /// <summary> UI thread only. </summary>
     public static CoroutineDispatcher Dispatcher { get; set; }
+
+    /// <summary> SynchronizationContext for the UI thread. </summary>
+    public static SynchronizationContext SynchronizationContext { get; set; }
   }
 }

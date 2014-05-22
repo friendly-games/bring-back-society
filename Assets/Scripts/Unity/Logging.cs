@@ -33,7 +33,7 @@ public class Logging
                        };
     fileAppender.ActivateOptions();
 
-    var unityLogger = new UnityLogger
+    var unityLogger = new UnityAppender
                       {
                         Layout = new PatternLayout()
                       };
@@ -43,23 +43,26 @@ public class Logging
   }
 
   /// <summary> An appender which logs to the unity console. </summary>
-  private class UnityLogger : AppenderSkeleton
+  private class UnityAppender : AppenderSkeleton
   {
     /// <inheritdoc />
     protected override void Append(LoggingEvent loggingEvent)
     {
       string message = RenderLoggingEvent(loggingEvent);
 
-      if (loggingEvent.Level == Level.Error)
+      if (Level.Compare(loggingEvent.Level, Level.Error) >= 0)
       {
+        // everything above or equal to error is an error
         Debug.LogError(message);
       }
-      else if (loggingEvent.Level == Level.Warn)
+      else if (Level.Compare(loggingEvent.Level, Level.Warn) >= 0)
       {
+        // everything that is a warning up to error is logged as warning
         Debug.LogWarning(message);
       }
       else
       {
+        // everything else we'll just log normally
         Debug.Log(message);
       }
     }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using BringBackSociety;
 using BringBackSociety.Chunks.Generators;
 using BringBackSociety.Chunks.Loaders;
@@ -26,6 +28,7 @@ public class Bootstrap : MonoBehaviour, IGui
 
   private FireableWeaponController _firableWeaponController;
   private Player _player;
+  private UnitySynchronizationContext _syncContext;
 
   static Bootstrap()
   {
@@ -49,6 +52,10 @@ public class Bootstrap : MonoBehaviour, IGui
   /// <summary> Initializes all of the services for the game. </summary>
   private void InitializeServices()
   {
+    SynchronizationContext.SetSynchronizationContext(_syncContext = new UnitySynchronizationContext());
+    AllServices.SynchronizationContext = SynchronizationContext.Current;
+    TaskExtensions.InitializeSchedularForUiThread(TaskScheduler.FromCurrentSynchronizationContext());
+
     AllServices.RaycastService = new RaycastService();
     AllServices.Dispatcher = new CoroutineDispatcher();
   }
@@ -100,6 +107,7 @@ public class Bootstrap : MonoBehaviour, IGui
     AllServices.Dispatcher.Continue();
 
     World.Recenter(_player.Transform.position.ToWorldPosition());
+    _syncContext.Process();
   }
 
   public void OnGUI()

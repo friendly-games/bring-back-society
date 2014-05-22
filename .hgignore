@@ -15,3 +15,5 @@ Assets/Scripts/Core/*.pdb
 Assets/Scripts/Core/*.XML
 Core/packages/*/*
 Logs/*
+Assets/Scripts/Core/System.Threading.xml
+Assets/Scripts/Core/AsyncBridge.Net35.xml
