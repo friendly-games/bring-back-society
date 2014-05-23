@@ -15,5 +15,15 @@ namespace BringBackSociety.Items
 
     /// <summary> The maximum distance the weapon can be fired </summary>
     float MaxDistance { get; }
+
+    /// <summary> The type of ammo that the weapon uses. </summary>
+    AmmoType AmmoType { get; }
+  }
+
+  /// <summary> Represents an ammo type. </summary>
+  public interface IAmmoModel : IItemModel
+  {
+    /// <summary> The type of ammo that this model represents. </summary>
+    AmmoType AmmoType { get; }
   }
 }

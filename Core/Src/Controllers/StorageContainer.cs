@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -20,6 +21,12 @@ namespace BringBackSociety.Controllers
 
     /// <summary> All of the inventory slots for the container. </summary>
     public ReadOnlyCollection<InventoryStack> Slots { get; private set; }
+
+    /// <summary> Return a cursor to the first slot. </summary>
+    public Cursor FirstSlot
+    {
+      get { return new Cursor(this, 0); }
+    }
 
     /// <summary> Adds the given inventory item to the storage. </summary>
     /// <param name="stack"> The stack to add to the storage. </param>
@@ -164,9 +171,50 @@ namespace BringBackSociety.Controllers
       return stack.Plus(-numberToAdd);
     }
 
+    /// <returns> An enumerable for iterating through the collection. </returns>
+    public Enumerator GetEnumerator()
+    {
+      return new Enumerator(FirstSlot);
+    }
+
+    /// <summary> Mutable enumerator for the container. </summary>
+    public struct Enumerator
+    {
+      private Cursor _cursor;
+
+      /// <summary> Constructor. </summary>
+      /// <param name="cursor"> The cursor. </param>
+      internal Enumerator(Cursor cursor)
+      {
+        _cursor = cursor;
+      }
+
+      /// <inheritdoc />
+      public bool MoveNext()
+      {
+        _cursor = _cursor.GetNextCursor();
+        return _cursor.IsValid;
+      }
+
+      /// <inheritdoc />
+      public Cursor Current
+      {
+        get { return _cursor; }
+      }
+    }
+
     /// <summary> References a specific slot on the container. </summary>
     public struct Cursor
     {
+      /// <summary> The parent. </summary>
+      private readonly StorageContainer _parent;
+
+      /// <summary> The slot number. </summary>
+      private readonly int _slotNumber;
+
+      /// <summary> The default cursor value. </summary>
+      public static readonly Cursor Empty = new Cursor();
+
       /// <summary> Constructor. </summary>
       /// <exception cref="ArgumentNullException"> Thrown when one or more required arguments are null. </exception>
       /// <exception cref="ArgumentException"> Thrown when one or more arguments have unsupported or
@@ -180,15 +228,57 @@ namespace BringBackSociety.Controllers
         if (slot >= parent._slots.Length)
           throw new ArgumentException("slotNumber is >= _slots.Length", "slot");
 
-        Parent = parent;
-        SlotNumber = slot;
+        _parent = parent;
+        _slotNumber = slot;
       }
 
       /// <summary> The parent. </summary>
-      public readonly StorageContainer Parent;
+      public StorageContainer Parent
+      {
+        get { return _parent; }
+      }
 
       /// <summary> The slot number. </summary>
-      public readonly int SlotNumber;
+      public int SlotNumber
+      {
+        get { return _slotNumber; }
+      }
+
+      /// <summary> True if the cursor is that last item in the storage container. </summary>
+      public bool IsValid
+      {
+        get { return Parent != null && SlotNumber >= 0 && SlotNumber < Parent._slots.Length; }
+      }
+
+      /// <summary>
+      ///  Gets a cursor that points to the next slot after this one, or the first one if this is the
+      ///  last slot.
+      /// </summary>
+      public Cursor GetNextCursor()
+      {
+        if (Parent == null || SlotNumber + 1 >= Parent._slots.Length)
+          return Cursor.Empty;
+
+        return new Cursor(Parent, SlotNumber + 1);
+      }
+
+      /// <summary> The value of this position in the container. </summary>
+      public InventoryStack Stack
+      {
+        get
+        {
+          if (!IsValid)
+            return InventoryStack.Empty;
+
+          return Parent._slots[SlotNumber];
+        }
+      }
+
+      /// <summary> InventoryStack casting operator. </summary>
+      public static implicit operator InventoryStack(Cursor cursor)
+      {
+        return cursor.Stack;
+      }
     }
   }
 }

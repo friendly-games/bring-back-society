@@ -28,6 +28,9 @@ namespace Behavior
     /// <summary> Audio that occurs when the weapon is fired </summary>
     public AudioSource audioSource;
 
+    /// <summary> The type of ammo that the gun uses. </summary>
+    public AmmoType ammoType;
+
     /// <inheritdoc />
     string IItemModel.Name
     {
@@ -38,7 +41,7 @@ namespace Behavior
     int IItemModel.StackAmount
     {
       // TODO
-      get { return 100; }
+      get { return 1; }
     }
 
     public IUiResource Resource
@@ -62,6 +65,12 @@ namespace Behavior
     float IFireableWeaponModel.MaxDistance
     {
       get { return maxDistance; }
+    }
+
+    /// <inheritdoc />
+    AmmoType IFireableWeaponModel.AmmoType
+    {
+      get { return ammoType; }
     }
   }
 }
