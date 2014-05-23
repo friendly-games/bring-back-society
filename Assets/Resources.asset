@@ -16,7 +16,20 @@ MonoBehaviour:
     damagePerShot: 50
     clipSize: 10
     maxDistance: 100
+    lightFlash: {fileID: 0}
+    audioSource: {fileID: 0}
+    ammoType: 1
   - name: Uzi
     damagePerShot: 20
     clipSize: 20
     maxDistance: 50
+    lightFlash: {fileID: 0}
+    audioSource: {fileID: 0}
+    ammoType: 2
+  Ammos:
+  - name: Pistol Ammo
+    ammoType: 1
+    stackAmount: 200
+  - name: Shotgun Ammo
+    ammoType: 2
+    stackAmount: 100

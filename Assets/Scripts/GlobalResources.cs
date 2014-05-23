@@ -1,5 +1,6 @@
 ﻿using System;
 using Behavior;
+using Items;
 using log4net;
 using UnityEngine;
 
@@ -13,6 +14,9 @@ public class GlobalResources : ScriptableObject
 
   /// <summary> All of the weapons in the game. </summary>
   public Weapon[] Weapons;
+
+  /// <summary> The different types of ammo. </summary>
+  public Ammo[] Ammos;
 
   public static void Initialize(GlobalResources instance)
   {

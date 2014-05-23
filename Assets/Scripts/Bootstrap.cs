@@ -67,10 +67,14 @@ public class Bootstrap : MonoBehaviour, IGui
 
     _firableWeaponController = new FireableWeaponController(AllServices.RaycastService, weaponView);
 
-    GlobalResources.Instance.Weapons.Take(10)
-                   .Select(w => new InventoryStack(w, 20))
-                   .ToList()
-                   .ForEach(itemStack => _player.Inventory.AddToStorage(itemStack));
+    var weapons = GlobalResources.Instance.Weapons.Cast<IItemModel>().Take(5);
+    var ammos = GlobalResources.Instance.Ammos.Cast<IItemModel>().Take(5);
+
+    weapons.Concat(ammos)
+           .Take(10)
+           .Select(w => new InventoryStack(w, w.StackAmount))
+           .ToList()
+           .ForEach(itemStack => _player.Inventory.AddToStorage(itemStack));
 
     SwitchWeapons(0);
   }
@@ -130,6 +134,8 @@ public class Bootstrap : MonoBehaviour, IGui
   {
     _weaponDrawer.Start();
 
+    var countController = new InventoryCountController(_player.Inventory);
+
     var inventory = _player.Inventory;
     for (var i = 0; i < inventory.Slots.Count; i++)
     {
@@ -137,17 +143,19 @@ public class Bootstrap : MonoBehaviour, IGui
 
       string label = (i + 1).ToString();
 
+      var count = countController.GetDisplayCount(slot.Model);
+
       if (slot.IsEmpty)
       {
         _weaponDrawer.AddItem(label + " - ", " - ");
       }
       else if (i == _player.EquippedWeapon.SlotNumber)
       {
-        _weaponDrawer.AddItem("*" + " " + slot.Model.Name, slot.Quantity.ToString());
+        _weaponDrawer.AddItem("*" + " " + slot.Model.Name, count.ToString());
       }
       else
       {
-        _weaponDrawer.AddItem(label + " " + slot.Model.Name, slot.Quantity.ToString());
+        _weaponDrawer.AddItem(label + " " + slot.Model.Name, count.ToString());
       }
     }
 
