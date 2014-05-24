@@ -19,5 +19,9 @@ namespace BringBackSociety.Services
 
     /// <summary> SynchronizationContext for the UI thread. </summary>
     public static SynchronizationContext SynchronizationContext { get; set; }
+
+    /// <summary> The collection services for the primary player. </summary>
+    /// <remarks> At some point, this should be removed. </remarks>
+    public static IItemCollectionService CollectionService { get; set; }
   }
 }
