@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using log4net;
 using log4net.Appender;
 using log4net.Config;
 using log4net.Core;
@@ -41,6 +42,9 @@ public class Logging
 
     BasicConfigurator.Configure(unityLogger, fileAppender);
   }
+
+  /// <summary> Global log used for temporary logging. </summary>
+  public static ILog Log { get; set; }
 
   /// <summary> An appender which logs to the unity console. </summary>
   private class UnityAppender : AppenderSkeleton

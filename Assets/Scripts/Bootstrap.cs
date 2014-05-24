@@ -36,6 +36,7 @@ public class Bootstrap : MonoBehaviour, IGui
   {
     Logging.ConfigureAllLogging();
     Log = LogManager.GetLogger(typeof(Bootstrap));
+    Logging.Log = LogManager.GetLogger("Temp");
   }
 
   public void Start()
@@ -62,6 +63,7 @@ public class Bootstrap : MonoBehaviour, IGui
 
     AllServices.RaycastService = new RaycastService();
     AllServices.Dispatcher = new CoroutineDispatcher();
+    AllServices.CollectionService = new ItemCollectorService(_player);
   }
 
   /// <summary> Initializes the views for the game. </summary>

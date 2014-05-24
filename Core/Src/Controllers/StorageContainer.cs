@@ -267,6 +267,12 @@ namespace BringBackSociety.Controllers
       {
         return cursor.Stack;
       }
+
+      /// <inheritdoc />
+      public override string ToString()
+      {
+        return Stack.ToString();
+      }
     }
 
     /// <summary> Mutable enumerator for the container. </summary>
