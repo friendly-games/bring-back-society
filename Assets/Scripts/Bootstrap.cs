@@ -16,6 +16,7 @@ using log4net;
 using Scripts;
 using Services;
 using UnityEngine;
+using ViewModels;
 
 public class Bootstrap : MonoBehaviour, IGui
 {
@@ -29,6 +30,7 @@ public class Bootstrap : MonoBehaviour, IGui
   private FireableWeaponController _firableWeaponController;
   private Player _player;
   private UnitySynchronizationContext _syncContext;
+  private DisplayStorageViewModel _containerViewModel;
 
   static Bootstrap()
   {
@@ -45,6 +47,8 @@ public class Bootstrap : MonoBehaviour, IGui
     InitializeServices();
     InitializeViews();
     GenerateWorld();
+
+    _containerViewModel = new DisplayStorageViewModel(_player.Inventory);
   }
 
   public World World { get; set; }
@@ -134,28 +138,22 @@ public class Bootstrap : MonoBehaviour, IGui
   {
     _weaponDrawer.Start();
 
-    var countController = new InventoryCountController(_player.Inventory);
+    _containerViewModel.Refresh();
 
-    var inventory = _player.Inventory;
-    for (var i = 0; i < inventory.Slots.Count; i++)
+    var items = _containerViewModel.Items;
+    for (var i = 0; i < items.Count; i++)
     {
-      var slot = inventory.Slots[i];
+      var item = items[i];
 
       string label = (i + 1).ToString();
 
-      var count = countController.GetDisplayCount(slot.Model);
-
-      if (slot.IsEmpty)
+      if (i == _player.EquippedWeapon.SlotNumber)
       {
-        _weaponDrawer.AddItem(label + " - ", " - ");
-      }
-      else if (i == _player.EquippedWeapon.SlotNumber)
-      {
-        _weaponDrawer.AddItem("*" + " " + slot.Model.Name, count.ToString());
+        _weaponDrawer.AddItem("*" + " " + item.DisplayName, item.QuantityText);
       }
       else
       {
-        _weaponDrawer.AddItem(label + " " + slot.Model.Name, count.ToString());
+        _weaponDrawer.AddItem(label + " " + item.DisplayName, item.QuantityText);
       }
     }
 

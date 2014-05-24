@@ -9,7 +9,7 @@ using UnityEngine;
 namespace Services
 {
   /// <summary> Contains the root player. </summary>
-  internal class Player : IActor
+  internal class Player : IPlayer
   {
     /// <summary> The game object that represents the physical player of the object. </summary>
     [UsedImplicitly]

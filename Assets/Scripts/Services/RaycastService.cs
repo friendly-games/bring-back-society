@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Behavior;
 using BringBackSociety.Services;
 using UnityEngine;
 
@@ -11,7 +10,7 @@ namespace Services
   internal class RaycastService : IRaycastService
   {
     /// <inheritdoc />
-    T IRaycastService.Raycast<T>(IActor actor, float maxDistance)
+    T IRaycastService.Raycast<T>(IPlayer actor, float maxDistance)
     {
       // TODO don't assume player
       var player = (Player) actor;
