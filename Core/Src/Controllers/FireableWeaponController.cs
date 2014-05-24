@@ -24,28 +24,28 @@ namespace BringBackSociety.Controllers
     }
 
     /// <summary> Have the actor fire their primary weapon. </summary>
-    /// <param name="actor"> The actor who should fire their weapon. </param>
-    public void FireWeapon(IActor actor)
+    /// <param name="player"> The actor who should fire their weapon. </param>
+    public void FireWeapon(IPlayer player)
     {
-      var weaponSlot = actor.Inventory.GetStack(actor.EquippedWeapon);
+      var weaponSlot = player.Inventory.GetStack(player.EquippedWeapon);
       var weapon = weaponSlot.Model as IFireableWeaponModel;
 
-      var ammoCursor = new InventoryCountController(actor.Inventory).GetAmmoCursor(weapon);
+      var ammoCursor = new InventoryCountController(player.Inventory).GetAmmoCursor(weapon);
       var ammoStack = ammoCursor.Stack;
 
       // if they can't afford it, early exit
       if (ammoStack.IsEmpty || weapon == null)
         return;
 
-      var hitObject = _raycastService.Raycast<IDestroyable>(actor, weapon.MaxDistance);
+      var hitObject = _raycastService.Raycast<IDestroyable>(player, weapon.MaxDistance);
       if (hitObject != null)
       {
         Log.InfoFormat("Hit {0} with {1}", hitObject, weapon);
         Damage(hitObject, weapon.DamagePerShot);
-        actor.Inventory.Decrement(ammoCursor);
+        player.Inventory.Decrement(ammoCursor);
       }
 
-      _weaponView.FireWeapon(actor, weapon);
+      _weaponView.FireWeapon(player, weapon);
     }
 
     /// <summary> Perform damage on the killable object </summary>

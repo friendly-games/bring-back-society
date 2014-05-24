@@ -9,8 +9,8 @@ namespace BringBackSociety.Services
   public interface IFirableWeaponView
   {
     /// <summary> Start the effects for firing the designated weapon </summary>
-    /// <param name="actor"> The actor who fired the weapon. </param>
+    /// <param name="player"> The actor who fired the weapon. </param>
     /// <param name="weapon"> The weapon that was fired. </param>
-    void FireWeapon(IActor actor, IFireableWeaponModel weapon);
+    void FireWeapon(IPlayer player, IFireableWeaponModel weapon);
   }
 }

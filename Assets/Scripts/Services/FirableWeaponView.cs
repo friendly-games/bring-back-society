@@ -5,6 +5,7 @@ using System.Linq;
 using Behavior;
 using BringBackSociety.Items;
 using BringBackSociety.Services;
+using log4net;
 using UnityEngine;
 
 namespace Services
@@ -25,7 +26,7 @@ namespace Services
       _audio = weaponGameObject.GetComponentsInChildren<AudioSource>().First();
     }
 
-    void IFirableWeaponView.FireWeapon(IActor actor, IFireableWeaponModel weapon)
+    void IFirableWeaponView.FireWeapon(IPlayer actor, IFireableWeaponModel weapon)
     {
       var actualWeapon = (Weapon) weapon;
       _owner.StartCoroutine(FireWeapon(actualWeapon));

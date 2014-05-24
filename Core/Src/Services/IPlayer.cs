@@ -6,7 +6,7 @@ using BringBackSociety.Controllers;
 namespace BringBackSociety.Services
 {
   /// <summary> Represents a player of the game. </summary>
-  public interface IActor
+  public interface IPlayer
   {
     /// <summary> The inventory of the actor. </summary>
     StorageContainer Inventory { get; }

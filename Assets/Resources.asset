@@ -30,6 +30,6 @@ MonoBehaviour:
   - name: Pistol Ammo
     ammoType: 1
     stackAmount: 200
-  - name: Shotgun Ammo
+  - name: Any Ammo
     ammoType: 2
     stackAmount: 100

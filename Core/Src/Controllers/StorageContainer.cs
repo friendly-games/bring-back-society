@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -17,10 +16,15 @@ namespace BringBackSociety.Controllers
     {
       _slots = new InventoryStack[size];
       Slots = new ReadOnlyCollection<InventoryStack>(_slots);
+
+      ChangeCount = ChangeCount.Next();
     }
 
     /// <summary> All of the inventory slots for the container. </summary>
     public ReadOnlyCollection<InventoryStack> Slots { get; private set; }
+
+    /// <summary> Gets the number of changes. </summary>
+    public ChangeCount ChangeCount { get; private set; }
 
     /// <summary> Return a cursor to the first slot. </summary>
     public Cursor FirstSlot
@@ -87,12 +91,12 @@ namespace BringBackSociety.Controllers
       var value = _slots[cursor.SlotNumber];
       if (value.IsEmpty)
       {
-        _slots[cursor.SlotNumber] = InventoryStack.Empty;
+        Write(cursor.SlotNumber, InventoryStack.Empty);
         return false;
       }
       else
       {
-        _slots[cursor.SlotNumber] = _slots[cursor.SlotNumber].Plus(-1);
+        Write(cursor.SlotNumber, _slots[cursor.SlotNumber].Plus(-1));
         return true;
       }
     }
@@ -106,7 +110,7 @@ namespace BringBackSociety.Controllers
         return InventoryStack.Empty;
 
       var value = _slots[cursor.SlotNumber];
-      _slots[cursor.SlotNumber] = InventoryStack.Empty;
+      Write(cursor.SlotNumber, InventoryStack.Empty);
 
       return value;
     }
@@ -147,7 +151,7 @@ namespace BringBackSociety.Controllers
       int numberToAdd = Math.Min(stack.Model.StackAmount, stack.Quantity);
 
       // add that much to the current slot
-      _slots[slotNumber] = new InventoryStack(stack.Model, numberToAdd);
+      Write(slotNumber, new InventoryStack(stack.Model, numberToAdd));
 
       // reduce the current stack by that much
       stack = stack.Plus(-numberToAdd);
@@ -165,42 +169,26 @@ namespace BringBackSociety.Controllers
       int numberToAdd = Math.Min(slot.ExtraCapacity, stack.Quantity);
 
       // add that much to the current slot
-      _slots[slotNumber] = slot.Plus(numberToAdd);
+      Write(slotNumber, slot.Plus(numberToAdd));
 
       // reduce the current stack by that much
       return stack.Plus(-numberToAdd);
+    }
+
+    /// <summary> Writes a given stack to a slot. </summary>
+    /// <param name="slotNumber"> The slot number to which the value should be written. </param>
+    /// <param name="value"> The value of the slot. </param>
+    private void Write(int slotNumber, InventoryStack value)
+    {
+      _slots[slotNumber] = value;
+      // increment the change count
+      ChangeCount = ChangeCount.Next();
     }
 
     /// <returns> An enumerable for iterating through the collection. </returns>
     public Enumerator GetEnumerator()
     {
       return new Enumerator(FirstSlot);
-    }
-
-    /// <summary> Mutable enumerator for the container. </summary>
-    public struct Enumerator
-    {
-      private Cursor _cursor;
-
-      /// <summary> Constructor. </summary>
-      /// <param name="cursor"> The cursor. </param>
-      internal Enumerator(Cursor cursor)
-      {
-        _cursor = cursor;
-      }
-
-      /// <inheritdoc />
-      public bool MoveNext()
-      {
-        _cursor = _cursor.GetNextCursor();
-        return _cursor.IsValid;
-      }
-
-      /// <inheritdoc />
-      public Cursor Current
-      {
-        get { return _cursor; }
-      }
     }
 
     /// <summary> References a specific slot on the container. </summary>
@@ -278,6 +266,32 @@ namespace BringBackSociety.Controllers
       public static implicit operator InventoryStack(Cursor cursor)
       {
         return cursor.Stack;
+      }
+    }
+
+    /// <summary> Mutable enumerator for the container. </summary>
+    public struct Enumerator
+    {
+      private Cursor _cursor;
+
+      /// <summary> Constructor. </summary>
+      /// <param name="cursor"> The cursor. </param>
+      internal Enumerator(Cursor cursor)
+      {
+        _cursor = cursor;
+      }
+
+      /// <inheritdoc />
+      public bool MoveNext()
+      {
+        _cursor = _cursor.GetNextCursor();
+        return _cursor.IsValid;
+      }
+
+      /// <inheritdoc />
+      public Cursor Current
+      {
+        get { return _cursor; }
       }
     }
   }
