@@ -1,12 +1,40 @@
 ﻿using Behavior;
+using Behavior.Collidables;
+using BringBackSociety.Controllers;
+using BringBackSociety.Services;
+using log4net;
 using Services;
 using UnityEngine;
 using System.Collections;
 
-public class PlayerMonoBehaviour : MonoBehaviour, IObjectProvider<Player>
+internal class PlayerMonoBehaviour : MonoBehaviour, ICollisionHandler, IStart
 {
-  Player IObjectProvider<Player>.Component
+  /// <summary> Provides logging for the class. </summary>
+  private static readonly ILog Log = LogManager.GetLogger(typeof(PlayerMonoBehaviour));
+
+  private IItemCollectionService _collectionService;
+
+  public void Start()
   {
-    get { return new Player(this.gameObject); }
+    _collectionService = AllServices.CollectionService;
+  }
+
+  /// <summary> The player associated with this object. </summary>
+  public Player Player { get; set; }
+
+  /// <inheritdoc />
+  public void HandleCollision(CollisionType collision, Collider rhs)
+  {
+    switch (collision)
+    {
+      case CollisionType.ItemCollector:
+      {
+        var stack = rhs.gameObject.RetrieveObject<InventoryStack>();
+        _collectionService.Collect(stack);
+      }
+        break;
+    }
+
+    Log.Info("Collision Detected in Player");
   }
 }

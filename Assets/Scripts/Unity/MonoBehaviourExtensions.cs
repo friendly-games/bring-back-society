@@ -59,7 +59,6 @@ public static class MonoBehaviourExtensions
   ///  object. </param>
   /// <returns> A object found, or null if the object could not be found. </returns>
   public static T RetrieveObject<T>(this GameObject gameObject)
-    where T : class
   {
     IObjectProvider<T> currentValue;
     GameObject currentGameObject = gameObject;
@@ -80,10 +79,35 @@ public static class MonoBehaviourExtensions
 
     if (currentValue != null)
     {
-      return currentValue.Component;
+      return currentValue.Instance;
     }
 
-    return null;
+    return default(T);
+  }
+
+  /// <summary>
+  ///  Retrieve the instance of the given interface/object by walking up the chain until it is found.
+  /// </summary>
+  /// <typeparam name="T"> The interface type to retrieve. </typeparam>
+  /// <param name="self"> The game object at which to begin the search. </param>
+  /// <returns> An instance of the given interface/object, or null if it could not be found. </returns>
+  public static T RetrieveInHierarchy<T>(this GameObject self)
+    where T : class
+  {
+    var instance = self.RetrieveOwnObject<T>();
+
+    while (instance == null)
+    {
+      self = self.GetParent();
+
+      // we've reached the end, how sad
+      if (self == null)
+        break;
+
+      instance = self.RetrieveOwnObject<T>();
+    }
+
+    return instance;
   }
 
   /// <summary>

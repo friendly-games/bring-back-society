@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using BringBackSociety.Items;
 
 namespace BringBackSociety.Controllers
@@ -21,8 +20,13 @@ namespace BringBackSociety.Controllers
       _container = container;
     }
 
-    public int GetDisplayCount(IItemModel model)
+    /// <summary> Gets the quantity to display for the given stack. </summary>
+    /// <param name="stack"> The stack for which the count should be retrieved. </param>
+    /// <returns> The display count for the stack. </returns>
+    public int GetDisplayCount(InventoryStack stack)
     {
+      var model = stack.Model;
+
       var weaponModel = model as IFireableWeaponModel;
       if (weaponModel != null)
       {

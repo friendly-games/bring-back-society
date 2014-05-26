@@ -21,29 +21,13 @@ namespace Services
     }
 
     /// <inheritdoc />
-    public void Collect(ICollectible collectible)
+    public void Collect(InventoryStack stack)
     {
-      var bestMatch = new StorageContainer.Cursor();
+      if (stack.IsEmpty)
+        return;
 
-      var inventory = _player.Inventory;
-      foreach (StorageContainer.Cursor cursor in inventory)
-      {
-        // find the ammo stack with the lowest count
-        if (cursor.Stack.Model is IAmmoModel &&
-            (cursor.Stack.ExtraCapacity > bestMatch.Stack.ExtraCapacity))
-        {
-          bestMatch = cursor;
-        }
-      }
-
-      if (bestMatch.IsValid)
-      {
-        // fill it to the top
-        var model = bestMatch.Stack.Model;
-        var extraItems = new InventoryStack(model, bestMatch.Stack.ExtraCapacity);
-
-        inventory.Fill(bestMatch, extraItems);
-      }
+      var remainder = _player.Inventory.AddToStorage(stack);
+      // TODO do something with the remainder
     }
   }
 }
