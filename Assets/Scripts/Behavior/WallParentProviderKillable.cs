@@ -10,11 +10,11 @@ using UnityEngine;
 namespace Behavior
 {
   /// <summary> Provides the walls with the ability to be killed. </summary>
-  internal class WallProviderParentKillable : ExtendedBehaviour, IProviderParent
+  internal class WallParentProviderKillable : ExtendedBehaviour, IParentProvider
   {
     /// <summary> Create a new instance. </summary>
     /// TODO - this should be done in the Unity Editor somehow
-    public WallProviderParentKillable()
+    public WallParentProviderKillable()
     {
       resistance = new Resistance();
       _child = new ChildDestroyable(this);
@@ -30,13 +30,13 @@ namespace Behavior
     #region IProviderParent<IKillable> Implementation
 
     /// <inheritdoc />
-    bool IProviderParent.IsApplicable(GameObject child)
+    bool IParentProvider.IsApplicable(GameObject child)
     {
       return true;
     }
 
     /// <inheritdoc />
-    void IProviderParent.With(GameObject child)
+    void IParentProvider.With(GameObject child)
     {
       var worldPosition = child.transform.position.ToWorldPosition();
       ChunkCoordinate chunkCoordinate;
@@ -57,11 +57,11 @@ namespace Behavior
     /// <summary> A returnable Killable instance object </summary>
     private class ChildDestroyable : IDestroyable, INamed, ITileItem
     {
-      private readonly WallProviderParentKillable _parent;
+      private readonly WallParentProviderKillable _parent;
       private TileCoordinate _tileCoordinate;
       private GameObject _currentChild;
 
-      public ChildDestroyable(WallProviderParentKillable parent)
+      public ChildDestroyable(WallParentProviderKillable parent)
       {
         _parent = parent;
       }

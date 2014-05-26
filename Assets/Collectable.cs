@@ -43,6 +43,6 @@ public class Collectable : MonoBehaviour
 
     _collectionService.Collect(null);
 
-    Object.Destroy(gameObject);
+    // Object.Destroy(gameObject);
   }
 }
