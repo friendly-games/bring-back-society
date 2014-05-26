@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 /// <summary> An object that initializes and is called on every frame. </summary>
-internal interface IStartAndUpdate
+internal interface IStartAndUpdate : IStart
 {
-  void Start();
-
+  /// <summary> Invoked on every frame of the game. </summary>
   void Update();
 }

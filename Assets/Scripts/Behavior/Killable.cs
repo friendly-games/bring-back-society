@@ -34,7 +34,8 @@ public class Killable : MonoBehaviour, IDestroyable
   /// <inheritdoc />
   public void Start()
   {
-    this.Initialize();
+    IDestroyable destroyable = this;
+    destroyable.Health = destroyable.MaxHealth;
   }
 
   /// <inheritdoc />

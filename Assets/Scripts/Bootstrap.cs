@@ -43,7 +43,10 @@ public class Bootstrap : MonoBehaviour, IGui
   {
     GlobalResources.Initialize(GlobalResources);
 
-    _player = new Player(GameObject.Find("Player"));
+    var playerObject = GameObject.Find("Player");
+
+    _player = new Player(playerObject);
+    playerObject.GetComponent<PlayerMonoBehaviour>().Player = _player;
 
     InitializeServices();
     InitializeViews();

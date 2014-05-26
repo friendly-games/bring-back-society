@@ -49,7 +49,7 @@ namespace ViewModels
       for (int i = 0; i < _container.Slots.Count; i++)
       {
         var slot = _container.Slots[i];
-        int count = _inventoryCounter.GetDisplayCount(slot.Model);
+        int count = _inventoryCounter.GetDisplayCount(slot);
 
         if (count > 0)
         {

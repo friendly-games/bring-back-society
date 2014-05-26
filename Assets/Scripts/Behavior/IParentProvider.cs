@@ -23,12 +23,4 @@ namespace Behavior
     /// <summary> The current active child. </summary>
     IComponent Component { get; }
   }
-
-  /// <summary> Provides a specific type of component. </summary>
-  /// <typeparam name="T"> Generic type parameter. </typeparam>
-  public interface IObjectProvider<out T>
-  {
-    /// <summary> Gets the component that can be provided. </summary>
-    T Component { get; }
-  }
 }
