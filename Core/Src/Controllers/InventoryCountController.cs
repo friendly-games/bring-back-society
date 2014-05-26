@@ -34,11 +34,12 @@ namespace BringBackSociety.Controllers
       }
       else
       {
-        return GetGenericCount(model);
+        return stack.Quantity;
       }
     }
 
-    private int GetGenericCount(IItemModel model)
+    /// <summary> Sums the quantity of items in the inventory for the given model </summary>
+    private int GetCountOfAllModel(IItemModel model)
     {
       int currentCount = 0;
 
@@ -53,8 +54,14 @@ namespace BringBackSociety.Controllers
       return currentCount;
     }
 
+    /// <summary> Gets the cursor to the ammo that should be used when firing the given weapon. </summary>
+    /// <param name="weapon"> The weapon for which the ammo type should be found. </param>
+    /// <returns> A cursor pointing to the slot that should be decremented when the weapon is fired. </returns>
+    /// <remarks>TODO this method should be moved elsewhere. </remarks>
     public StorageContainer.Cursor GetAmmoCursor(IFireableWeaponModel weapon)
     {
+      var lowest = StorageContainer.Cursor.Empty;
+
       foreach (var cursor in _container)
       {
         var slot = cursor.Stack;
@@ -62,17 +69,18 @@ namespace BringBackSociety.Controllers
 
         if (ammoModel != null && weapon.AmmoType == ammoModel.AmmoType)
         {
-          return cursor;
+          if (lowest.Stack.IsEmpty || slot.Quantity < lowest.Stack.Quantity)
+          {
+            lowest = cursor;
+          }
         }
       }
 
-      return StorageContainer.Cursor.Empty;
+      return lowest;
     }
 
     /// <summary> Gets the ammo count for a specified weapon. </summary>
-    /// <param name="weapon"> The weapon for which the ammo count should be displayed. </param>
-    /// <returns> The display count for the weapon. </returns>
-    public int GetDisplayCount(IFireableWeaponModel weapon)
+    private int GetDisplayCount(IFireableWeaponModel weapon)
     {
       int currentCount = 0;
 

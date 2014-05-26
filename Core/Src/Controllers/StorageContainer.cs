@@ -32,7 +32,10 @@ namespace BringBackSociety.Controllers
       get { return new Cursor(this, 0); }
     }
 
-    /// <summary> Adds the given inventory item to the storage. </summary>
+    /// <summary>
+    ///  Adds the given inventory item to the storage, placing it with other items of the item, or
+    ///  placing it into an existing item if needed.
+    /// </summary>
     /// <param name="stack"> The stack to add to the storage. </param>
     /// <returns> The items that could not be added to the storage. </returns>
     public InventoryStack AddToStorage(InventoryStack stack)
@@ -180,6 +183,9 @@ namespace BringBackSociety.Controllers
     /// <param name="value"> The value of the slot. </param>
     private void Write(int slotNumber, InventoryStack value)
     {
+      if (value.IsEmpty)
+        value = InventoryStack.Empty;
+
       _slots[slotNumber] = value;
       // increment the change count
       ChangeCount = ChangeCount.Next();
