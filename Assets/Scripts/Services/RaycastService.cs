@@ -22,7 +22,7 @@ namespace Services
         return null;
 
       // automatically takes care of parents
-      return hitInfo.collider.gameObject.Get<T>();
+      return hitInfo.collider.gameObject.RetrieveComponent<T>();
     }
   }
 }

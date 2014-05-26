@@ -115,7 +115,7 @@ internal class ChunkProcessor
         }
 
         chunk.Tag = chunkObject;
-        var wallParentKillable = chunkObject.AddComponent<WallProviderParentKillable>();
+        var wallParentKillable = chunkObject.AddComponent<WallParentProviderKillable>();
         wallParentKillable.Chunk = chunk;
       }
 
