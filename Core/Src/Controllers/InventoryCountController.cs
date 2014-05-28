@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BringBackSociety.Items;
+using BringBackSociety.Items.Weapons;
 
 namespace BringBackSociety.Controllers
 {
@@ -55,10 +56,10 @@ namespace BringBackSociety.Controllers
     }
 
     /// <summary> Gets the cursor to the ammo that should be used when firing the given weapon. </summary>
-    /// <param name="weapon"> The weapon for which the ammo type should be found. </param>
+    /// <param name="ammoType"> The type of ammo slot that should be found. </param>
     /// <returns> A cursor pointing to the slot that should be decremented when the weapon is fired. </returns>
     /// <remarks>TODO this method should be moved elsewhere. </remarks>
-    public StorageContainer.Cursor GetAmmoCursor(IFireableWeaponModel weapon)
+    public StorageContainer.Cursor GetAmmoCursor(AmmoType ammoType)
     {
       var lowest = StorageContainer.Cursor.Empty;
 
@@ -67,7 +68,7 @@ namespace BringBackSociety.Controllers
         var slot = cursor.Stack;
         var ammoModel = slot.Model as IAmmoModel;
 
-        if (ammoModel != null && weapon.AmmoType == ammoModel.AmmoType)
+        if (ammoModel != null && ammoType == ammoModel.AmmoType)
         {
           if (lowest.Stack.IsEmpty || slot.Quantity < lowest.Stack.Quantity)
           {

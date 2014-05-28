@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BringBackSociety.Items.Weapons;
 
 namespace BringBackSociety.Items
 {
   /// <summary> A single weapon which can be fired against an enemy. </summary>
-  public interface IFireableWeaponModel : IItemModel
+  public interface IFireableWeaponModel : IDisplayableItem, INamedItem
   {
     /// <summary> The amount of damage done per bullet hit. </summary>
     int DamagePerShot { get; }
@@ -17,13 +18,6 @@ namespace BringBackSociety.Items
     float MaxDistance { get; }
 
     /// <summary> The type of ammo that the weapon uses. </summary>
-    AmmoType AmmoType { get; }
-  }
-
-  /// <summary> Represents an ammo type. </summary>
-  public interface IAmmoModel : IItemModel
-  {
-    /// <summary> The type of ammo that this model represents. </summary>
     AmmoType AmmoType { get; }
   }
 }
