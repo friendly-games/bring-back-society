@@ -8,6 +8,7 @@ using BringBackSociety.Chunks.Generators;
 using BringBackSociety.Chunks.Loaders;
 using BringBackSociety.Controllers;
 using BringBackSociety.Items;
+using BringBackSociety.Items.Weapons;
 using BringBackSociety.Services;
 using BringBackSociety.Tasks;
 using Drawing;
@@ -31,6 +32,7 @@ public class Bootstrap : MonoBehaviour, IGui
   private Player _player;
   private UnitySynchronizationContext _syncContext;
   private DisplayStorageViewModel _containerViewModel;
+  private PlayerController _playerController;
 
   static Bootstrap()
   {
@@ -74,9 +76,12 @@ public class Bootstrap : MonoBehaviour, IGui
   {
     var weaponView = new FirableWeaponView(this);
 
-    _firableWeaponController = new FireableWeaponController(AllServices.RaycastService, weaponView);
+    _firableWeaponController = new FireableWeaponController(AllServices.RaycastService);
+    _playerController = new PlayerController(_player, _firableWeaponController, weaponView);
 
-    var weapons = GlobalResources.Instance.Weapons.Cast<IItemModel>().Take(5);
+    var weapons = GlobalResources.Instance.Weapons.Take(5)
+                                 .Select(w => new FireableWeapon(w))
+                                 .Cast<IItemModel>();
     var ammos = GlobalResources.Instance.Ammos.Cast<IItemModel>().Take(5);
 
     weapons.Concat(ammos)
@@ -101,7 +106,7 @@ public class Bootstrap : MonoBehaviour, IGui
 
   public void Fire()
   {
-    _firableWeaponController.FireWeapon(_player);
+    _playerController.FireWeapon();
   }
 
   public void SwitchWeapons(int weapon)

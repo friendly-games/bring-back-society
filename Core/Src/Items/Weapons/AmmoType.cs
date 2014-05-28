@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BringBackSociety.Items
+namespace BringBackSociety.Items.Weapons
 {
   /// <summary> The type of ammo that a projectile weapon takes. </summary>
   public enum AmmoType

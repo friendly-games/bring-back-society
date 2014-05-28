@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BringBackSociety.Items;
+using BringBackSociety.Items.Weapons;
 
 namespace Items
 {
@@ -14,7 +15,7 @@ namespace Items
     public int stackAmount;
 
     /// <inheritdoc />
-    string IItemModel.Name
+    string INamedItem.Name
     {
       get { return name; }
     }
@@ -26,7 +27,7 @@ namespace Items
     }
 
     /// <inheritdoc />
-    IUiResource IItemModel.Resource
+    IUiResource IDisplayableItem.Resource
     {
       get { return null; }
     }

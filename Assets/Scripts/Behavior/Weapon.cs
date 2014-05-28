@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BringBackSociety.Items;
+using BringBackSociety.Items.Weapons;
 using UnityEngine;
 
 namespace Behavior
@@ -32,18 +33,12 @@ namespace Behavior
     public AmmoType ammoType;
 
     /// <inheritdoc />
-    string IItemModel.Name
+    string INamedItem.Name
     {
       get { return name; }
     }
 
     /// <inheritdoc />
-    int IItemModel.StackAmount
-    {
-      // TODO
-      get { return 1; }
-    }
-
     public IUiResource Resource
     {
       get { return null; }
