@@ -16,7 +16,6 @@ namespace BringBackSociety.Items.Weapons
     {
       if (model == null)
         throw new ArgumentNullException("model");
-
       _model = model;
     }
 
