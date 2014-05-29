@@ -19,7 +19,7 @@ using Services;
 using UnityEngine;
 using ViewModels;
 
-public class Bootstrap : MonoBehaviour, IGui
+internal class Bootstrap : MonoBehaviour, IGui
 {
   public GlobalResources GlobalResources;
 

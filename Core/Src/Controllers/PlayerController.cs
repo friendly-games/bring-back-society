@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BringBackSociety.Items;
 using BringBackSociety.Items.Weapons;
 using BringBackSociety.Services;
 using log4net;
@@ -15,12 +16,12 @@ namespace BringBackSociety.Controllers
 
     private readonly IPlayer _player;
     private readonly FireableWeaponController _weaponController;
-    private readonly IFirableWeaponView _weaponView;
+    private readonly IFireableWeaponView _weaponView;
 
     /// <summary> Constructor. </summary>
     public PlayerController(IPlayer player,
                             FireableWeaponController weaponController,
-                            IFirableWeaponView weaponView)
+                            IFireableWeaponView weaponView)
     {
       if (player == null)
         throw new ArgumentNullException("player");
@@ -69,7 +70,7 @@ namespace BringBackSociety.Controllers
 
       if (wasFired)
       {
-        _weaponView.FireWeapon(_player, weapon.GetModel());
+        _weaponView.TransitionToState(FireableWeaponState.Fired);
       }
     }
   }
