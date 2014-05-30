@@ -2,13 +2,12 @@ syntax: glob
 Library
 Temp
 *.pidb
-*.sln
 *.userprefs
-*.csproj
 *.orig
-obj/*
 *.suo
+
 */bin/*
+obj/*
 
 Assets/Scripts/Core/*.dll
 Assets/Scripts/Core/*.pdb
@@ -17,3 +16,10 @@ Core/packages/*/*
 Logs/*
 Assets/Scripts/Core/System.Threading.xml
 Assets/Scripts/Core/AsyncBridge.Net35.xml
+Assembly-CSharp.csproj
+Assembly-CSharp-vs.csproj
+Assembly-CSharp-Editor.csproj
+Assembly-CSharp-Editor-vs.csproj
+*.user
+Bring Back Society-csharp.sln
+Bring Back Society.sln
