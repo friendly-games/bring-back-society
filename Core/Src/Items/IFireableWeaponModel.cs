@@ -31,19 +31,19 @@ namespace BringBackSociety.Items
     IFireableWeaponView View { get; }
   }
 
-  internal class FireableWeaponTemplate
+  internal class FireableWeaponTemplate : IItemModel
   {
     /// <summary> Constructor. </summary>
     /// <param name="view"> The ui component associated with the item. </param>
     /// <param name="stats"> The damage stats for the item. </param>
-    /// <param name="displayItem"> Info about the weapon that is passed to the ui. </param>
+    /// <param name="resource"> The ui resource associated with the item. </param>
     public FireableWeaponTemplate(IFireableWeaponView view,
                                   FireableWeaponStats stats,
-                                  IDisplayableItem displayItem)
+                                  IUiResource resource)
     {
       View = view;
       Stats = stats;
-      DisplayItem = displayItem;
+      Resource = resource;
     }
 
     /// <summary> The ui component associated with the item. </summary>
@@ -53,13 +53,18 @@ namespace BringBackSociety.Items
     public FireableWeaponStats Stats { get; private set; }
 
     /// <summary> Info about the weapon that is passed to the ui. </summary>
-    public IDisplayableItem DisplayItem { get; private set; }
+    public IUiResource Resource { get; private set; }
 
-    /// <summary> Creates a new instance of the object. </summary>
-    /// <returns> A copy of the given object. </returns>
-    public FireableWeaponTemplate Copy()
+    /// <inheritdoc />
+    public int StackAmount
     {
-      return new FireableWeaponTemplate(View.Copy(), Stats, DisplayItem);
+      // we can only ever hold 1 weapon in a slot at a time
+      get { return 1; }
+    }
+
+    public string Name
+    {
+      get { return "Gun"; }
     }
   }
 
@@ -93,10 +98,6 @@ namespace BringBackSociety.Items
     /// <summary> Transition the weapon into the given state. </summary>
     /// <param name="state"> The state to enter. </param>
     void TransitionToState(FireableWeaponState state);
-
-    /// <summary> Attach the weapon to the given actor. </summary>
-    /// <param name="player"> The player. </param>
-    void AttachTo(IPlayer player);
   }
 
   /// <summary> Stats about a fireable weapon. </summary>

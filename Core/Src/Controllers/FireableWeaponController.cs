@@ -33,11 +33,11 @@ namespace BringBackSociety.Controllers
 
       var result = FireResult.Missed;
 
-      var hitObject = _raycastService.Raycast<IDestroyable>(player, weapon.MaxDistance);
+      var hitObject = _raycastService.Raycast<IDestroyable>(player, weapon.Stats.MaxDistance);
       if (hitObject != null)
       {
         Log.InfoFormat("Hit {0} with {1}", hitObject, weapon);
-        Damage(hitObject, weapon.DamagePerShot);
+        Damage(hitObject, weapon.Stats.DamagePerShot);
 
         weapon.ShotsRemaining--;
         result = FireResult.Hit;
@@ -54,14 +54,14 @@ namespace BringBackSociety.Controllers
     {
       var countController = new InventoryCountController(inventory);
 
-      if (weapon.ShotsRemaining == weapon.ClipSize)
+      if (weapon.ShotsRemaining == weapon.Stats.ClipSize)
         return ReloadResult.ClipIsAlreadyFilled;
 
       int initialCount = weapon.ShotsRemaining;
 
-      while (weapon.ShotsRemaining < weapon.ClipSize)
+      while (weapon.ShotsRemaining < weapon.Stats.ClipSize)
       {
-        var ammoCursor = countController.GetAmmoCursor(weapon.AmmoType);
+        var ammoCursor = countController.GetAmmoCursor(weapon.Stats.AmmoType);
         var ammoStack = ammoCursor.Stack;
 
         if (ammoStack.IsEmpty)
@@ -75,7 +75,7 @@ namespace BringBackSociety.Controllers
       // we didn't add any
       if (weapon.ShotsRemaining == initialCount)
         return ReloadResult.OutOfAmmo;
-      else if (weapon.ShotsRemaining == weapon.ClipSize)
+      else if (weapon.ShotsRemaining == weapon.Stats.ClipSize)
         return ReloadResult.ClipHasBeenFilled;
       else
         return ReloadResult.AddedSomeAndNowOutOfAmmo;

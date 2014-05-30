@@ -5,8 +5,13 @@ using BringBackSociety.Controllers;
 
 namespace BringBackSociety.Services
 {
+  /// <summary> A single living entity in the world. </summary>
+  public interface IActor
+  {
+  }
+
   /// <summary> Represents a player of the game. </summary>
-  public interface IPlayer
+  public interface IPlayer : IActor
   {
     /// <summary> The inventory of the actor. </summary>
     StorageContainer Inventory { get; }
