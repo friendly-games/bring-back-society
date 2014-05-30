@@ -99,6 +99,7 @@
     <Compile Include="Tasks\ICoroutine.cs" />
     <Compile Include="Tasks\ICoroutineDispatcher.cs" />
     <Compile Include="Util.cs" />
+    <Compile Include="ViewModels\IModel.cs" />
     <Compile Include="World.cs" />
     <Compile Include="Chunks\ChunkNode.cs" />
     <None Include="details.md" />

@@ -14,6 +14,7 @@ using BringBackSociety.Tasks;
 using Drawing;
 using Extensions;
 using log4net;
+using Models;
 using Scripts;
 using Services;
 using UnityEngine;
@@ -51,9 +52,14 @@ internal class Bootstrap : MonoBehaviour, IGui
     playerObject.GetComponent<PlayerMonoBehaviour>().Player = _player;
 
     InitializeServices();
-    InitializeViews();
     GenerateWorld();
 
+    Invoke("Initialize", 0.1f);
+  }
+
+  public void Initialize()
+  {
+    InitializeViews();
     _containerViewModel = new DisplayStorageViewModel(_player.Inventory);
   }
 
@@ -74,13 +80,14 @@ internal class Bootstrap : MonoBehaviour, IGui
   /// <summary> Initializes the views for the game. </summary>
   private void InitializeViews()
   {
-    var weaponView = new FirableWeaponView(this);
+    var weaponModel = ((IModelProvider<IFireableWeaponView>)
+      GameObject.Find("Weapon").GetComponent<FireableWeaponModel>()).ModelImplementation;
 
     _firableWeaponController = new FireableWeaponController(AllServices.RaycastService);
-    _playerController = new PlayerController(_player, _firableWeaponController, weaponView);
+    _playerController = new PlayerController(_player, _firableWeaponController, weaponModel);
 
-    var weapons = GlobalResources.Instance.Weapons.Take(5)
-                                 .Select(w => new FireableWeapon(w))
+    var weapons = GlobalResources.Instance.WeaponStats.Take(5)
+                                 .Select(s => new FireableWeapon(s))
                                  .Cast<IItemModel>();
     var ammos = GlobalResources.Instance.Ammos.Cast<IItemModel>().Take(5);
 
@@ -146,6 +153,9 @@ internal class Bootstrap : MonoBehaviour, IGui
 
   private void DrawWeaponList()
   {
+    if (_containerViewModel == null)
+      return;
+
     _weaponDrawer.Start();
 
     _containerViewModel.Refresh();

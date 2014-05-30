@@ -14,9 +14,6 @@ public class GlobalResources : ScriptableObject
   /// <summary> The singleton for this class. </summary>
   public static GlobalResources Instance { get; private set; }
 
-  /// <summary> All of the weapons in the game. </summary>
-  public Weapon[] Weapons;
-
   /// <summary> The different types of ammo. </summary>
   public Ammo[] Ammos;
 
