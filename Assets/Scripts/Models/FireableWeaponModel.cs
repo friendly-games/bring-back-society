@@ -8,12 +8,12 @@ using UnityEngine;
 namespace Models
 {
   /// <summary> Represents a weapon which can be fired. </summary>
-  public class FireableWeaponModel : ExtendedBehaviour, IStart, IModelProvider<IFireableWeaponView>
+  public class FireableWeaponModel : ExtendedBehaviour, IStart, IModelProvider<IFireableWeaponModel>
   {
     private Implementation _implementation;
 
     /// <inheritdoc />
-    IFireableWeaponView IModelProvider<IFireableWeaponView>.ModelImplementation
+    IFireableWeaponModel IModelProvider<IFireableWeaponModel>.ModelImplementation
     {
       get { return _implementation; }
     }
@@ -25,8 +25,8 @@ namespace Models
     }
 
     /// <summary> The actual implementation of the given model. </summary>
-    private class Implementation : BaseModel<FireableWeaponModel, IFireableWeaponView>,
-                                   IFireableWeaponView
+    private class Implementation : BaseModel<FireableWeaponModel, IFireableWeaponModel>,
+                                   IFireableWeaponModel
     {
       private readonly Light _light;
       private readonly AudioSource _audio;

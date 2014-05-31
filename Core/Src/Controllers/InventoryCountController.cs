@@ -28,12 +28,6 @@ namespace BringBackSociety.Controllers
     {
       var model = stack.Model;
 
-      var weaponModel = model as IFireableWeaponModel;
-      if (weaponModel != null)
-      {
-        return GetDisplayCount(weaponModel);
-      }
-      else
       {
         return stack.Quantity;
       }
@@ -78,24 +72,6 @@ namespace BringBackSociety.Controllers
       }
 
       return lowest;
-    }
-
-    /// <summary> Gets the ammo count for a specified weapon. </summary>
-    private int GetDisplayCount(IFireableWeaponModel weapon)
-    {
-      int currentCount = 0;
-
-      foreach (InventoryStack slot in _container)
-      {
-        var ammoModel = slot.Model as IAmmoModel;
-
-        if (ammoModel != null && weapon.AmmoType == ammoModel.AmmoType)
-        {
-          currentCount += slot.Quantity;
-        }
-      }
-
-      return currentCount;
     }
   }
 }
