@@ -62,11 +62,12 @@
     <Compile Include="Chunks\Generators\PerlinChunkGenerator.cs" />
     <Compile Include="Chunks\Loaders\SimpleChunkLoader.cs" />
     <Compile Include="Controllers\FireableWeaponController.cs" />
-    <Compile Include="Controllers\FireableWeaponInventoryItem.cs" />
     <Compile Include="Controllers\InventoryCountController.cs" />
     <Compile Include="Controllers\InventoryStack.cs" />
     <Compile Include="Controllers\PlayerController.cs" />
     <Compile Include="Controllers\StorageContainer.cs" />
+    <Compile Include="Items\FireableWeaponItem.cs" />
+    <Compile Include="Items\FireableWeaponStats.cs" />
     <Compile Include="Items\IAmmoModel.cs" />
     <Compile Include="Items\ICopyable.cs" />
     <Compile Include="Items\IDisplayableItem.cs" />
@@ -84,7 +85,6 @@
     <Compile Include="Items\Weapons\FireableWeapon.cs" />
     <Compile Include="Mapping\WallData.cs" />
     <Compile Include="Services\ICollectible.cs" />
-    <Compile Include="Services\IFirableWeaponView.cs" />
     <Compile Include="Services\IGlobalResources.cs" />
     <Compile Include="Services\IItemCollectionService.cs" />
     <Compile Include="Services\IPerlinNoiseProvider.cs" />
