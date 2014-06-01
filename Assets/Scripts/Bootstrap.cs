@@ -22,8 +22,6 @@ using ViewModels;
 
 internal class Bootstrap : MonoBehaviour, IGui
 {
-  public GlobalResources GlobalResources;
-
   private static readonly ILog Log;
 
   private readonly PropertyDrawer _currentObjectDrawer = new PropertyDrawer("Current Item", 10, 10);
@@ -44,8 +42,6 @@ internal class Bootstrap : MonoBehaviour, IGui
 
   public void Start()
   {
-    GlobalResources.Initialize(GlobalResources);
-
     var playerObject = GameObject.Find("Player");
 
     _player = new Player(playerObject);
@@ -85,10 +81,10 @@ internal class Bootstrap : MonoBehaviour, IGui
     _firableWeaponController = new FireableWeaponController(AllServices.RaycastService);
     _playerController = new PlayerController(_player, _firableWeaponController, weaponModel);
 
-    var weapons = GlobalResources.Instance.WeaponStats.Take(5)
+    var weapons = GlobalResources.WeaponStats.Take(5)
                                  .Select(s => new FireableWeapon(s))
                                  .Cast<IItemModel>();
-    var ammos = GlobalResources.Instance.Ammos.Cast<IItemModel>().Take(5);
+    var ammos = GlobalResources.Ammos.Cast<IItemModel>().Take(5);
 
     weapons.Concat(ammos)
            .Take(10)
