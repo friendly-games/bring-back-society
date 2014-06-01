@@ -10,32 +10,16 @@ namespace Items
   [Serializable]
   public class Ammo : IAmmoModel
   {
-    public string name;
-    public AmmoType ammoType;
-    public int stackAmount;
+    /// <inheritdoc />
+    public string Name { get; set; }
 
     /// <inheritdoc />
-    string INamedItem.Name
-    {
-      get { return name; }
-    }
+    public int StackAmount { get; set; }
 
     /// <inheritdoc />
-    int IItemModel.StackAmount
-    {
-      get { return stackAmount; }
-    }
+    public IUiResource Resource { get; set; }
 
     /// <inheritdoc />
-    IUiResource IDisplayableItem.Resource
-    {
-      get { return null; }
-    }
-
-    /// <inheritdoc />
-    AmmoType IAmmoModel.AmmoType
-    {
-      get { return ammoType; }
-    }
+    public AmmoType AmmoType { get; set; }
   }
 }

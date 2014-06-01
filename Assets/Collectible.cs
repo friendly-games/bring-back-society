@@ -7,7 +7,7 @@ internal class Collectible : MonoBehaviour, IStart, IObjectProvider<InventorySta
   public void Start()
   {
     // TODO modify this so that it does not initialize always the same
-    Instance = new InventoryStack(GlobalResources.Instance.Ammos[0], 10);
+    Instance = new InventoryStack(GlobalResources.Ammos[0], 10);
   }
 
   /// <summary> The item to be given to the actor who takes the collectible. </summary>

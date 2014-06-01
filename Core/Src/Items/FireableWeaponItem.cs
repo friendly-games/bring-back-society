@@ -8,8 +8,8 @@
     /// <param name="stats"> The damage stats for the item. </param>
     /// <param name="resource"> The ui resource associated with the item. </param>
     public FireableWeaponItem(IFireableWeaponModel model,
-      FireableWeaponStats stats,
-      IUiResource resource)
+                              FireableWeaponStats stats,
+                              IUiResource resource)
     {
       Model = model;
       Stats = stats;
@@ -32,9 +32,10 @@
       get { return 1; }
     }
 
+    /// <inheritdoc />
     public string Name
     {
-      get { return "Gun"; }
+      get { return Stats.AmmoType.ToString(); }
     }
   }
 }

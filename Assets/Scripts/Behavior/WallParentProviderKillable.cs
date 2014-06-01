@@ -116,7 +116,7 @@ namespace Behavior
       /// <inheritdoc />
       public override string ToString()
       {
-        return String.Format("[Name='Wall', Chunk={0}, Tile={1}]", _parent.Chunk, _tileCoordinate);
+        return String.Format("[name='Wall', Chunk={0}, Tile={1}]", _parent.Chunk, _tileCoordinate);
       }
 
       public string Name
