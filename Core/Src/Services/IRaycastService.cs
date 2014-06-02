@@ -6,7 +6,7 @@ using BringBackSociety.Items;
 namespace BringBackSociety.Services
 {
   /// <summary> Performs raycasting. </summary>
-  public interface IRaycastService
+  internal interface IRaycastService
   {
     /// <summary> Ray cast from the given actor, until an object is hit </summary>
     /// <typeparam name="T"> The type of instance to raycast for. </typeparam>

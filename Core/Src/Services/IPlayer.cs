@@ -2,22 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using BringBackSociety.Controllers;
+using BringBackSociety.ViewModels;
 
 namespace BringBackSociety.Services
 {
   /// <summary> A single living entity in the world. </summary>
-  public interface IActor
+  internal interface IActor
   {
   }
 
   /// <summary> Represents a player of the game. </summary>
-  public interface IPlayer : IActor
+  internal interface IPlayer : IActor
   {
     /// <summary> The inventory of the actor. </summary>
     StorageContainer Inventory { get; }
 
     /// <summary> The selected slot of the player. </summary>
     StorageContainer.Cursor EquippedWeapon { get; }
+
+    /// <summary> The host for the weapon that the player is holding. </summary>
+    IModelHost WeaponHost { get; }
   }
 
   ///// <summary> Represents the inventory for a player. </summary>
