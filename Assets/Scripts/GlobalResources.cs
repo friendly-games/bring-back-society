@@ -34,21 +34,20 @@ public class GlobalResources : ScriptableObject
                     },
                   };
 
-    Ammos = new []
-    {
-      new Ammo
-      {
-        AmmoType = AmmoType.Pistol,
-        Name = "Pistol Ammo",
-        StackAmount = 100,
-      },
-
-      new Ammo
-      {
-        AmmoType = AmmoType.Shotgun,
-        Name = "Shotgun Ammo",
-        StackAmount = 100,
-      }
-    };
+    Ammos = new[]
+            {
+              new Ammo
+              {
+                AmmoType = AmmoType.Pistol,
+                Name = "Pistol Ammo",
+                StackAmount = 100,
+              },
+              new Ammo
+              {
+                AmmoType = AmmoType.Shotgun,
+                Name = "Shotgun Ammo",
+                StackAmount = 100,
+              }
+            };
   }
 }
