@@ -119,4 +119,26 @@ public static class MonoBehaviourExtensions
 
     return parent == null ? null : child.transform.parent.gameObject;
   }
+
+  /// <summary>
+  ///  Get the game object associated with the game object of the parent of this game object.
+  /// </summary>
+  /// <param name="child"> The child to set the parent of. </param>
+  /// <param name="parent"> The parent to set as the child's parent. </param>
+  public static void SetParent(this GameObject child, GameObject parent)
+  {
+    parent.transform.parent = parent.transform;
+  }
+
+  /// <summary>
+  ///  Get the game object associated with the game object of the parent of this game object.
+  /// </summary>
+  /// <param name="child"> The child to set the parent of. </param>
+  /// <param name="parent"> The parent to set as the child's parent. </param>
+  /// <param name="offset"> The position offset of the child. </param>
+  public static void SetParent(this GameObject child, GameObject parent, Vector3 offset)
+  {
+    parent.transform.parent = parent.transform;
+    child.transform.localPosition = offset;
+  }
 }

@@ -8,7 +8,7 @@ using BringBackSociety.Tasks;
 namespace BringBackSociety.Services
 {
   /// <summary> Contains all of the services in the game </summary>
-  public static class AllServices
+  internal static class AllServices
   {
     /// <summary> The raycast implementation for the game. </summary>
     /// <remarks> UI thread only. </remarks>

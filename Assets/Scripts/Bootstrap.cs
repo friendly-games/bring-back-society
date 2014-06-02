@@ -13,6 +13,7 @@ using BringBackSociety.Services;
 using BringBackSociety.Tasks;
 using Drawing;
 using Extensions;
+using Items;
 using log4net;
 using Models;
 using Scripts;
@@ -42,10 +43,8 @@ internal class Bootstrap : MonoBehaviour, IGui
 
   public void Start()
   {
-    var playerObject = GameObject.Find("Player");
-
-    _player = new Player(playerObject);
-    playerObject.GetComponent<PlayerMonoBehaviour>().Player = _player;
+    var playerBehavior = GameObject.Find("Player").GetComponent<PlayerMonoBehaviour>();
+    _player = playerBehavior.CreatePlayer();
 
     InitializeServices();
     GenerateWorld();
@@ -57,6 +56,9 @@ internal class Bootstrap : MonoBehaviour, IGui
   {
     InitializeViews();
     _containerViewModel = new DisplayStorageViewModel(_player.Inventory);
+
+    var model = UnitySystem.RetrieveModel<IFireableWeaponModel>("Weapon");
+    _player.WeaponHost.Use(model);
   }
 
   public World World { get; set; }

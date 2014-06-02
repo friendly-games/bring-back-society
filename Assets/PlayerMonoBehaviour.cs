@@ -1,8 +1,11 @@
 ﻿using Behavior;
 using Behavior.Collidables;
 using BringBackSociety.Controllers;
+using BringBackSociety.Items;
 using BringBackSociety.Services;
+using Items;
 using log4net;
+using Models;
 using Services;
 using UnityEngine;
 using System.Collections;
@@ -19,8 +22,17 @@ internal class PlayerMonoBehaviour : MonoBehaviour, ICollisionHandler, IStart
     _collectionService = AllServices.CollectionService;
   }
 
+  /// <summary> Creates the player object for the game. </summary>
+  /// <returns> The player that was created for this behavior. </returns>
+  public Player CreatePlayer()
+  {
+    Player = new Player(gameObject, new ModelHost(gameObject, new Vector3(.55f, .35f, .35f)));
+
+    return Player;
+  }
+
   /// <summary> The player associated with this object. </summary>
-  public Player Player { get; set; }
+  public Player Player { get; private set; }
 
   /// <inheritdoc />
   public void HandleCollision(CollisionType collision, Collider rhs)

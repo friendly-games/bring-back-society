@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BringBackSociety.Services;
+using BringBackSociety.ViewModels;
 
 namespace BringBackSociety.Items
 {
   /// <summary> A UI component for the fireable weapon. </summary>
-  internal interface IFireableWeaponModel : ICopyable<IFireableWeaponModel>
+  internal interface IFireableWeaponModel : IModel, ICopyable<IFireableWeaponModel>
   {
     /// <summary> Determine if we can enter the designated state. </summary>
     /// <param name="state"> The state that might be entered. </param>
