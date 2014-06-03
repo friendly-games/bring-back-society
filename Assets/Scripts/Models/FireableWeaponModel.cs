@@ -9,7 +9,7 @@ using UnityEngine;
 namespace Models
 {
   /// <summary> Represents a weapon which can be fired. </summary>
-  public class FireableWeaponModel : ExtendedBehaviour, IStart, IModelProvider<IFireableWeaponModel>
+  public class FireableWeaponModel : ExtendedBehaviour, IModelProvider<IFireableWeaponModel>
   {
     private Implementation _implementation;
 
@@ -19,7 +19,7 @@ namespace Models
       get { return _implementation; }
     }
 
-    public void Start()
+    public void Awake()
     {
       _implementation = new Implementation(gameObject, this);
       Logging.Log.Info("Done implementing");

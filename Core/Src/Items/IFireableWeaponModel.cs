@@ -22,6 +22,39 @@ namespace BringBackSociety.Items
     FireableWeapon FireableWeapon { get; set; }
   }
 
+  /// <summary> Instance template for a fireable weapon. </summary>
+  internal struct FireableWeaponTemplate
+  {
+    private readonly IFireableWeaponModel _model;
+    private readonly IUiResource _resource;
+    private readonly FireableWeaponStats _stats;
+
+    public FireableWeaponTemplate(IFireableWeaponModel model, IUiResource resource, FireableWeaponStats stats)
+    {
+      _stats = stats;
+      _resource = resource;
+      _model = model;
+    }
+
+    /// <summary> The model for the template. </summary>
+    public IFireableWeaponModel Model
+    {
+      get { return _model; }
+    }
+
+    /// <summary> The UI Resource associated with the firable weapon. </summary>
+    public IUiResource Resource
+    {
+      get { return _resource; }
+    }
+
+    /// <summary> The stats for the weapon. </summary>
+    public FireableWeaponStats Stats
+    {
+      get { return _stats; }
+    }
+  }
+
   /// <summary> All of the states that can be activated for a fireable weapon. </summary>
   internal enum FireableWeaponState
   {

@@ -44,6 +44,13 @@ namespace Models
     public TInstance Copy()
     {
       var newOwner = (GameObject) Object.Instantiate(Owner);
+      var newModel = newOwner.GetComponent<TBehavior>().ModelImplementation;
+
+      if (newModel == null)
+      {
+        Logging.Log.FatalFormat("Object that was cloned has null model.  {0} => {1}", newOwner, newModel);
+      }
+
       return newOwner.GetComponent<TBehavior>().ModelImplementation;
     }
 

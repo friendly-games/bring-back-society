@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BringBackSociety.ViewModels;
+using log4net;
 using UnityEngine;
 
 namespace Models
@@ -10,6 +11,9 @@ namespace Models
   internal class ModelHost<T> : IModelHost<T>
     where T : class, IModel
   {
+    /// <summary> Provides logging for the class. </summary>
+    private static readonly ILog Log = LogManager.GetLogger(typeof(ModelHost<T>));
+
     /// <summary> The game object that shall be the parent of the model. </summary>
     private readonly GameObject _owner;
 
@@ -35,13 +39,21 @@ namespace Models
     /// <inheritdoc />
     void IModelHost<T>.Use(T model)
     {
+      if (model == null)
+        throw new ArgumentNullException("model");
+
       // we always know that T is going to a BaseModel
       var baseModel = model as BaseModel;
       if (baseModel == null)
+      {
+        Log.FatalFormat("BaseModel was null.  Model is {0}", model);
         return;
+      }
 
       var gameObject = baseModel.Owner;
-      gameObject.SetParent(_owner, _offset);
+      gameObject.SetParent(_owner);
+      gameObject.transform.localPosition = _offset;
+      gameObject.transform.localRotation = Quaternion.identity;
 
       CurrentModel = model;
     }
