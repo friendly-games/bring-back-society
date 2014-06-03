@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BringBackSociety.Controllers;
+using BringBackSociety.Items;
 using BringBackSociety.ViewModels;
 
 namespace BringBackSociety.Services
@@ -21,7 +22,7 @@ namespace BringBackSociety.Services
     StorageContainer.Cursor EquippedWeapon { get; }
 
     /// <summary> The host for the weapon that the player is holding. </summary>
-    IModelHost WeaponHost { get; }
+    IModelHost<IFireableWeaponModel> WeaponHost { get; }
   }
 
   ///// <summary> Represents the inventory for a player. </summary>

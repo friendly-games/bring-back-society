@@ -43,6 +43,7 @@ namespace BringBackSociety.Controllers
         result = FireResult.Hit;
       }
 
+
       return result;
     }
 

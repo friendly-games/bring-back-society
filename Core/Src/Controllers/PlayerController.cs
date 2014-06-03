@@ -16,19 +16,15 @@ namespace BringBackSociety.Controllers
 
     private readonly IPlayer _player;
     private readonly FireableWeaponController _weaponController;
-    private readonly IFireableWeaponModel _weaponModel;
 
     /// <summary> Constructor. </summary>
-    public PlayerController(IPlayer player,
-                            FireableWeaponController weaponController,
-                            IFireableWeaponModel weaponModel)
+    public PlayerController(IPlayer player, FireableWeaponController weaponController)
     {
       if (player == null)
         throw new ArgumentNullException("player");
 
       _player = player;
       _weaponController = weaponController;
-      _weaponModel = weaponModel;
     }
 
     /// <summary> Fire the current weapon. </summary>
@@ -68,9 +64,9 @@ namespace BringBackSociety.Controllers
           throw new ArgumentOutOfRangeException();
       }
 
-      if (wasFired)
+      if (wasFired && _player.WeaponHost.CurrentModel != null)
       {
-        _weaponModel.TransitionToState(FireableWeaponState.Fired);
+        _player.WeaponHost.CurrentModel.TransitionToState(FireableWeaponState.Fired);
       }
     }
   }

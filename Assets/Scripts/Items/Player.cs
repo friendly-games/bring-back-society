@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using BringBackSociety.Controllers;
+using BringBackSociety.Items;
 using BringBackSociety.Services;
 using BringBackSociety.ViewModels;
 using JetBrains.Annotations;
+using Models;
 using UnityEngine;
 
 namespace Items
@@ -17,7 +19,7 @@ namespace Items
     [UsedImplicitly]
     private readonly GameObject _gameObject;
 
-    public Player(GameObject gameObject, IModelHost weaponHost)
+    public Player(GameObject gameObject, ModelHost<IFireableWeaponModel> weaponHost)
     {
       _gameObject = gameObject;
       WeaponHost = weaponHost;
@@ -38,6 +40,6 @@ namespace Items
     public StorageContainer.Cursor EquippedWeapon { get; set; }
 
     /// <summary> The host for the weapon that the player is holding. </summary>
-    public IModelHost WeaponHost { get; private set; }
+    public IModelHost<IFireableWeaponModel> WeaponHost { get; private set; }
   }
 }
