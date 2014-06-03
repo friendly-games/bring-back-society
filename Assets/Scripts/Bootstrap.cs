@@ -56,9 +56,6 @@ internal class Bootstrap : MonoBehaviour, IGui
   {
     InitializeViews();
     _containerViewModel = new DisplayStorageViewModel(_player.Inventory);
-
-    var model = UnitySystem.RetrieveModel<IFireableWeaponModel>("Weapon");
-    _player.WeaponHost.Use(model);
   }
 
   public World World { get; set; }
@@ -78,11 +75,13 @@ internal class Bootstrap : MonoBehaviour, IGui
   /// <summary> Initializes the views for the game. </summary>
   private void InitializeViews()
   {
+    var model = UnitySystem.RetrieveModel<IFireableWeaponModel>("Weapon");
+
     _firableWeaponController = new FireableWeaponController(AllServices.RaycastService);
     _playerController = new PlayerController(_player, _firableWeaponController);
 
     var weapons = GlobalResources.WeaponStats.Take(5)
-                                 .Select(s => new FireableWeapon(s))
+                                 .Select(s => new FireableWeapon(new FireableWeaponTemplate(model, null, s)))
                                  .Cast<IItemModel>();
     var ammos = GlobalResources.Ammos.Cast<IItemModel>().Take(5);
 
@@ -118,6 +117,18 @@ internal class Bootstrap : MonoBehaviour, IGui
       return;
 
     _player.EquippedWeapon = inventory.GetCursor(weapon);
+
+    var actualWeapon = _player.EquippedWeapon.Stack.Model as FireableWeapon;
+
+    if (actualWeapon != null)
+    {
+      if (_player.WeaponHost.CurrentModel != null)
+      {
+        _player.WeaponHost.CurrentModel.Destroy();
+      }
+
+      _player.WeaponHost.Use(actualWeapon.Template.Model.Copy());
+    }
 
     Log.InfoFormat("Switched weapon to {0}", inventory.Slots[weapon]);
   }

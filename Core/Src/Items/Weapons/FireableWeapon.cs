@@ -9,9 +9,9 @@ namespace BringBackSociety.Items.Weapons
   internal class FireableWeapon : IItemModel
   {
     /// <summary> Constructor. </summary>
-    public FireableWeapon(FireableWeaponStats stats)
+    public FireableWeapon(FireableWeaponTemplate template)
     {
-      Stats = stats;
+      Template = template;
     }
 
     /// <inheritdoc />
@@ -20,7 +20,12 @@ namespace BringBackSociety.Items.Weapons
       get { return "Gun"; }
     }
 
-    public FireableWeaponStats Stats { get; private set; }
+    public FireableWeaponStats Stats
+    {
+      get { return Template.Stats; }
+    }
+
+    public FireableWeaponTemplate Template { get; private set; }
 
     /// <inheritdoc />
     public int StackAmount
