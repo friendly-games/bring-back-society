@@ -138,7 +138,7 @@ public static class MonoBehaviourExtensions
   /// <param name="offset"> The position offset of the child. </param>
   public static void SetParent(this GameObject child, GameObject parent, Vector3 offset)
   {
-    parent.transform.parent = parent.transform;
+    child.transform.parent = parent.transform;
     child.transform.localPosition = offset;
   }
 }

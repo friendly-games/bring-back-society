@@ -78,10 +78,8 @@ internal class Bootstrap : MonoBehaviour, IGui
   /// <summary> Initializes the views for the game. </summary>
   private void InitializeViews()
   {
-    var weaponModel = UnitySystem.RetrieveModel<IFireableWeaponModel>("Weapon");
-
     _firableWeaponController = new FireableWeaponController(AllServices.RaycastService);
-    _playerController = new PlayerController(_player, _firableWeaponController, weaponModel);
+    _playerController = new PlayerController(_player, _firableWeaponController);
 
     var weapons = GlobalResources.WeaponStats.Take(5)
                                  .Select(s => new FireableWeapon(s))

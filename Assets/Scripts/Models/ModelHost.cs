@@ -7,7 +7,8 @@ using UnityEngine;
 namespace Models
 {
   /// <summary> An object which can hold a model and display it in the world. </summary>
-  internal class ModelHost : IModelHost
+  internal class ModelHost<T> : IModelHost<T>
+    where T : class, IModel
   {
     /// <summary> The game object that shall be the parent of the model. </summary>
     private readonly GameObject _owner;
@@ -28,13 +29,21 @@ namespace Models
       _offset = offset;
     }
 
-    /// <inheritdoc />
-    void IModelHost.Use(IModel model)
-    {
-      var baseModel = (BaseModel) model;
-      var gameObject = baseModel.Owner;
+    /// <summary> The current model being used in the host. </summary>
+    public T CurrentModel { get; private set; }
 
+    /// <inheritdoc />
+    void IModelHost<T>.Use(T model)
+    {
+      // we always know that T is going to a BaseModel
+      var baseModel = model as BaseModel;
+      if (baseModel == null)
+        return;
+
+      var gameObject = baseModel.Owner;
       gameObject.SetParent(_owner, _offset);
+
+      CurrentModel = model;
     }
   }
 }
