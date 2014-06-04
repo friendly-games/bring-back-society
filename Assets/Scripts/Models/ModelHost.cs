@@ -55,6 +55,8 @@ namespace Models
       gameObject.transform.localPosition = _offset;
       gameObject.transform.localRotation = Quaternion.identity;
 
+      Log.InfoFormat("Parent of {0} is {1}", baseModel.Owner, baseModel.Owner.GetParent());
+
       CurrentModel = model;
     }
   }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using BringBackSociety;
@@ -11,6 +12,7 @@ using BringBackSociety.Items;
 using BringBackSociety.Items.Weapons;
 using BringBackSociety.Services;
 using BringBackSociety.Tasks;
+using BringBackSociety.ViewModels;
 using Drawing;
 using Extensions;
 using Items;
@@ -75,14 +77,17 @@ internal class Bootstrap : MonoBehaviour, IGui
   /// <summary> Initializes the views for the game. </summary>
   private void InitializeViews()
   {
-    var model = UnitySystem.RetrieveModel<IFireableWeaponModel>("Weapon");
+    var pistolModel = UnitySystem.RetrieveModel<IFireableWeaponModel>("Weapon/Pistol");
+    var shotgunModel = UnitySystem.RetrieveModel<IFireableWeaponModel>("Weapon/Shotgun");
 
     _firableWeaponController = new FireableWeaponController(AllServices.RaycastService);
     _playerController = new PlayerController(_player, _firableWeaponController);
 
-    var weapons = GlobalResources.WeaponStats.Take(5)
-                                 .Select(s => new FireableWeapon(new FireableWeaponTemplate(model, null, s)))
-                                 .Cast<IItemModel>();
+    var weapons = from stat in GlobalResources.WeaponStats.Take(5)
+                  let model = stat.AmmoType == AmmoType.Pistol ? pistolModel : shotgunModel
+                  let weapon = new FireableWeapon(new FireableWeaponTemplate(model, null, stat))
+                  select (IItemModel) weapon;
+
     var ammos = GlobalResources.Ammos.Cast<IItemModel>().Take(5);
 
     weapons.Concat(ammos)
@@ -122,12 +127,7 @@ internal class Bootstrap : MonoBehaviour, IGui
 
     if (actualWeapon != null)
     {
-      if (_player.WeaponHost.CurrentModel != null)
-      {
-        _player.WeaponHost.CurrentModel.Destroy();
-      }
-
-      _player.WeaponHost.Use(actualWeapon.Template.Model.Copy());
+      _player.WeaponHost.SwitchToCopyOf(actualWeapon.Template.Model);
     }
 
     Log.InfoFormat("Switched weapon to {0}", inventory.Slots[weapon]);
