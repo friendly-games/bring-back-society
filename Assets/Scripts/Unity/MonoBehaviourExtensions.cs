@@ -127,6 +127,6 @@ public static class MonoBehaviourExtensions
   /// <param name="parent"> The parent to set as the child's parent. </param>
   public static void SetParent(this GameObject child, GameObject parent)
   {
-    parent.transform.parent = parent.transform;
+    child.transform.parent = parent.transform;
   }
 }
