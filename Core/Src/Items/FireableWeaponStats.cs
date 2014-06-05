@@ -16,5 +16,11 @@ namespace BringBackSociety.Items
 
     /// <summary> The type of ammo that the weapon uses. </summary>
     public AmmoType AmmoType;
+
+    /// <summary> The total number of pellets that the weapon fires. </summary>
+    public int NumberOfPellets;
+
+    /// <summary> The variance of each pellet that is fired. </summary>
+    public float Spread;
   }
 }

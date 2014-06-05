@@ -24,13 +24,17 @@ public class GlobalResources : ScriptableObject
                       ClipSize = 10,
                       DamagePerShot = 50,
                       MaxDistance = 100,
+                      NumberOfPellets = 1,
+                      Spread = 0,
                     },
                     new FireableWeaponStats
                     {
                       AmmoType = AmmoType.Shotgun,
                       ClipSize = 4,
-                      DamagePerShot = 20,
+                      DamagePerShot = 2,
                       MaxDistance = 50,
+                      NumberOfPellets = 20,
+                      Spread = 0.1f,
                     },
                   };
 

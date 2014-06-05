@@ -23,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\..\Assets\Scripts\Core\BringBackSociety.Core.XML</DocumentationFile>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -84,6 +85,9 @@
     <Compile Include="Items\Resistance.cs" />
     <Compile Include="Items\Weapons\FireableWeapon.cs" />
     <Compile Include="Mapping\WallData.cs" />
+    <Compile Include="Maths\ARay.cs" />
+    <Compile Include="Maths\MathHelper.cs" />
+    <Compile Include="Maths\AVector3.cs" />
     <Compile Include="Services\ICollectible.cs" />
     <Compile Include="Services\IGlobalResources.cs" />
     <Compile Include="Services\IItemCollectionService.cs" />
