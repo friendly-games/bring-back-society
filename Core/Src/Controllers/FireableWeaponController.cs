@@ -33,7 +33,10 @@ namespace BringBackSociety.Controllers
 
       var result = FireResult.Missed;
 
-      var hitObject = _raycastService.Raycast<IDestroyable>(player, weapon.Stats.MaxDistance);
+      var stats = weapon.Stats;
+
+      var hitObject = _raycastService.Raycast<IDestroyable>(player.Position, stats.MaxDistance);
+      Log.InfoFormat("@ {0}", player.Position);
       if (hitObject != null)
       {
         Log.InfoFormat("Hit {0} with {1}", hitObject, weapon);
@@ -42,7 +45,6 @@ namespace BringBackSociety.Controllers
         weapon.ShotsRemaining--;
         result = FireResult.Hit;
       }
-
 
       return result;
     }

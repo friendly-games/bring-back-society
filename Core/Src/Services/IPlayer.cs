@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BringBackSociety.Controllers;
 using BringBackSociety.Items;
+using BringBackSociety.Maths;
 using BringBackSociety.ViewModels;
 
 namespace BringBackSociety.Services
@@ -23,6 +24,9 @@ namespace BringBackSociety.Services
 
     /// <summary> The host for the weapon that the player is holding. </summary>
     IModelHost<IFireableWeaponModel> WeaponHost { get; }
+
+    /// <summary> Gets the current position and orientation of the player. </summary>
+    ARay Position { get; }
   }
 
   ///// <summary> Represents the inventory for a player. </summary>
