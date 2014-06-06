@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Behavior;
 using BringBackSociety;
+using BringBackSociety.Extensions;
 using BringBackSociety.Tasks;
-using Extensions;
 using log4net;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -21,7 +21,7 @@ internal class ChunkProcessor
   private readonly YieldInstruction _waiter = null;
   private readonly GameObject _wall;
   private readonly GameObject _allWalls;
-  private readonly ILog _log = LogManager.GetLogger(typeof (ChunkProcessor));
+  private readonly ILog _log = LogManager.GetLogger(typeof(ChunkProcessor));
 
   /// <summary> Constructor. </summary>
   /// <exception cref="ArgumentNullException"> Thrown when one or more required arguments are null. </exception>

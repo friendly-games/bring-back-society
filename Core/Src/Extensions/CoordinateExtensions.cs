@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BringBackSociety;
 using UnityEngine;
 
-namespace Extensions
+namespace BringBackSociety.Extensions
 {
+  /// <summary> Extensions for converting to and from various types of coordinates. </summary>
   public static class CoordinateExtensions
   {
     /// <summary>

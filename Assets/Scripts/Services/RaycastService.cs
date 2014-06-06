@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BringBackSociety.Items;
-using BringBackSociety.Maths;
 using BringBackSociety.Services;
-using Extensions;
-using Items;
 using UnityEngine;
 
 namespace Services
@@ -14,27 +11,25 @@ namespace Services
   internal class RaycastService : IRaycastService
   {
     /// <inheritdoc />
-    T IRaycastService.Raycast<T>(IPlayer actor, float maxDistance)
+    public T Raycast<T>(Ray ray, float maxDistance)
+      where T : class, IComponent
     {
-      var player = (Player) actor;
-      return Raycast<T>(new Ray(player.Transform.position, player.Transform.forward), maxDistance);
+      float distance;
+      return Raycast<T>(ray, maxDistance, out distance);
     }
 
-    T IRaycastService.Raycast<T>(ARay ray, float maxDistance)
-    {
-      Logging.Log.InfoFormat("Ray1: {0}", ray);
-
-      return Raycast<T>(ray.ToRay(), maxDistance);
-    }
-
-    private T Raycast<T>(Ray ray, float maxDistance)
+    /// <inheritdoc />
+    public T Raycast<T>(Ray ray, float maxDistance, out float distance)
       where T : class, IComponent
     {
       RaycastHit hitInfo;
-
-      Logging.Log.InfoFormat("Ray2: {0}", ray);
       if (!Physics.Raycast(ray, out hitInfo, maxDistance))
+      {
+        distance = 0;
         return null;
+      }
+
+      distance = hitInfo.distance;
 
       // automatically takes care of parents
       return hitInfo.collider.gameObject.RetrieveComponent<T>();

@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using BringBackSociety.Controllers;
 using BringBackSociety.Items;
-using BringBackSociety.Maths;
 using BringBackSociety.ViewModels;
+using UnityEngine;
 
 namespace BringBackSociety.Services
 {
   /// <summary> A single living entity in the world. </summary>
   internal interface IActor
   {
+    /// <summary> Gets the transform fro the player. </summary>
+    Transform Transform { get; }
   }
 
   /// <summary> Represents a player of the game. </summary>
@@ -24,9 +26,6 @@ namespace BringBackSociety.Services
 
     /// <summary> The host for the weapon that the player is holding. </summary>
     IModelHost<IFireableWeaponModel> WeaponHost { get; }
-
-    /// <summary> Gets the current position and orientation of the player. </summary>
-    ARay Position { get; }
   }
 
   ///// <summary> Represents the inventory for a player. </summary>
