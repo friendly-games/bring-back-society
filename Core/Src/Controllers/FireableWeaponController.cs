@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BringBackSociety.Extensions;
 using BringBackSociety.Items;
 using BringBackSociety.Items.Weapons;
 using BringBackSociety.Services;
 using log4net;
+using UnityEngine;
 
 namespace BringBackSociety.Controllers
 {
@@ -35,16 +37,38 @@ namespace BringBackSociety.Controllers
 
       var stats = weapon.Stats;
 
-      var hitObject = _raycastService.Raycast<IDestroyable>(player.Position, stats.MaxDistance);
-      Log.InfoFormat("@ {0}", player.Position);
-      if (hitObject != null)
-      {
-        Log.InfoFormat("Hit {0} with {1}", hitObject, weapon);
-        Damage(hitObject, weapon.Stats.DamagePerShot);
+      var rand = new System.Random();
 
-        weapon.ShotsRemaining--;
-        result = FireResult.Hit;
+      var right = player.Transform.right;
+      var up = player.Transform.up;
+
+      for (int i = 0; i < stats.NumberOfPellets; i++)
+      {
+        var ray = player.Transform.ToRay();
+
+        if (stats.Spread > 0)
+        {
+          var offset = right * rand.Next(-20, 20) / 100.0f
+                       + up * rand.Next(-20, 20) / 100.0f;
+
+          ray.direction += offset;
+        }
+
+        float distance;
+        var hitObject = _raycastService.Raycast<IDestroyable>(ray, stats.MaxDistance, out distance);
+
+        Debugging.Drawing.Draw(ray, distance);
+
+        if (hitObject != null)
+        {
+          Log.InfoFormat("Hit {0} with {1}", hitObject, weapon);
+          Damage(hitObject, weapon.Stats.DamagePerShot);
+
+          result = FireResult.Hit;
+        }
       }
+
+      weapon.ShotsRemaining--;
 
       return result;
     }

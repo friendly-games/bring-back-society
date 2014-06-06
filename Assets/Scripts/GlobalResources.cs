@@ -31,9 +31,9 @@ public class GlobalResources : ScriptableObject
                     {
                       AmmoType = AmmoType.Shotgun,
                       ClipSize = 4,
-                      DamagePerShot = 2,
+                      DamagePerShot = 100,
                       MaxDistance = 50,
-                      NumberOfPellets = 20,
+                      NumberOfPellets = 10,
                       Spread = 0.1f,
                     },
                   };

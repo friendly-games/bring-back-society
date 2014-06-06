@@ -8,13 +8,13 @@ using BringBackSociety;
 using BringBackSociety.Chunks.Generators;
 using BringBackSociety.Chunks.Loaders;
 using BringBackSociety.Controllers;
+using BringBackSociety.Extensions;
 using BringBackSociety.Items;
 using BringBackSociety.Items.Weapons;
 using BringBackSociety.Services;
 using BringBackSociety.Tasks;
 using BringBackSociety.ViewModels;
 using Drawing;
-using Extensions;
 using Items;
 using log4net;
 using Models;
@@ -149,7 +149,7 @@ internal class Bootstrap : MonoBehaviour, IGui
 
   private void DrawLookAtItem()
   {
-    var component = AllServices.RaycastService.Raycast<IComponent>(_player, 100);
+    var component = AllServices.RaycastService.Raycast<IComponent>(_player.Transform.ToRay(), 100);
     if (component != null)
     {
       _currentObjectDrawer.Add(component);

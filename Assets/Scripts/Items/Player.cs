@@ -4,10 +4,8 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using BringBackSociety.Controllers;
 using BringBackSociety.Items;
-using BringBackSociety.Maths;
 using BringBackSociety.Services;
 using BringBackSociety.ViewModels;
-using Extensions;
 using JetBrains.Annotations;
 using Models;
 using UnityEngine;
@@ -40,12 +38,6 @@ namespace Items
 
     /// <inheritdoc />
     public StorageContainer.Cursor EquippedWeapon { get; set; }
-
-    /// <inheritdoc />
-    public ARay Position
-    {
-      get { return Transform.ToARay(); }
-    }
 
     /// <inheritdoc />
     public IModelHost<IFireableWeaponModel> WeaponHost { get; private set; }

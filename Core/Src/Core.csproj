@@ -50,6 +50,14 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="UnityEngine">
+      <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\IAction.cs" />
@@ -67,6 +75,8 @@
     <Compile Include="Controllers\InventoryStack.cs" />
     <Compile Include="Controllers\PlayerController.cs" />
     <Compile Include="Controllers\StorageContainer.cs" />
+    <Compile Include="Extensions\CoordinateExtensions.cs" />
+    <Compile Include="Extensions\MathExtensions.cs" />
     <Compile Include="Items\FireableWeaponItem.cs" />
     <Compile Include="Items\FireableWeaponStats.cs" />
     <Compile Include="Items\IAmmoModel.cs" />
@@ -85,9 +95,7 @@
     <Compile Include="Items\Resistance.cs" />
     <Compile Include="Items\Weapons\FireableWeapon.cs" />
     <Compile Include="Mapping\WallData.cs" />
-    <Compile Include="Maths\ARay.cs" />
-    <Compile Include="Maths\MathHelper.cs" />
-    <Compile Include="Maths\AVector3.cs" />
+    <Compile Include="Debugging.cs" />
     <Compile Include="Services\ICollectible.cs" />
     <Compile Include="Services\IGlobalResources.cs" />
     <Compile Include="Services\IItemCollectionService.cs" />
