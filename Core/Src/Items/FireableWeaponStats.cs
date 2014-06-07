@@ -1,4 +1,6 @@
-﻿using BringBackSociety.Items.Weapons;
+﻿using System;
+using System.Diagnostics;
+using BringBackSociety.Items.Weapons;
 
 namespace BringBackSociety.Items
 {
@@ -22,5 +24,28 @@ namespace BringBackSociety.Items
 
     /// <summary> The variance of each pellet that is fired. </summary>
     public float Spread;
+
+    /// <summary> The distance after which the damage starts decreasing. </summary>
+    public int FalloffDistance;
+
+    /// <summary> Calculates the amount of base damage done by firing the weapon at a target a distance away. </summary>
+    /// <param name="distance"> The distance to the target. </param>
+    /// <returns> The calculated damage. </returns>
+    public float CalculateDamage(float distance)
+    {
+      float damage = DamagePerShot;
+
+      if (distance > FalloffDistance)
+      {
+        float falloffRange = MaxDistance - FalloffDistance;
+        float curPositionInRange = distance - FalloffDistance;
+        damage = DamagePerShot * (1 - curPositionInRange / falloffRange);
+      }
+
+      Debug.Assert(damage >= 0);
+
+      // never do negative damage
+      return Math.Max(damage, 0);
+    }
   }
 }

@@ -40,8 +40,6 @@ namespace BringBackSociety.Controllers
 
       var stats = weapon.Stats;
 
-      var rand = new System.Random();
-
       var right = player.Transform.right;
       var up = player.Transform.up;
 
@@ -51,8 +49,8 @@ namespace BringBackSociety.Controllers
 
         if (stats.Spread > 0)
         {
-          var offset = right * _randomNumberGenerator.NextFloat(-0.10f, 0.10f)
-                       + up * _randomNumberGenerator.NextFloat(-0.10f, 0.10f);
+          var offset = right * _randomNumberGenerator.NextFloat(-stats.Spread, stats.Spread)
+                       + up * _randomNumberGenerator.NextFloat(-stats.Spread, stats.Spread);
 
           ray.direction += offset;
         }
@@ -64,8 +62,10 @@ namespace BringBackSociety.Controllers
 
         if (hitObject != null)
         {
-          Log.InfoFormat("Hit {0} with {1}", hitObject, weapon);
-          Damage(hitObject, weapon.Stats.DamagePerShot);
+          float damage = weapon.Stats.CalculateDamage(distance);
+
+          Log.InfoFormat("Hit {0} with {1}.  Damage: {2}", hitObject, weapon, damage);
+          Damage(hitObject, (int) damage);
 
           result = FireResult.Hit;
         }
