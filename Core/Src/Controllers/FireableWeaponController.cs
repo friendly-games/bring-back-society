@@ -17,11 +17,14 @@ namespace BringBackSociety.Controllers
     private static readonly ILog Log = LogManager.GetLogger(typeof(FireableWeaponController));
 
     private readonly IRaycastService _raycastService;
+    private readonly IRandomNumberGenerator _randomNumberGenerator;
 
     /// <summary> Constructor. </summary>
-    public FireableWeaponController(IRaycastService raycastService)
+    public FireableWeaponController(IRaycastService raycastService,
+                                    IRandomNumberGenerator randomNumberGenerator)
     {
       _raycastService = raycastService;
+      _randomNumberGenerator = randomNumberGenerator;
     }
 
     /// <summary> Have the actor fire their primary weapon. </summary>
@@ -48,8 +51,8 @@ namespace BringBackSociety.Controllers
 
         if (stats.Spread > 0)
         {
-          var offset = right * rand.Next(-20, 20) / 100.0f
-                       + up * rand.Next(-20, 20) / 100.0f;
+          var offset = right * _randomNumberGenerator.NextFloat(-0.10f, 0.10f)
+                       + up * _randomNumberGenerator.NextFloat(-0.10f, 0.10f);
 
           ray.direction += offset;
         }

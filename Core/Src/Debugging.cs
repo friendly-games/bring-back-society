@@ -14,6 +14,7 @@ namespace BringBackSociety
       Drawing = new DebugDrawing();
     }
 
+    /// <summary> Debug drawing routines. </summary>
     public static IDebugDraw Drawing { get; private set; }
 
     /// <summary> Draw a ray. </summary>
@@ -22,14 +23,18 @@ namespace BringBackSociety
       /// <summary> Draws a single ray. </summary>
       /// <param name="ray"> The ray to draw. </param>
       /// <param name="distance"> The distance to draw the ray. </param>
-      void Draw(Ray ray, float distance);
+      /// <param name="time"> (Optional) The amount of time for which the ray should be visible. </param>
+      /// <param name="color"> (Optional) the color to draw the ray. </param>
+      void Draw(Ray ray, float distance, float time = 1.5f, Color? color = null);
     }
 
+    /// <summary> Draws rays using the unity functions. </summary>
     internal class DebugDrawing : IDebugDraw
     {
-      void IDebugDraw.Draw(Ray ray, float distance)
+      /// <inheritdoc />
+      void IDebugDraw.Draw(Ray ray, float distance, float time, Color? color)
       {
-        Debug.DrawRay(ray.origin, ray.direction * distance, Color.red, 1.5f);
+        Debug.DrawRay(ray.origin, ray.direction * distance, color ?? Color.white, time);
       }
     }
   }

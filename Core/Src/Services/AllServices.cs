@@ -23,5 +23,8 @@ namespace BringBackSociety.Services
     /// <summary> The collection services for the primary player. </summary>
     /// <remarks> At some point, this should be removed. </remarks>
     public static IItemCollectionService CollectionService { get; set; }
+
+    /// <summary> The random number generator. </summary>
+    public static IRandomNumberGenerator RandomNumberGenerator { get; set; }
   }
 }
