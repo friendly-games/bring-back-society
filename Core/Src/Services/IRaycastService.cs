@@ -26,6 +26,4 @@ namespace BringBackSociety.Services
     T Raycast<T>(Ray ray, float maxDistance, out float distance)
       where T : class, IComponent;
   }
-
- 
 }

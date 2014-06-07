@@ -72,6 +72,7 @@ internal class Bootstrap : MonoBehaviour, IGui
     AllServices.RaycastService = new RaycastService();
     AllServices.Dispatcher = new CoroutineDispatcher();
     AllServices.CollectionService = new ItemCollectorService(_player);
+    AllServices.RandomNumberGenerator = new RandomNumberGeneratorGenerator();
   }
 
   /// <summary> Initializes the views for the game. </summary>
@@ -80,7 +81,8 @@ internal class Bootstrap : MonoBehaviour, IGui
     var pistolModel = UnitySystem.RetrieveModel<IFireableWeaponModel>("Weapon/Pistol");
     var shotgunModel = UnitySystem.RetrieveModel<IFireableWeaponModel>("Weapon/Shotgun");
 
-    _firableWeaponController = new FireableWeaponController(AllServices.RaycastService);
+    _firableWeaponController = new FireableWeaponController(AllServices.RaycastService,
+                                                            AllServices.RandomNumberGenerator);
     _playerController = new PlayerController(_player, _firableWeaponController);
 
     var weapons = from stat in GlobalResources.WeaponStats.Take(5)

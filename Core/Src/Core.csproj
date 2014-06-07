@@ -96,13 +96,12 @@
     <Compile Include="Items\Weapons\FireableWeapon.cs" />
     <Compile Include="Mapping\WallData.cs" />
     <Compile Include="Debugging.cs" />
-    <Compile Include="Services\ICollectible.cs" />
-    <Compile Include="Services\IGlobalResources.cs" />
     <Compile Include="Services\IItemCollectionService.cs" />
     <Compile Include="Services\IPerlinNoiseProvider.cs" />
     <Compile Include="Services\IPlayer.cs" />
+    <Compile Include="Services\IRandomNumberGenerator.cs" />
     <Compile Include="Services\IRaycastService.cs" />
-    <Compile Include="Services\ServiceManager.cs" />
+    <Compile Include="Services\Implementations\RandomNumberGeneratorGenerator.cs" />
     <Compile Include="Services\AllServices.cs" />
     <Compile Include="Tasks\Coroutine.cs" />
     <Compile Include="Tasks\CoroutineBase.cs" />
