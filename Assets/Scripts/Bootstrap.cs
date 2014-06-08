@@ -145,7 +145,7 @@ internal class Bootstrap : MonoBehaviour, IGui
 
   public void OnGUI()
   {
-    //DrawLookAtItem();
+    DrawLookAtItem();
     DrawWeaponList();
   }
 

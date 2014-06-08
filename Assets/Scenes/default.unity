@@ -569,7 +569,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e970b44a2abfce14d8b326cfce555aa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxSpeed: 10
+  MaxSpeed: 6
   MaxRotation: 5
   JumpSpeed: 3.06999993
   FollowDrag: .200000003
