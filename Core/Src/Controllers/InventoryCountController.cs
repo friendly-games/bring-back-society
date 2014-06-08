@@ -28,9 +28,21 @@ namespace BringBackSociety.Controllers
     {
       var model = stack.Model;
 
+      var weapon = model as FireableWeapon;
+      if (weapon != null)
+      {
+        return GetDisplayFor(weapon);
+      }
+      else
       {
         return stack.Quantity;
       }
+    }
+
+    /// <summary> Gets the display count for fireable weapons. </summary>
+    private int GetDisplayFor(FireableWeapon weapon)
+    {
+      return weapon.ShotsRemaining;
     }
 
     /// <summary> Sums the quantity of items in the inventory for the given model </summary>
