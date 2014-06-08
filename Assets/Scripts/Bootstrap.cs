@@ -166,7 +166,7 @@ internal class Bootstrap : MonoBehaviour, IGui
 
     _weaponDrawer.Start();
 
-    _containerViewModel.Refresh();
+    _containerViewModel.Refresh(true);
 
     var items = _containerViewModel.Items;
     for (var i = 0; i < items.Count; i++)

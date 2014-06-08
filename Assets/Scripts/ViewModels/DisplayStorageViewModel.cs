@@ -51,7 +51,7 @@ namespace ViewModels
         var slot = _container.Slots[i];
         int count = _inventoryCounter.GetDisplayCount(slot);
 
-        if (count > 0)
+        if (slot.Model != null)
         {
           _items[i] = new ItemSlotViewModel(slot.Model.Name, count.ToString(), slot.Model.Resource);
         }
