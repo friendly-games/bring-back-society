@@ -15,7 +15,7 @@ namespace ViewModels
     private readonly StorageContainer _container;
     private readonly ItemSlotViewModel[] _items;
     private readonly InventoryCountController _inventoryCounter;
-    private ChangeCount _lastRefresh;
+    private SnapshotToken _lastRefresh;
 
     /// <summary> Constructor. </summary>
     /// <param name="container"> The container of items. </param>
@@ -41,10 +41,10 @@ namespace ViewModels
     /// <param name="force"> (Optional) true to force, false to only refresh if necessary. </param>
     public void Refresh(bool force = false)
     {
-      if (!force && _lastRefresh == _container.ChangeCount)
+      if (!force && _lastRefresh == _container.SnapshotToken)
         return;
 
-      _lastRefresh = _container.ChangeCount;
+      _lastRefresh = _container.SnapshotToken;
 
       for (int i = 0; i < _container.Slots.Count; i++)
       {

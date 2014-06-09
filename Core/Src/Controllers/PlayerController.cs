@@ -38,6 +38,8 @@ namespace BringBackSociety.Controllers
       if (weapon == null)
         return;
 
+      _player.Inventory.ForceSnapshot();
+
       var result = _weaponController.FireWeapon(_player, weapon);
 
       bool wasFired = false;
