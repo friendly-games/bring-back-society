@@ -62,7 +62,7 @@
   <ItemGroup>
     <Compile Include="Actions\IAction.cs" />
     <Compile Include="Annotations.cs" />
-    <Compile Include="ChangeCount.cs" />
+    <Compile Include="SnapshotToken.cs" />
     <Compile Include="Chunks\Chunk.cs" />
     <Compile Include="Chunks\ChunkChangedArgs.cs" />
     <Compile Include="Chunks\ChunkCoordinate.cs" />
@@ -83,6 +83,7 @@
     <Compile Include="Items\ICopyable.cs" />
     <Compile Include="Items\IDisplayableItem.cs" />
     <Compile Include="Items\INamedItem.cs" />
+    <Compile Include="Items\ISnapshotable.cs" />
     <Compile Include="Items\Weapons\AmmoType.cs" />
     <Compile Include="Items\IComponent.cs" />
     <Compile Include="Items\IDestroyable.cs" />

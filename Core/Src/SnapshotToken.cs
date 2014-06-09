@@ -6,11 +6,13 @@ using JetBrains.Annotations;
 namespace BringBackSociety
 {
   /// <summary> Represents a value indicating the number of times something has changed. </summary>
-  public struct ChangeCount : IEquatable<ChangeCount>
+  public struct SnapshotToken : IEquatable<SnapshotToken>
   {
     private readonly int _changeCount;
 
-    private ChangeCount(int changeCount)
+    /// <summary> Constructor. </summary>
+    /// <param name="changeCount"> The id of the current change count. </param>
+    private SnapshotToken(int changeCount)
     {
       _changeCount = changeCount;
     }
@@ -18,15 +20,15 @@ namespace BringBackSociety
     /// <summary> Gets the next change counter in the series. </summary>
     /// <returns> A ChangeCount representing one more change. </returns>
     [Pure]
-    public ChangeCount Next()
+    public SnapshotToken Next()
     {
-      return new ChangeCount(_changeCount + 1);
+      return new SnapshotToken(_changeCount + 1);
     }
 
     /// <summary> Tests if this ChangeCount is considered equal to another. </summary>
     /// <param name="other"> The change count to compare to this object. </param>
     /// <returns> true if the objects are considered equal, false if they are not. </returns>
-    public bool Equals(ChangeCount other)
+    public bool Equals(SnapshotToken other)
     {
       return _changeCount == other._changeCount;
     }
@@ -37,7 +39,7 @@ namespace BringBackSociety
       if (ReferenceEquals(null, obj))
         return false;
 
-      return obj is ChangeCount && Equals((ChangeCount) obj);
+      return obj is SnapshotToken && Equals((SnapshotToken) obj);
     }
 
     /// <inheritdoc />
@@ -50,7 +52,7 @@ namespace BringBackSociety
     /// <param name="left"> The left. </param>
     /// <param name="right"> The right. </param>
     /// <returns> True if they are equal, false otherwise. </returns>
-    public static bool operator ==(ChangeCount left, ChangeCount right)
+    public static bool operator ==(SnapshotToken left, SnapshotToken right)
     {
       return left.Equals(right);
     }
@@ -59,7 +61,7 @@ namespace BringBackSociety
     /// <param name="left"> The left. </param>
     /// <param name="right"> The right. </param>
     /// <returns> True if they are in-equal, false otherwise. </returns>
-    public static bool operator !=(ChangeCount left, ChangeCount right)
+    public static bool operator !=(SnapshotToken left, SnapshotToken right)
     {
       return !left.Equals(right);
     }

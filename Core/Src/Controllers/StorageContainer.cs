@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using BringBackSociety.Items;
 
 namespace BringBackSociety.Controllers
 {
   /// <summary> Controls the items in some sort of storage controller. </summary>
-  public class StorageContainer
+  public class StorageContainer : ISnapshotable
   {
     private readonly InventoryStack[] _slots;
 
@@ -17,14 +18,27 @@ namespace BringBackSociety.Controllers
       _slots = new InventoryStack[size];
       Slots = new ReadOnlyCollection<InventoryStack>(_slots);
 
-      ChangeCount = ChangeCount.Next();
+      ForceSnapshot();
     }
 
     /// <summary> All of the inventory slots for the container. </summary>
     public ReadOnlyCollection<InventoryStack> Slots { get; private set; }
 
-    /// <summary> Gets the number of changes. </summary>
-    public ChangeCount ChangeCount { get; private set; }
+    /// <summary>
+    ///  A token indicating the contents of the storage at a moment in time.  If an item is added or
+    ///  removed, this token changes.
+    /// </summary>
+    /// <remarks>
+    ///  If an item within the storage changes, the external change should inform the storage that the
+    ///  change has occurred by invoking the ForceSnapshot() method.
+    /// </remarks>
+    public SnapshotToken SnapshotToken { get; private set; }
+
+    /// <inheritdoc />
+    public void ForceSnapshot()
+    {
+      SnapshotToken = SnapshotToken.Next();
+    }
 
     /// <summary> Return a cursor to the first slot. </summary>
     public Cursor FirstSlot
@@ -188,7 +202,7 @@ namespace BringBackSociety.Controllers
 
       _slots[slotNumber] = value;
       // increment the change count
-      ChangeCount = ChangeCount.Next();
+      ForceSnapshot();
     }
 
     /// <returns> An enumerable for iterating through the collection. </returns>
