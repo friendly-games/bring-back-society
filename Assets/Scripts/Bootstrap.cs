@@ -35,6 +35,7 @@ internal class Bootstrap : MonoBehaviour, IGui
   private UnitySynchronizationContext _syncContext;
   private DisplayStorageViewModel _containerViewModel;
   private PlayerController _playerController;
+  private ChunkProcessor _processor;
 
   static Bootstrap()
   {
@@ -103,11 +104,10 @@ internal class Bootstrap : MonoBehaviour, IGui
 
   private void GenerateWorld()
   {
-    var processor = new ChunkProcessor(AllServices.Dispatcher);
     var chunkLoader = new SimpleChunkLoader(new PerlinChunkGenerator(new PerlinNoise()));
-
     World = new World(chunkLoader);
-    World.ChunkChange += processor.HandleChunkChange;
+
+    _processor = new ChunkProcessor(AllServices.Dispatcher, World);
 
     World.Initialize();
   }
@@ -139,8 +139,15 @@ internal class Bootstrap : MonoBehaviour, IGui
   {
     AllServices.Dispatcher.Continue();
 
-    World.Recenter(_player.Transform.position.ToWorldPosition());
+    UpdateWorld();
+
     _syncContext.Process();
+  }
+
+  private void UpdateWorld()
+  {
+    World.Recenter(_player.Transform.position.ToWorldPosition());
+    _processor.HandleChunkChange();
   }
 
   public void OnGUI()

@@ -30,29 +30,13 @@ namespace BringBackSociety.Chunks.Loaders
     Chunk IChunkLoader.Load(ChunkCoordinate location)
     {
       var chunk = _generator.Generate(location);
-      OnLoading(chunk);
       return chunk;
     }
 
     /// <inheritdoc />
     void IChunkLoader.Save(ChunkCoordinate location, Chunk chunk)
     {
-      OnSaving(chunk);
       // noop
-    }
-
-    /// <summary> Executes the loading event. </summary>
-    protected virtual void OnLoading(Chunk chunk)
-    {
-      Action<Chunk> handler = Loading;
-      if (handler != null) handler(chunk);
-    }
-
-    /// <summary> Executes the saving event. </summary>
-    protected virtual void OnSaving(Chunk chunk)
-    {
-      Action<Chunk> handler = Saving;
-      if (handler != null) handler(chunk);
     }
   }
 }

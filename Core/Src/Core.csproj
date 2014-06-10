@@ -24,6 +24,7 @@
     <DocumentationFile>..\..\Assets\Scripts\Core\BringBackSociety.Core.XML</DocumentationFile>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -66,7 +67,6 @@
     <Compile Include="Chunks\Chunk.cs" />
     <Compile Include="Chunks\ChunkChangedArgs.cs" />
     <Compile Include="Chunks\ChunkCoordinate.cs" />
-    <Compile Include="Chunks\Loaders\ChunkManager.cs" />
     <Compile Include="Chunks\Generators\IChunkGenerator.cs" />
     <Compile Include="Chunks\Generators\PerlinChunkGenerator.cs" />
     <Compile Include="Chunks\Loaders\SimpleChunkLoader.cs" />
@@ -114,9 +114,7 @@
     <Compile Include="ViewModels\IModel.cs" />
     <Compile Include="ViewModels\IModelHost.cs" />
     <Compile Include="World.cs" />
-    <Compile Include="Chunks\ChunkNode.cs" />
     <None Include="details.md" />
-    <Compile Include="Chunks\Loaders\ConstructorChunkLoader.cs" />
     <Compile Include="Chunks\IChunkLoader.cs" />
     <Compile Include="WorldPosition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
