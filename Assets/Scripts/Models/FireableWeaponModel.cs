@@ -22,7 +22,6 @@ namespace Models
     public void Awake()
     {
       _implementation = new Implementation(gameObject, this);
-      Logging.Log.Info("Done implementing");
     }
 
     /// <summary> The actual implementation of the given model. </summary>

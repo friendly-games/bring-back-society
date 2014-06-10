@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
+using BringBackSociety.Chunks;
 
 namespace BringBackSociety
 {
@@ -100,6 +102,26 @@ namespace BringBackSociety
     public override string ToString()
     {
       return Coordinate.ToString();
+    }
+
+    /// <summary> Set the left and right properties to point to each other. </summary>
+    public static void LinkHorizontally(Chunk lhs, Chunk rhs)
+    {
+      Debug.Assert(lhs.Offset.Z == rhs.Offset.Z);
+      Debug.Assert(lhs.Offset.X == rhs.Offset.X - Chunk.Length);
+
+      lhs.Right = rhs;
+      rhs.Left = lhs;
+    }
+
+    /// <summary> Set the Back and Front properties to point to each other. </summary>
+    public static void LinkVertically(Chunk upper, Chunk lower)
+    {
+      Debug.Assert(upper.Offset.X == lower.Offset.X);
+      Debug.Assert(upper.Offset.Z == lower.Offset.Z + Chunk.Length);
+
+      lower.Back = upper;
+      upper.Front = lower;
     }
   }
 }

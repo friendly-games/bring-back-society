@@ -14,26 +14,31 @@ using Object = UnityEngine.Object;
 internal class ChunkProcessor
 {
   private readonly CoroutineDispatcher _dispatcher;
+  private readonly World _world;
   private readonly LinkedList<Chunk> _chunksToLoad;
   private readonly LinkedList<Chunk> _chunksToUnload;
+  private readonly LinkedList<Chunk> _loadedChunks;
   private bool _isChunkProcessorActive;
 
   private readonly YieldInstruction _waiter = null;
   private readonly GameObject _wall;
   private readonly GameObject _allWalls;
   private readonly ILog _log = LogManager.GetLogger(typeof(ChunkProcessor));
+  private Chunk _oldCenterChunk;
 
   /// <summary> Constructor. </summary>
   /// <exception cref="ArgumentNullException"> Thrown when one or more required arguments are null. </exception>
   /// <param name="dispatcher"> The MonoBehavior that created this processor. </param>
-  public ChunkProcessor(CoroutineDispatcher dispatcher)
+  public ChunkProcessor(CoroutineDispatcher dispatcher, World world)
   {
     if (dispatcher == null)
       throw new ArgumentNullException("dispatcher");
 
     _dispatcher = dispatcher;
+    _world = world;
     _chunksToLoad = new LinkedList<Chunk>();
     _chunksToUnload = new LinkedList<Chunk>();
+    _loadedChunks = new LinkedList<Chunk>();
 
     _isChunkProcessorActive = false;
 
@@ -42,33 +47,52 @@ internal class ChunkProcessor
   }
 
   /// <summary> Process an incoming chunk change. </summary>
-  public void HandleChunkChange(object sender, ChunkChangedArgs args)
+  public void HandleChunkChange()
   {
-    var chunk = args.Chunk;
+    if (_world.CenterChunk == _oldCenterChunk)
+      return;
 
-    // TODO make the node have a boolean indicating if it should still be loaded
-    if (args.WasLoaded)
+    var center = _world.CenterChunk;
+
+    int minX = Math.Max(center.Coordinate.X - 1, World.Min.X);
+    int maxX = Math.Min(center.Coordinate.X + 1, World.Max.X);
+
+    int minZ = Math.Max(center.Coordinate.Z - 1, World.Min.Z);
+    int maxZ = Math.Min(center.Coordinate.Z + 1, World.Max.Z);
+
+    // remove currently loaded chunks that are no longer needed
+    foreach (var chunk in _loadedChunks)
     {
-      // if we're trying to load one that was just unloaded, remove it from the unload list
-      if (_chunksToUnload.Contains(chunk))
+      if (chunk.Coordinate.X < minX
+          || chunk.Coordinate.X > maxX
+          || chunk.Coordinate.Z < minZ
+          || chunk.Coordinate.Z > maxZ)
       {
-        _chunksToUnload.Remove(chunk);
-      }
-      else
-      {
-        _chunksToLoad.AddLast(chunk);
+        _chunksToUnload.AddLast(chunk);
       }
     }
-    else
+
+    // remove any that are no longer necessary from the "to-load" list
+    foreach (var chunk in _chunksToLoad.ToArray())
     {
-      // if we're trying to unload one that was just loaded, remove it from the load list
-      if (_chunksToLoad.Contains(chunk))
+      if (chunk.Coordinate.X < minX
+          || chunk.Coordinate.X > maxX
+          || chunk.Coordinate.Z < minZ
+          || chunk.Coordinate.Z > maxZ)
       {
         _chunksToLoad.Remove(chunk);
       }
-      else
+    }
+
+    for (int x = minX; x <= maxX; x++)
+    {
+      for (int z = minZ; z <= maxZ; z++)
       {
-        _chunksToUnload.AddLast(chunk);
+        var chunk = _world.Chunks[new ChunkCoordinate(x, z).Index];
+
+        _chunksToLoad.AddLast(chunk);
+        // remove it if its in the remove list
+        _chunksToUnload.Remove(chunk);
       }
     }
 
@@ -77,6 +101,8 @@ internal class ChunkProcessor
     {
       _dispatcher.Start(DoChunkProcessing());
     }
+
+    _oldCenterChunk = _world.CenterChunk;
   }
 
   /// <summary>
@@ -97,26 +123,31 @@ internal class ChunkProcessor
         var chunk = _chunksToLoad.First.Value;
         _chunksToLoad.RemoveFirst();
 
-        var chunkObject = new GameObject("Chunk[" + chunk.Coordinate + "]");
-        var chunkOffset = chunk.Offset.ToVector3();
-
-        chunkObject.transform.parent = _allWalls.transform;
-
-        // go through all the tiles and create walls in all the right locations
-        for (int x = 0; x < Chunk.Length; x++)
+        if (!_loadedChunks.Contains(chunk))
         {
-          ProcessRow(chunk, chunkObject, chunkOffset, x);
+          _loadedChunks.AddLast(chunk);
 
-          // always yield somewhere in between
-          if (x % numRowsPerAdd == 0)
+          var chunkObject = new GameObject("Chunk[" + chunk.Coordinate + "]");
+          var chunkOffset = chunk.Offset.ToVector3();
+
+          chunkObject.transform.parent = _allWalls.transform;
+
+          // go through all the tiles and create walls in all the right locations
+          for (int x = 0; x < Chunk.Length; x++)
           {
-            yield return _waiter;
-          }
-        }
+            ProcessRow(chunk, chunkObject, chunkOffset, x);
 
-        chunk.Tag = chunkObject;
-        var wallParentKillable = chunkObject.AddComponent<WallParentProviderKillable>();
-        wallParentKillable.Chunk = chunk;
+            // always yield somewhere in between
+            if (x % numRowsPerAdd == 0)
+            {
+              yield return _waiter;
+            }
+          }
+
+          chunk.Tag = chunkObject;
+          var wallParentKillable = chunkObject.AddComponent<WallParentProviderKillable>();
+          wallParentKillable.Chunk = chunk;
+        }
       }
 
       while (_chunksToUnload.Count > 0)
@@ -124,6 +155,7 @@ internal class ChunkProcessor
         var chunk = _chunksToUnload.First.Value;
         _chunksToUnload.RemoveFirst();
         Object.Destroy(chunk.TagValue<GameObject>());
+        _loadedChunks.Remove(chunk);
       }
 
       yield return _waiter;

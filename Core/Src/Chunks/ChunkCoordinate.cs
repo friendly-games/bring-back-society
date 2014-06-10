@@ -25,11 +25,21 @@ namespace BringBackSociety
       Z = z;
     }
 
+    /// <summary> The index into an array of chunks that this coordinate represents. </summary>
+    public int Index
+    {
+      get
+      {
+        const int half = World.NumberOfChunksWide / 2;
+        return (X + half) * World.NumberOfChunksWide + Z + half;
+      }
+    }
+
     /// <summary> Converts the chunk coordinate into a position that is world coordinates. </summary>
     /// <returns> This object as a WorldPosition. </returns>
     public WorldPosition ToWorldPosition()
     {
-      return new WorldPosition(X*Chunk.Length, Z*Chunk.Length);
+      return new WorldPosition(X * Chunk.Length, Z * Chunk.Length);
     }
 
     /// <summary> Tests if this ChunkCoordinate is considered equal to another. </summary>
@@ -49,7 +59,7 @@ namespace BringBackSociety
     {
       unchecked
       {
-        return (X*397) ^ Z;
+        return (X * 397) ^ Z;
       }
     }
 

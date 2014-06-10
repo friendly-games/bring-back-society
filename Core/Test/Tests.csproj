@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -46,14 +47,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChunkManagerTests.cs" />
     <Compile Include="Items\StorageContainerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tasks\CoroutineDispatcherTests.cs" />
     <Compile Include="Weapons\FireableWeaponStatsTests.cs" />
+    <Compile Include="WorldCreationTests.cs" />
     <Compile Include="WorldPositionTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Assembly-CSharp-vs.csproj">
+      <Project>{D7A697AA-D379-48E8-0FF2-070FB2F01A47}</Project>
+      <Name>Assembly-CSharp-vs</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Src\Core.csproj">
       <Project>{B717865E-DA66-4F83-8DEE-CA6285E58C17}</Project>
       <Name>Grid</Name>
