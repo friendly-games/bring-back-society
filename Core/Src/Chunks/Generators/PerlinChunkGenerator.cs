@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BringBackSociety.Chunks.Loaders;
+using BringBackSociety.Extensions;
 using BringBackSociety.Services;
 
 namespace BringBackSociety.Chunks.Generators
@@ -24,6 +25,10 @@ namespace BringBackSociety.Chunks.Generators
     /// <inheritdoc/>
     Chunk IChunkGenerator.Generate(ChunkCoordinate location)
     {
+      // TODO remove short circuit
+      if (location.ToWorldPosition().ToVector3().magnitude > 100)
+        return new Chunk(location);
+
       var world = location.ToWorldPosition();
       var chunk = new Chunk(location);
       for (int x = 0; x < Chunk.Length; x++)
