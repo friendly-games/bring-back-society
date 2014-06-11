@@ -48,7 +48,7 @@ namespace Scripts
 
       targetVelocity *= MaxSpeed;
 
-      var diffVelocity = targetVelocity - currentVelocity;
+      var diffVelocity = (targetVelocity - currentVelocity) * Time.deltaTime * 300;
 
       if (AttemptJump && DateTime.Now - _lastJumpTime > TimeSpan.FromMilliseconds(100))
       {
@@ -57,12 +57,12 @@ namespace Scripts
         //RaycastHit hitInfo;
         //if (_ground.collider.Raycast(ray, out hitInfo, 1.05f))
         {
-          diffVelocity.y = JumpSpeed;
+          diffVelocity.y = JumpSpeed * 30;
           _lastJumpTime = DateTime.Now;
         }
       }
 
-      _rigidbody.AddForce(diffVelocity, ForceMode.Impulse);
+      _rigidbody.AddForce(diffVelocity, ForceMode.Acceleration);
 
       _transform.rotation = Quaternion.Slerp(_transform.rotation,
                                              TargetRotation,
