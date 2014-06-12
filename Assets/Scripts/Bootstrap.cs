@@ -42,6 +42,8 @@ internal class Bootstrap : MonoBehaviour, IGui
     Logging.ConfigureAllLogging();
     Log = LogManager.GetLogger(typeof(Bootstrap));
     Logging.Log = LogManager.GetLogger("Temp");
+
+    Logging.Log.Info("What");
   }
 
   public void Start()
@@ -53,6 +55,12 @@ internal class Bootstrap : MonoBehaviour, IGui
     GenerateWorld();
 
     Invoke("Initialize", 0.1f);
+  }
+
+  public void OnApplicationQuit()
+  {
+    Debug.Log("Quitting");
+    Logging.Shutdown();
   }
 
   public void Initialize()

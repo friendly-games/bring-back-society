@@ -1,0 +1,31 @@
+﻿<Window x:Class="LogViewer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Unity Log Viewer" Height="350" Width="525">
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition />
+    </Grid.ColumnDefinitions>
+    <DataGrid
+      Margin="10,38,10,77"
+      Grid.ColumnSpan="2" />
+    <Label Content="Status:"
+           HorizontalAlignment="Left"
+           Margin="10,10,0,0"
+           Grid.ColumnSpan="2" Height="26" VerticalAlignment="Top" />
+    <Label Content="Connected"
+           HorizontalAlignment="Left"
+           Margin="55,10,0,0"
+           VerticalAlignment="Top"
+           RenderTransformOrigin="1.986,0.423"
+           Grid.Column="1" />
+    <TextBox Grid.Column="0"
+             Grid.ColumnSpan="2"
+             Height="62"
+             Margin="10,0,10,10"
+             TextWrapping="Wrap"
+             Text="TextBox"
+             VerticalAlignment="Bottom" />
+  </Grid>
+</Window>
