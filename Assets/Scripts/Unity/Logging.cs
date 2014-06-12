@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BringBackSociety;
 using log4net;
 using log4net.Appender;
 using log4net.Config;
 using log4net.Core;
+using log4net.Filter;
 using log4net.Layout;
 using UnityEngine;
 
 public class Logging
 {
+  private static PipeAppender _pipeLogger;
+
   /// <summary>
   ///  Configure logging to write to Logs\EventLog.txt and the Unity console output.
   /// </summary>
@@ -36,11 +40,32 @@ public class Logging
 
     var unityLogger = new UnityAppender
                       {
-                        Layout = new PatternLayout()
+                        Layout = new PatternLayout(),
                       };
+
+    // Only the temp logger and Errors
+    unityLogger.AddFilter(new LoggerMatchFilter()
+                          {
+                            AcceptOnMatch = true,
+                            LoggerToMatch = "Temp",
+                          });
+
+    unityLogger.AddFilter(new LevelRangeFilter()
+                          {
+                            AcceptOnMatch = true,
+                            LevelMin = Level.Error
+                          });
+
+    unityLogger.AddFilter(new DenyAllFilter());
+
     unityLogger.ActivateOptions();
 
-    BasicConfigurator.Configure(unityLogger, fileAppender);
+    _pipeLogger = new PipeAppender("Unity")
+                  {
+                    Layout = new PatternLayout(),
+                  };
+
+    BasicConfigurator.Configure(unityLogger, fileAppender, _pipeLogger);
   }
 
   /// <summary> Global log used for temporary logging. </summary>
@@ -69,6 +94,14 @@ public class Logging
         // everything else we'll just log normally
         Debug.Log(message);
       }
+    }
+  }
+
+  public static void Shutdown()
+  {
+    if (_pipeLogger != null)
+    {
+      _pipeLogger.Dispose();
     }
   }
 }
