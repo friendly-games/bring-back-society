@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -25,7 +26,7 @@ using ViewModels;
 
 internal class Bootstrap : MonoBehaviour, IGui
 {
-  private static readonly ILog Log;
+  private static ILog Log;
 
   private readonly PropertyDrawer _currentObjectDrawer = new PropertyDrawer("Current Item", 10, 10);
   private readonly PropertyDrawer _weaponDrawer = new PropertyDrawer("Weapons", Screen.width - 120, 10);
@@ -39,15 +40,16 @@ internal class Bootstrap : MonoBehaviour, IGui
 
   static Bootstrap()
   {
+  }
+
+  public void Start()
+  {
     Logging.ConfigureAllLogging();
     Log = LogManager.GetLogger(typeof(Bootstrap));
     Logging.Log = LogManager.GetLogger("Temp");
 
     Logging.Log.Info("What");
-  }
 
-  public void Start()
-  {
     var playerBehavior = GameObject.Find("Player").GetComponent<PlayerMonoBehaviour>();
     _player = playerBehavior.CreatePlayer();
 
@@ -60,7 +62,6 @@ internal class Bootstrap : MonoBehaviour, IGui
   public void OnApplicationQuit()
   {
     Debug.Log("Quitting");
-    Logging.Shutdown();
   }
 
   public void Initialize()

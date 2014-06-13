@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using LogViewer.Annotations;
 
 namespace LogViewer
 {
@@ -14,5 +9,14 @@ namespace LogViewer
   {
     /// <summary> The text of what occurred. </summary>
     public string Description { get; set; }
+
+    /// <summary> The time at which the entry was added. </summary>
+    public DateTime Time { get; set; }
+
+    /// <summary> The thread on which the entry was logged. </summary>
+    public string Thread { get; set; }
+
+    /// <summary> The level at which the entry was logged. </summary>
+    public string Level { get; set; }
   }
 }
