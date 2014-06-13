@@ -150,12 +150,15 @@ namespace LogViewer
 
       var dateTime = data[0] + "T" + data[1].Replace(',', '.') + "-0";
 
+      var nameParts = data[4].Split(new char[] {'-'}, 2);
+
       var entry = new LogEntry()
                   {
                     Time = DateTime.Parse(dateTime),
                     Thread = data[2].Trim('[', ']'),
                     Level = data[3],
-                    Description = data[4]
+                    Name = nameParts[0].Trim(),
+                    Description = nameParts[1].Trim(),
                   };
 
       _syncContext.Post(AddLogEntry, entry);

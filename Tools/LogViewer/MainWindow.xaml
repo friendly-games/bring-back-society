@@ -9,17 +9,18 @@
         Title="Unity Log Viewer" Height="653" Width="805">
   <Grid>
     <Grid.RowDefinitions>
-      <RowDefinition Height="231*" />
-      <RowDefinition Height="12*" />
-      <RowDefinition Height="68*" />
+      <RowDefinition />
+      <RowDefinition Height="24" />
+      <RowDefinition Height="29" />
+      <RowDefinition Height="107" />
     </Grid.RowDefinitions>
     <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="Auto" MinWidth="91" />
+      <ColumnDefinition Width="0" />
       <ColumnDefinition />
     </Grid.ColumnDefinitions>
     <DataGrid
       Name="LogGrid"
-      Grid.ColumnSpan="2"
+      Grid.ColumnSpan="4"
       ItemsSource="{Binding Entries}"
       AutoGenerateColumns="False"
       CanUserAddRows="False"
@@ -31,6 +32,12 @@
           <Setter Property="BorderThickness" Value="0" />
         </Style>
       </DataGrid.CellStyle>
+      <DataGrid.Resources>
+        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                         Color="#FF8EA4EB" />
+        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
+                         Color="#FF8EA4EB" />
+      </DataGrid.Resources>
       <DataGrid.Columns>
         <DataGridTemplateColumn Header="Level" Width="50" IsReadOnly="True">
           <DataGridTemplateColumn.CellTemplate>
@@ -39,7 +46,7 @@
             </DataTemplate>
           </DataGridTemplateColumn.CellTemplate>
         </DataGridTemplateColumn>
-        <DataGridTemplateColumn Header="Time" Width="70" IsReadOnly="True">
+        <DataGridTemplateColumn Header="Time" Width="100" IsReadOnly="True">
           <DataGridTemplateColumn.CellTemplate>
             <DataTemplate>
               <TextBlock Text="{Binding Time,StringFormat='HH:mm:ss.fff'}" Padding="2" FontFamily="Consolas"
@@ -64,13 +71,13 @@
       </DataGrid.Columns>
     </DataGrid>
     <TextBox Grid.Column="0"
-             Grid.ColumnSpan="2"
+             Grid.ColumnSpan="4"
              TextWrapping="Wrap"
              Text="{Binding SelectedItem.Description}"
              IsReadOnly="True"
              FontFamily="Consolas"
              FontSize="14"
-             Grid.Row="2"
+             Grid.Row="3"
              ScrollViewer.VerticalScrollBarVisibility="Visible" />
     <CheckBox Content="Auto Scroll Entries"
               HorizontalAlignment="Left"
@@ -78,7 +85,65 @@
               IsChecked="{Binding AutoScroll}"
               VerticalAlignment="Top"
               Height="15"
-              Width="Auto"
-              Margin="0,5,0,0" />
+              Width="117"
+              Margin="0,5,0,0" Grid.ColumnSpan="2" />
+    <Label Content="Time:"
+           Margin="0,3,178,0"
+           Grid.Row="2"
+           VerticalAlignment="Top" Height="26" Width="38" Grid.ColumnSpan="2" HorizontalAlignment="Right" />
+    <TextBox Grid.ColumnSpan="2"
+             HorizontalAlignment="Right"
+             Height="23"
+             Margin="0,4,10,0"
+             Grid.Row="2"
+             TextWrapping="Wrap"
+             Text="{Binding SelectedItem.Time}"
+             IsReadOnly="True"
+             VerticalAlignment="Top"
+             Width="168" FontFamily="Consolas" FontSize="14" Padding="2" />
+    <Label Content="Thread:"
+           HorizontalAlignment="Right"
+           Margin="0,3,249,0"
+           Grid.Row="2"
+           VerticalAlignment="Top" Grid.Column="1" Height="26" Width="Auto" />
+    <TextBox
+      HorizontalAlignment="Right"
+      Height="23"
+      Margin="0,4,216,0"
+      Grid.Row="2"
+      TextWrapping="Wrap"
+      Text="{Binding SelectedItem.Thread}"
+      IsReadOnly="True"
+      VerticalAlignment="Top"
+      Width="33" Grid.Column="1" FontFamily="Consolas" FontSize="14" Padding="2" />
+    <Label Content="Level:"
+           HorizontalAlignment="Left"
+           Margin="8,3,0,0"
+           Grid.Row="2"
+           VerticalAlignment="Top" Grid.Column="1" Height="26" Width="Auto" />
+    <TextBox
+      HorizontalAlignment="Left"
+      Height="23"
+      Margin="47,4,0,0"
+      Grid.Row="2"
+      TextWrapping="Wrap"
+      Text="{Binding SelectedItem.Level}"
+      IsReadOnly="True"
+      VerticalAlignment="Top"
+      Width="70" Grid.Column="1" FontFamily="Consolas" FontSize="14" Padding="2" />
+    <Label Content="Name:"
+           HorizontalAlignment="Left"
+           Margin="122,3,0,0"
+           Grid.Row="2"
+           VerticalAlignment="Top" Grid.Column="1" Height="26" Width="Auto" />
+    <TextBox
+      Height="23"
+      Margin="171,4,303,0"
+      Grid.Row="2"
+      TextWrapping="Wrap"
+      Text="{Binding SelectedItem.Name}"
+      IsReadOnly="True"
+      VerticalAlignment="Top" Grid.Column="1" FontFamily="Consolas"
+      FontSize="14" Padding="2" />
   </Grid>
 </Window>
