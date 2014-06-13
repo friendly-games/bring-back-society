@@ -18,5 +18,8 @@ namespace LogViewer
 
     /// <summary> The level at which the entry was logged. </summary>
     public string Level { get; set; }
+
+    /// <summary> The name of the logger that logged the message. </summary>
+    public string Name { get; set; }
   }
 }
