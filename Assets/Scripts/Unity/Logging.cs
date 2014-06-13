@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BringBackSociety;
 using log4net;
 using log4net.Appender;
 using log4net.Config;
@@ -12,8 +11,6 @@ using UnityEngine;
 
 public class Logging
 {
-  private static PipeAppender _pipeLogger;
-
   /// <summary>
   ///  Configure logging to write to Logs\EventLog.txt and the Unity console output.
   /// </summary>
@@ -21,7 +18,7 @@ public class Logging
   {
     var patternLayout = new PatternLayout
                         {
-                          ConversionPattern = "%date [%thread] %-5level %logger - %message%newline"
+                          ConversionPattern = "%utcdate [%thread] %-5level %logger - %message\a%newline"
                         };
     patternLayout.ActivateOptions();
 
@@ -60,12 +57,7 @@ public class Logging
 
     unityLogger.ActivateOptions();
 
-    _pipeLogger = new PipeAppender("Unity")
-                  {
-                    Layout = new PatternLayout(),
-                  };
-
-    BasicConfigurator.Configure(unityLogger, fileAppender, _pipeLogger);
+    BasicConfigurator.Configure(unityLogger, fileAppender);
   }
 
   /// <summary> Global log used for temporary logging. </summary>
@@ -94,14 +86,6 @@ public class Logging
         // everything else we'll just log normally
         Debug.Log(message);
       }
-    }
-  }
-
-  public static void Shutdown()
-  {
-    if (_pipeLogger != null)
-    {
-      _pipeLogger.Dispose();
     }
   }
 }

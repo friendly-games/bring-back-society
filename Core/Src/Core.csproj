@@ -63,7 +63,6 @@
   <ItemGroup>
     <Compile Include="Actions\IAction.cs" />
     <Compile Include="Annotations.cs" />
-    <Compile Include="PipeAppender.cs" />
     <Compile Include="SnapshotToken.cs" />
     <Compile Include="Chunks\Chunk.cs" />
     <Compile Include="Chunks\ChunkChangedArgs.cs" />

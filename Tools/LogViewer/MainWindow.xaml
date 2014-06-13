@@ -1,31 +1,84 @@
 ﻿<Window x:Class="LogViewer.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Unity Log Viewer" Height="350" Width="525">
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:UI="clr-namespace:LogViewer"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=UI:LogDataViewModel, IsDesignTimeCreatable=True}"
+        Title="Unity Log Viewer" Height="653" Width="805">
   <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="231*" />
+      <RowDefinition Height="12*" />
+      <RowDefinition Height="68*" />
+    </Grid.RowDefinitions>
     <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" MinWidth="91" />
       <ColumnDefinition />
     </Grid.ColumnDefinitions>
     <DataGrid
-      Margin="10,38,10,77"
-      Grid.ColumnSpan="2" />
-    <Label Content="Status:"
-           HorizontalAlignment="Left"
-           Margin="10,10,0,0"
-           Grid.ColumnSpan="2" Height="26" VerticalAlignment="Top" />
-    <Label Content="Connected"
-           HorizontalAlignment="Left"
-           Margin="55,10,0,0"
-           VerticalAlignment="Top"
-           RenderTransformOrigin="1.986,0.423"
-           Grid.Column="1" />
+      Name="LogGrid"
+      Grid.ColumnSpan="2"
+      ItemsSource="{Binding Entries}"
+      AutoGenerateColumns="False"
+      CanUserAddRows="False"
+      CanUserDeleteRows="False"
+      CanUserResizeRows="False"
+      SelectedItem="{Binding SelectedItem}">
+      <DataGrid.CellStyle>
+        <Style TargetType="DataGridCell">
+          <Setter Property="BorderThickness" Value="0" />
+        </Style>
+      </DataGrid.CellStyle>
+      <DataGrid.Columns>
+        <DataGridTemplateColumn Header="Level" Width="50" IsReadOnly="True">
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+              <TextBlock Text="{Binding Level}" Padding="2" FontFamily="Consolas" FontSize="14" />
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+        <DataGridTemplateColumn Header="Time" Width="70" IsReadOnly="True">
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+              <TextBlock Text="{Binding Time,StringFormat='HH:mm:ss.fff'}" Padding="2" FontFamily="Consolas"
+                         FontSize="14" />
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+        <DataGridTemplateColumn Header="Thread" Width="50" IsReadOnly="True">
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+              <TextBlock Text="{Binding Thread}" Padding="2" FontFamily="Consolas" FontSize="14" />
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+        <DataGridTemplateColumn Header="Description" Width="*" IsReadOnly="True">
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+              <TextBlock Text="{Binding Description}" Padding="2" FontFamily="Consolas" FontSize="14" />
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+      </DataGrid.Columns>
+    </DataGrid>
     <TextBox Grid.Column="0"
              Grid.ColumnSpan="2"
-             Height="62"
-             Margin="10,0,10,10"
              TextWrapping="Wrap"
-             Text="TextBox"
-             VerticalAlignment="Bottom" />
+             Text="{Binding SelectedItem.Description}"
+             IsReadOnly="True"
+             FontFamily="Consolas"
+             FontSize="14"
+             Grid.Row="2"
+             ScrollViewer.VerticalScrollBarVisibility="Visible" />
+    <CheckBox Content="Auto Scroll Entries"
+              HorizontalAlignment="Left"
+              Grid.Row="1"
+              IsChecked="{Binding AutoScroll}"
+              VerticalAlignment="Top"
+              Height="15"
+              Width="Auto"
+              Margin="0,5,0,0" />
   </Grid>
 </Window>
