@@ -29,7 +29,7 @@ internal class PlayerMonoBehaviour : MonoBehaviour, ICollisionHandler, IStart
     Player = new Player(gameObject,
                         new ModelHost<IFireableWeaponModel>(
                           gameObject,
-                          new Vector3(.55f, .35f, .35f) * 2.0f));
+                          new Vector3(.55f, .35f, .35f)));
 
     return Player;
   }
