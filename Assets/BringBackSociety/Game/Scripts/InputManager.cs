@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BringBackSociety.Game.Input;
 using log4net;
 using UnityEngine;
 
@@ -116,56 +117,6 @@ namespace Scripts
       position.y = _playerY;
 
       _camera.transform.position = position + _playerPositionOffset;
-    }
-
-    public class TargetLocator
-    {
-      private readonly int _width;
-      private readonly int _height;
-      private readonly int _outerRadius;
-
-      public float Strength;
-      public Quaternion Direction;
-
-      private readonly int _innerRadius;
-
-      public Vector2 CurrentPosition { get; private set; }
-
-      public Vector2 Center { get; private set; }
-
-      public TargetLocator(int width, int height, int innerRadius, int outerRadius)
-      {
-        _width = width;
-        _height = height;
-
-        Center = new Vector2(_width / 2.0f, _height / 2.0f);
-
-        _innerRadius = innerRadius;
-        _outerRadius = outerRadius - _innerRadius;
-      }
-
-      public void UpdatePosition(Vector2 location)
-      {
-        var ray = location - Center;
-
-        float distance = ray.magnitude - _innerRadius;
-
-        if (distance < 0)
-        {
-          Strength = 0;
-          CurrentPosition = new Vector2(0, 0);
-          return;
-        }
-        else
-        {
-          Strength = Mathf.Min(_outerRadius, distance)
-                     / _outerRadius * 100;
-
-          CurrentPosition = ray.normalized * Strength / 100;
-        }
-
-        Direction = Quaternion.FromToRotation(Vector3.forward, new Vector3(ray.x, 0, ray.y));
-      }
     }
   }
 }

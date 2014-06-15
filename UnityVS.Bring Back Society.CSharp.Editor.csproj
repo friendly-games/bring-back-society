@@ -90,6 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\BringBackSociety\Editor\Tests\AssertEx.cs" />
+    <Compile Include="Assets\BringBackSociety\Editor\Tests\Fixture.cs" />
     <Compile Include="Assets\BringBackSociety\Editor\Tests\Items\StorageContainerTests.cs" />
     <Compile Include="Assets\BringBackSociety\Editor\Tests\TargetLocatorTests.cs" />
     <Compile Include="Assets\BringBackSociety\Editor\Tests\Tasks\CoroutineDispatcherTests.cs" />

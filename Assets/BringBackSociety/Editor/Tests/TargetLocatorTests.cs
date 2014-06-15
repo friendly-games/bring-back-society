@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Assets.BringBackSociety.Editor.Tests;
+using BringBackSociety.Game.Input;
 using NUnit.Framework;
 using Scripts;
 using UnityEngine;
@@ -11,12 +12,12 @@ namespace Assets.BringBackSociety.Tests
   [Category("InUnity")]
   public class TargetLocatorTests
   {
-    private InputManager.TargetLocator _locator;
+    private TargetLocator _locator;
 
     [SetUp]
     public void Setup()
     {
-      _locator = new InputManager.TargetLocator(100, 100, 5, 10);
+      _locator = new TargetLocator(100, 100, 5, 10);
     }
 
     [Test]
@@ -45,20 +46,28 @@ namespace Assets.BringBackSociety.Tests
     }
 
     [Test]
+    [Description("Position is currect")]
+    public void Position_is_currect()
+    {
+      _locator.UpdatePosition(new Vector2(57, 50));
+      AssertEx.AreEqual(new Vector2(7, 0).normalized, _locator.CurrentPosition);
+    }
+
+    [Test]
     [Description("Strength at 7 is 40")]
     public void Strength_at_7_is_40()
     {
       _locator.UpdatePosition(new Vector2(57, 50));
-      Assert.AreEqual(40, _locator.Strength, 3);
+      Assert.AreEqual(40, _locator.Strength, 0.001f);
 
       _locator.UpdatePosition(new Vector2(50, 57));
-      Assert.AreEqual(40, _locator.Strength, 3);
+      Assert.AreEqual(40, _locator.Strength, 0.001f);
 
       _locator.UpdatePosition(new Vector2(43, 50));
-      Assert.AreEqual(40, _locator.Strength, 3);
+      Assert.AreEqual(40, _locator.Strength, 0.001f);
 
       _locator.UpdatePosition(new Vector2(50, 43));
-      Assert.AreEqual(40, _locator.Strength, 3);
+      Assert.AreEqual(40, _locator.Strength, 0.001f);
     }
 
     [Test]
