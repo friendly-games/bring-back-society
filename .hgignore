@@ -3,7 +3,6 @@ Library
 Temp
 *.pidb
 *.userprefs
-*.orig
 *.suo
 
 */bin/*

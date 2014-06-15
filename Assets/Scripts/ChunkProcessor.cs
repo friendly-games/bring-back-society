@@ -128,7 +128,7 @@ internal class ChunkProcessor
           _loadedChunks.AddLast(chunk);
 
           var chunkObject = new GameObject("Chunk[" + chunk.Coordinate + "]");
-          var chunkOffset = chunk.Offset.ToVector3();
+          var chunkOffset = chunk.Offset.ToVector3() + new Vector3(0.5f, 0.5f, 0.5f);
 
           chunkObject.transform.parent = _allWalls.transform;
 
@@ -179,7 +179,7 @@ internal class ChunkProcessor
 
       if (tile.Wall > 0)
       {
-        var position = chunkOffset + new Vector3(x, _wall.transform.position.y, z) / 2;
+        var position = chunkOffset + new Vector3(x, _wall.transform.position.y, z);
         var newWall = _wall.Clone(position);
         newWall.transform.parent = chunkObject.transform;
       }

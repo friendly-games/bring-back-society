@@ -129,10 +129,18 @@ internal class Bootstrap : MonoBehaviour, IGui
   public void SwitchWeapons(int weapon)
   {
     var inventory = _player.Inventory;
+    var currentWeapon = _player.EquippedWeapon;
+
     if (weapon < 0 || weapon >= inventory.Slots.Count)
       return;
 
-    _player.EquippedWeapon = inventory.GetCursor(weapon);
+    var newWeapon = inventory.GetCursor(weapon);
+
+    // if we're not actually switching, bail out
+    if (newWeapon == currentWeapon)
+      return;
+
+    _player.EquippedWeapon = newWeapon;
 
     var actualWeapon = _player.EquippedWeapon.Stack.Model as FireableWeapon;
 

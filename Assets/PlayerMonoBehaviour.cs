@@ -26,7 +26,10 @@ internal class PlayerMonoBehaviour : MonoBehaviour, ICollisionHandler, IStart
   /// <returns> The player that was created for this behavior. </returns>
   public Player CreatePlayer()
   {
-    Player = new Player(gameObject, new ModelHost<IFireableWeaponModel>(gameObject, new Vector3(.55f, .35f, .35f)));
+    Player = new Player(gameObject,
+                        new ModelHost<IFireableWeaponModel>(
+                          gameObject,
+                          new Vector3(.55f, .35f, .35f) * 2.0f));
 
     return Player;
   }
