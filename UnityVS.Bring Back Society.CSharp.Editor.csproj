@@ -49,6 +49,12 @@
     <Reference Include="log4net">
       <HintPath>Assets\BringBackSociety\Game\Core\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Moq">
+      <HintPath>Assets\BringBackSociety\Game\Core\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit">
+      <HintPath>Assets\BringBackSociety\Game\Core\xunit.dll</HintPath>
+    </Reference>
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>Assets\UnityVS\Editor\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
@@ -69,6 +75,8 @@
     <Compile Include="Assets\Editor\GlobalResourcesMenuItem.cs" />
     <Compile Include="Assets\Editor\ScriptableObjectUtility.cs" />
     <None Include="Assets\BringBackSociety\Game\Core\log4net.xml" />
+    <None Include="Assets\BringBackSociety\Game\Core\Moq.xml" />
+    <None Include="Assets\BringBackSociety\Game\Core\xunit.xml" />
     <None Include="Assets\UnityVS\Editor\SyntaxTree.VisualStudio.Unity.Bridge.dll" />
     <None Include="Assets\UnityVS\Editor\SyntaxTree.VisualStudio.Unity.Messaging.dll" />
     <None Include="Assets\UnityVS\Editor\UnityVS.VersionSpecific.dll" />

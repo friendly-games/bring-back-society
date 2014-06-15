@@ -49,6 +49,12 @@
     <Reference Include="log4net">
       <HintPath>Assets\BringBackSociety\Game\Core\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Moq">
+      <HintPath>Assets\BringBackSociety\Game\Core\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit">
+      <HintPath>Assets\BringBackSociety\Game\Core\xunit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\BringBackSociety\Engine\Actions\IAction.cs" />
@@ -87,7 +93,6 @@
     <Compile Include="Assets\BringBackSociety\Engine\Items\Weapons\AmmoType.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Items\Weapons\FireableWeapon.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Mapping\WallData.cs" />
-    <Compile Include="Assets\BringBackSociety\Engine\Properties\AssemblyInfo.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Services\AllServices.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Services\IItemCollectionService.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Services\Implementations\RandomNumberGeneratorGenerator.cs" />
@@ -146,8 +151,18 @@
     <Compile Include="Assets\BringBackSociety\Scripts\Killable.cs" />
     <Compile Include="Assets\BringBackSociety\Scripts\PlayerMonoBehaviour.cs" />
     <Compile Include="Assets\BringBackSociety\Scripts\WallParentProviderKillable.cs" />
+    <Compile Include="Assets\BringBackSociety\Tests\Items\StorageContainerTests.cs" />
+    <Compile Include="Assets\BringBackSociety\Tests\Properties\AssemblyInfo.cs" />
+    <Compile Include="Assets\BringBackSociety\Tests\Tasks\CoroutineDispatcherTests.cs" />
+    <Compile Include="Assets\BringBackSociety\Tests\Weapons\FireableWeaponStatsTests.cs" />
+    <Compile Include="Assets\BringBackSociety\Tests\WorldCreationTests.cs" />
+    <Compile Include="Assets\BringBackSociety\Tests\WorldPositionTests.cs" />
     <None Include="Assets\BringBackSociety\Game\Core\log4net.xml" />
+    <None Include="Assets\BringBackSociety\Game\Core\Moq.xml" />
+    <None Include="Assets\BringBackSociety\Game\Core\xunit.xml" />
     <None Include="Assets\BringBackSociety\Game\Core\log4net.dll" />
+    <None Include="Assets\BringBackSociety\Game\Core\Moq.dll" />
+    <None Include="Assets\BringBackSociety\Game\Core\xunit.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />
 </Project>
