@@ -47,17 +47,16 @@
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="log4net">
-      <HintPath>Assets\BringBackSociety\Game\Core\log4net.dll</HintPath>
+      <HintPath>Assets\BringBackSociety\Xternals\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Moq">
-      <HintPath>Assets\BringBackSociety\Game\Core\Moq.dll</HintPath>
+      <HintPath>Assets\BringBackSociety\Xternals\Moq.dll</HintPath>
     </Reference>
     <Reference Include="xunit">
-      <HintPath>Assets\BringBackSociety\Game\Core\xunit.dll</HintPath>
+      <HintPath>Assets\BringBackSociety\Xternals\xunit.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\BringBackSociety\Engine\Actions\IAction.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Annotations.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Chunks\Chunk.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Chunks\ChunkChangedArgs.cs" />
@@ -157,12 +156,12 @@
     <Compile Include="Assets\BringBackSociety\Tests\Weapons\FireableWeaponStatsTests.cs" />
     <Compile Include="Assets\BringBackSociety\Tests\WorldCreationTests.cs" />
     <Compile Include="Assets\BringBackSociety\Tests\WorldPositionTests.cs" />
-    <None Include="Assets\BringBackSociety\Game\Core\log4net.xml" />
-    <None Include="Assets\BringBackSociety\Game\Core\Moq.xml" />
-    <None Include="Assets\BringBackSociety\Game\Core\xunit.xml" />
-    <None Include="Assets\BringBackSociety\Game\Core\log4net.dll" />
-    <None Include="Assets\BringBackSociety\Game\Core\Moq.dll" />
-    <None Include="Assets\BringBackSociety\Game\Core\xunit.dll" />
+    <None Include="Assets\BringBackSociety\Xternals\log4net.xml" />
+    <None Include="Assets\BringBackSociety\Xternals\Moq.xml" />
+    <None Include="Assets\BringBackSociety\Xternals\xunit.xml" />
+    <None Include="Assets\BringBackSociety\Xternals\log4net.dll" />
+    <None Include="Assets\BringBackSociety\Xternals\Moq.dll" />
+    <None Include="Assets\BringBackSociety\Xternals\xunit.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />
 </Project>

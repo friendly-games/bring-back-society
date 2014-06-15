@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BringBackSociety.Chunks.Loaders;
 using BringBackSociety.Extensions;
 using BringBackSociety.Services;
 
-namespace BringBackSociety.Chunks.Generators
+namespace BringBackSociety.Engine
 {
   /// <summary> Generates new chunks using perlin noise. </summary>
   public class PerlinChunkGenerator : IChunkGenerator
