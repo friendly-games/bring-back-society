@@ -4,16 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 using BringBackSociety.Items;
 using BringBackSociety.Items.Weapons;
+using Models;
 using UnityEngine;
 
-namespace Models
+namespace BringBackSociety.Scripts
 {
   /// <summary> Represents a weapon which can be fired. </summary>
   public class FireableWeaponBehavior : ExtendedBehaviour, IModelProvider<IFireableWeaponModel>
   {
     private Implementation _implementation;
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     IFireableWeaponModel IModelProvider<IFireableWeaponModel>.ModelImplementation
     {
       get { return _implementation; }

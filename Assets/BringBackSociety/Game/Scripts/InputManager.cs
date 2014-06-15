@@ -115,5 +115,53 @@ namespace Scripts
 
       _camera.transform.position = position + _playerPositionOffset;
     }
+
+    public class TargetLocator
+    {
+      private readonly int _width;
+      private readonly int _height;
+      private readonly int _outerRadius;
+      private readonly int _midY;
+      private readonly int _midX;
+
+      public float Strength;
+      public Quaternion Direction;
+
+      private readonly int _innerRadius;
+
+      public TargetLocator(int width, int height, int innerRadius, int outerRadius)
+      {
+        _width = width;
+        _height = height;
+
+        _midX = _width / 2;
+        _midY = _height / 2;
+
+        _innerRadius = innerRadius;
+        _outerRadius = outerRadius - _innerRadius;
+      }
+
+      public void UpdatePosition(int x, int y)
+      {
+        int xPos = x - _midX;
+        int yPos = y - _midY;
+
+        Vector2 ray = new Vector2(xPos, yPos);
+
+        float distance = ray.magnitude - _innerRadius;
+
+        if (distance < 0)
+        {
+          Strength = 0;
+        }
+        else
+        {
+          Strength = Mathf.Min(_outerRadius, distance)
+                     / _outerRadius * 100;
+        }
+
+        Direction = Quaternion.FromToRotation(Vector3.right, new Vector3(xPos, 0, yPos));
+      }
+    }
   }
 }
