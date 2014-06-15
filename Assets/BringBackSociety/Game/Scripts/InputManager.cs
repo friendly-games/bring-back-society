@@ -26,6 +26,8 @@ namespace Scripts
     private GameObject _player;
     private float _playerY;
 
+    private TargetLocator _locator;
+
     public void Start()
     {
       _camera = GameObject.Find("Camera");
@@ -38,6 +40,8 @@ namespace Scripts
 
       _playerY = _player.transform.position.y;
       _playerPositionOffset = _camera.transform.position - _player.transform.position;
+
+      _locator = new TargetLocator(Screen.width, Screen.height, 10, 100);
     }
 
     public void Update()
@@ -94,21 +98,19 @@ namespace Scripts
 
       _mover.TargetVelocity = targetVelocity;
 
-      var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+      _locator.UpdatePosition(Input.mousePosition);
 
-      RaycastHit hitInfo;
-      if (_groundCollider.Raycast(ray, out hitInfo, 10000f))
-      {
-        var diff = hitInfo.point - _mover.transform.position;
-        diff.y = 0;
+      var targetRotation = _locator.Direction;
 
-        var targetRotation = Quaternion.FromToRotation(Vector3.forward, diff).eulerAngles;
+      targetRotation.x = 0;
+      targetRotation.z = 0;
 
-        targetRotation.x = 0;
-        targetRotation.z = 0;
-
-        _mover.TargetRotation = Quaternion.Euler(targetRotation);
-      }
+      _mover.TargetRotation = targetRotation;
+      Debug.DrawLine(new Vector3(0, 3, 0),
+                     new Vector3(
+                       _locator.CurrentPosition.x,
+                       3,
+                       _locator.CurrentPosition.y));
 
       var position = _player.transform.position;
       position.y = _playerY;
@@ -121,46 +123,48 @@ namespace Scripts
       private readonly int _width;
       private readonly int _height;
       private readonly int _outerRadius;
-      private readonly int _midY;
-      private readonly int _midX;
 
       public float Strength;
       public Quaternion Direction;
 
       private readonly int _innerRadius;
 
+      public Vector2 CurrentPosition { get; private set; }
+
+      public Vector2 Center { get; private set; }
+
       public TargetLocator(int width, int height, int innerRadius, int outerRadius)
       {
         _width = width;
         _height = height;
 
-        _midX = _width / 2;
-        _midY = _height / 2;
+        Center = new Vector2(_width / 2.0f, _height / 2.0f);
 
         _innerRadius = innerRadius;
         _outerRadius = outerRadius - _innerRadius;
       }
 
-      public void UpdatePosition(int x, int y)
+      public void UpdatePosition(Vector2 location)
       {
-        int xPos = x - _midX;
-        int yPos = y - _midY;
-
-        Vector2 ray = new Vector2(xPos, yPos);
+        var ray = location - Center;
 
         float distance = ray.magnitude - _innerRadius;
 
         if (distance < 0)
         {
           Strength = 0;
+          CurrentPosition = new Vector2(0, 0);
+          return;
         }
         else
         {
           Strength = Mathf.Min(_outerRadius, distance)
                      / _outerRadius * 100;
+
+          CurrentPosition = ray.normalized * Strength / 100;
         }
 
-        Direction = Quaternion.FromToRotation(Vector3.right, new Vector3(xPos, 0, yPos));
+        Direction = Quaternion.FromToRotation(Vector3.forward, new Vector3(ray.x, 0, ray.y));
       }
     }
   }
