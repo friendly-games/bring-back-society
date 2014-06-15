@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CAADFEEE-5AA2-393E-DD46-839E533600EE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace></RootNamespace>
+    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
+    <CompilerResponseFile></CompilerResponseFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\UnityVS_bin\Debug\</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DefineConstants>DEBUG;TRACE;UNITY_4_5_0;UNITY_4_5;UNITY_STANDALONE_WIN;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\UnityVS_bin\Release\</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DefineConstants>TRACE;UNITY_4_5_0;UNITY_4_5;UNITY_STANDALONE_WIN;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Core" />
+    <Reference Include="Boo.Lang" />
+    <Reference Include="UnityScript.Lang" />
+    <Reference Include="UnityEngine">
+      <HintPath>Library\UnityAssemblies\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="log4net">
+      <HintPath>Assets\BringBackSociety\Game\Core\log4net.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\BringBackSociety\Engine\Actions\IAction.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Annotations.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Chunks\Chunk.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Chunks\ChunkChangedArgs.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Chunks\ChunkCoordinate.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Chunks\Generators\IChunkGenerator.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Chunks\Generators\PerlinChunkGenerator.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Chunks\IChunkLoader.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Chunks\Loaders\SimpleChunkLoader.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Controllers\FireableWeaponController.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Controllers\InventoryCountController.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Controllers\InventoryStack.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Controllers\PlayerController.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Controllers\StorageContainer.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Debugging.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Extensions\CoordinateExtensions.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Extensions\MathExtensions.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Items\FireableWeaponItem.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Items\FireableWeaponStats.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Items\IAmmoModel.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Items\IComponent.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Items\ICopyable.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Items\IDestroyable.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Items\IDisplayableItem.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Items\IFireableWeaponModel.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Items\IItemModel.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Items\INamed.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Items\INamedItem.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Items\InventoryItem.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Items\ISnapshotable.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Items\ITileItem.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Items\IUiResource.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Items\Resistance.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Items\Weapons\AmmoType.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Items\Weapons\FireableWeapon.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Mapping\WallData.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Properties\AssemblyInfo.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Services\AllServices.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Services\IItemCollectionService.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Services\Implementations\RandomNumberGeneratorGenerator.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Services\IPerlinNoiseProvider.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Services\IPlayer.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Services\IRandomNumberGenerator.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Services\IRaycastService.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\SnapshotToken.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Tasks\Coroutine.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Tasks\CoroutineBase.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Tasks\CoroutineDispatcher.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Tasks\ExceptionHelper.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Tasks\ICoroutine.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Tasks\ICoroutineDispatcher.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Tile.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\TileCoordinate.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\Util.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\ViewModels\IModel.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\ViewModels\IModelHost.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\World.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\WorldPosition.cs" />
+    <Compile Include="Assets\BringBackSociety\Game\Annotations.cs" />
+    <Compile Include="Assets\BringBackSociety\Game\Bootstrap.cs" />
+    <Compile Include="Assets\BringBackSociety\Game\ChunkProcessor.cs" />
+    <Compile Include="Assets\BringBackSociety\Game\Collectible.cs" />
+    <Compile Include="Assets\BringBackSociety\Game\Drawing\PropertyDrawer.cs" />
+    <Compile Include="Assets\BringBackSociety\Game\GlobalResources.cs" />
+    <Compile Include="Assets\BringBackSociety\Game\ItemCollector.cs" />
+    <Compile Include="Assets\BringBackSociety\Game\Items\Ammo.cs" />
+    <Compile Include="Assets\BringBackSociety\Game\Items\Player.cs" />
+    <Compile Include="Assets\BringBackSociety\Game\Models\BaseModel.cs" />
+    <Compile Include="Assets\BringBackSociety\Game\Models\IModelProvider.cs" />
+    <Compile Include="Assets\BringBackSociety\Game\Models\ModelHost.cs" />
+    <Compile Include="Assets\BringBackSociety\Game\Scripts\CharacterMover.cs" />
+    <Compile Include="Assets\BringBackSociety\Game\Scripts\ChunkOwner.cs" />
+    <Compile Include="Assets\BringBackSociety\Game\Scripts\DebugDraw.cs" />
+    <Compile Include="Assets\BringBackSociety\Game\Scripts\IGui.cs" />
+    <Compile Include="Assets\BringBackSociety\Game\Scripts\InputManager.cs" />
+    <Compile Include="Assets\BringBackSociety\Game\Services\ItemCollectorService.cs" />
+    <Compile Include="Assets\BringBackSociety\Game\Services\PerlinNoise.cs" />
+    <Compile Include="Assets\BringBackSociety\Game\Services\RaycastService.cs" />
+    <Compile Include="Assets\BringBackSociety\Game\Unity\ExtendedBehaviour.cs" />
+    <Compile Include="Assets\BringBackSociety\Game\Unity\IStart.cs" />
+    <Compile Include="Assets\BringBackSociety\Game\Unity\IStartAndUpdate.cs" />
+    <Compile Include="Assets\BringBackSociety\Game\Unity\Logging.cs" />
+    <Compile Include="Assets\BringBackSociety\Game\Unity\MonoBehaviourExtensions.cs" />
+    <Compile Include="Assets\BringBackSociety\Game\Unity\Prefabs.cs" />
+    <Compile Include="Assets\BringBackSociety\Game\Unity\UnitySystem.cs" />
+    <Compile Include="Assets\BringBackSociety\Game\ViewModels\DisplayStorageViewModel.cs" />
+    <Compile Include="Assets\BringBackSociety\Scripts\Collidables\CollisionType.cs" />
+    <Compile Include="Assets\BringBackSociety\Scripts\Collidables\ICollisionHandler.cs" />
+    <Compile Include="Assets\BringBackSociety\Scripts\FireableWeaponBehavior.cs" />
+    <Compile Include="Assets\BringBackSociety\Scripts\IObjectProvider.cs" />
+    <Compile Include="Assets\BringBackSociety\Scripts\IParentProvider.cs" />
+    <Compile Include="Assets\BringBackSociety\Scripts\ItemPickup.cs" />
+    <Compile Include="Assets\BringBackSociety\Scripts\Killable.cs" />
+    <Compile Include="Assets\BringBackSociety\Scripts\PlayerMonoBehaviour.cs" />
+    <Compile Include="Assets\BringBackSociety\Scripts\WallParentProviderKillable.cs" />
+    <None Include="Assets\BringBackSociety\Game\Core\log4net.xml" />
+    <None Include="Assets\BringBackSociety\Game\Core\log4net.dll" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />
+</Project>
