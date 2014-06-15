@@ -212,7 +212,7 @@ namespace BringBackSociety.Controllers
     }
 
     /// <summary> References a specific slot on the container. </summary>
-    public struct Cursor
+    public struct Cursor : IEquatable<Cursor>
     {
       /// <summary> The parent. </summary>
       private readonly StorageContainer _parent;
@@ -292,6 +292,43 @@ namespace BringBackSociety.Controllers
       public override string ToString()
       {
         return Stack.ToString();
+      }
+
+      /// <inheritdoc />
+      public bool Equals(Cursor other)
+      {
+        return _parent == other._parent
+               && _slotNumber == other._slotNumber;
+      }
+
+      /// <inheritdoc />
+      public override bool Equals(object obj)
+      {
+        if (ReferenceEquals(null, obj))
+          return false;
+
+        return obj is Cursor && Equals((Cursor) obj);
+      }
+
+      /// <inheritdoc />
+      public override int GetHashCode()
+      {
+        unchecked
+        {
+          return ((_parent != null ? _parent.GetHashCode() : 0) * 397) ^ _slotNumber;
+        }
+      }
+
+      /// <inheritdoc />
+      public static bool operator ==(Cursor left, Cursor right)
+      {
+        return left.Equals(right);
+      }
+
+      /// <inheritdoc />
+      public static bool operator !=(Cursor left, Cursor right)
+      {
+        return !left.Equals(right);
       }
     }
 

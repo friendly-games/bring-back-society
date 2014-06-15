@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using log4net;
 using UnityEngine;
 
 namespace Scripts
@@ -8,6 +9,9 @@ namespace Scripts
   /// <summary> Handles the input for the player. </summary>
   public class InputManager : MonoBehaviour
   {
+    /// <summary> Provides logging for the class. </summary>
+    private static readonly ILog Log = LogManager.GetLogger(typeof(InputManager));
+
     /// <summary> The object that should be moved using the input below. </summary>
     public GameObject Target;
 
