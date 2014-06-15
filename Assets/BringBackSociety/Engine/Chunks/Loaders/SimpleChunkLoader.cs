@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BringBackSociety.Chunks.Generators;
 
-namespace BringBackSociety.Chunks.Loaders
+namespace BringBackSociety.Engine
 {
   /// <summary> Loads chunks via perlin noise. </summary>
   public class SimpleChunkLoader : IChunkLoader
