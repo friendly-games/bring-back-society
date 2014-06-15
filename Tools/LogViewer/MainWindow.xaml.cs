@@ -50,6 +50,16 @@ namespace LogViewer
 
     private void OnClosing(object sender, CancelEventArgs cancelEventArgs)
     {
+      var result = MessageBox.Show("Are you sure you would like to quit?",
+                                   "Are you sure?",
+                                   MessageBoxButton.YesNo);
+
+      if (result == MessageBoxResult.No)
+      {
+        cancelEventArgs.Cancel = true;
+        return;
+      }
+
       _cancellationToken.Cancel();
       _backgroundThread.Join();
     }
