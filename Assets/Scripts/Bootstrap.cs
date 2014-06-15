@@ -108,7 +108,7 @@ internal class Bootstrap : MonoBehaviour, IGui
            .ToList()
            .ForEach(itemStack => _player.Inventory.AddToStorage(itemStack));
 
-    SwitchWeapons(0);
+    SwitchWeapons(1);
   }
 
   private void GenerateWorld()
