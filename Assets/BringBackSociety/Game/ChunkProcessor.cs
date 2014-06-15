@@ -5,6 +5,7 @@ using System.Linq;
 using Behavior;
 using BringBackSociety;
 using BringBackSociety.Extensions;
+using BringBackSociety.Scripts;
 using BringBackSociety.Tasks;
 using log4net;
 using UnityEngine;
@@ -145,7 +146,7 @@ internal class ChunkProcessor
           }
 
           chunk.Tag = chunkObject;
-          var wallParentKillable = chunkObject.AddComponent<WallParentProviderKillable>();
+          var wallParentKillable = chunkObject.AddComponent<WallParentProviderKillableBehavior>();
           wallParentKillable.Chunk = chunk;
         }
       }
