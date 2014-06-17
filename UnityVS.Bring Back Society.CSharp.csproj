@@ -56,6 +56,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\BringBackSociety\Core\Reflection\ObjectDictionarySerializer.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Annotations.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Chunks\Chunk.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Chunks\ChunkChangedArgs.cs" />
@@ -193,5 +194,6 @@
     <None Include="Assets\BringBackSociety\Xternals\log4net.dll" />
     <None Include="Assets\BringBackSociety\Xternals\Moq.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />
 </Project>
