@@ -107,16 +107,20 @@ namespace Scripts
       targetRotation.z = 0;
 
       _mover.TargetRotation = targetRotation;
+      _mover.TargetStrength = _locator.Strength;
+
       Debug.DrawLine(new Vector3(0, 3, 0),
                      new Vector3(
-                       _locator.CurrentPosition.x,
+                       _locator.CurrentPosition.x * _locator.Strength / 100,
                        3,
-                       _locator.CurrentPosition.y));
+                       _locator.CurrentPosition.y * _locator.Strength / 100));
 
       var position = _player.transform.position;
       position.y = _playerY;
 
       _camera.transform.position = position + _playerPositionOffset;
+
+      Screen.showCursor = false;
     }
   }
 }

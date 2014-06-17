@@ -15,7 +15,7 @@ namespace BringBackSociety.Extensions
     /// <returns> position as a Vector3. </returns>
     public static Vector3 ToVector3(this WorldPosition position)
     {
-      return new Vector3(position.X, 0, position.Z);
+      return new Vector3(position.X + 0.5f, 0, position.Z + 0.5f);
     }
 
     /// <summary>

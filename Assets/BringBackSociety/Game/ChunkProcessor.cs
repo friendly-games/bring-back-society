@@ -129,7 +129,7 @@ internal class ChunkProcessor
           _loadedChunks.AddLast(chunk);
 
           var chunkObject = new GameObject("Chunk[" + chunk.Coordinate + "]");
-          var chunkOffset = chunk.Offset.ToVector3() + new Vector3(0.5f, 0.5f, 0.5f);
+          var chunkOffset = chunk.Offset.ToVector3();
 
           chunkObject.transform.parent = _allWalls.transform;
 

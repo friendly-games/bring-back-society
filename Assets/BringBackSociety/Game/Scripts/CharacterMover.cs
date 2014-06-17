@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BringBackSociety.Extensions;
 using UnityEngine;
 
 namespace Scripts
@@ -21,11 +22,15 @@ namespace Scripts
     private Transform _transform;
     private Rigidbody _ground;
     private DateTime _lastJumpTime;
+    private GameObject _tileIndicator;
 
     /// <summary> The target velocity of the item. </summary>
     public Vector3 TargetVelocity { get; set; }
 
     public Quaternion TargetRotation { get; set; }
+
+    /// <summary> The strength of the target indicator away from the user. </summary>
+    public float TargetStrength { get; set; }
 
     /// <summary> True if the character should be jumping if possible.  </summary>
     public bool AttemptJump { get; set; }
@@ -35,6 +40,7 @@ namespace Scripts
       _rigidbody = GetComponent<Rigidbody>();
       _transform = GetComponent<Transform>();
       _ground = GameObject.Find("Ground").rigidbody;
+      _tileIndicator = GameObject.Find("TileIndicator");
 
       TargetRotation = _transform.rotation;
     }
@@ -67,6 +73,14 @@ namespace Scripts
       _transform.rotation = Quaternion.Slerp(_transform.rotation,
                                              TargetRotation,
                                              Time.deltaTime * MaxRotation);
+
+      var worldIndicatorPosition = gameObject.transform.position
+                                   + _transform.forward * TargetStrength / 100 * 6;
+
+      var newTilePosition = worldIndicatorPosition.ToWorldPosition().ToVector3();
+      newTilePosition.y = 0.1f;
+
+      _tileIndicator.transform.position = newTilePosition;
     }
   }
 }
