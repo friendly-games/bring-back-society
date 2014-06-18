@@ -42,7 +42,7 @@ namespace Scripts
       _playerY = _player.transform.position.y;
       _playerPositionOffset = _camera.transform.position - _player.transform.position;
 
-      _locator = new TargetLocator(Screen.width, Screen.height, 10, 100);
+      _locator = new TargetLocator(Screen.width, Screen.height, 0, 300);
     }
 
     public void Update()
