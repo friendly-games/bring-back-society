@@ -75,7 +75,7 @@ namespace Scripts
                                              Time.deltaTime * MaxRotation);
 
       var worldIndicatorPosition = gameObject.transform.position
-                                   + _transform.forward * TargetStrength / 100 * 6;
+                                   + (TargetRotation * Vector3.forward) * TargetStrength / 100 * 6;
 
       var newTilePosition = worldIndicatorPosition.ToWorldPosition().ToVector3();
       newTilePosition.y = 0.1f;
