@@ -31,44 +31,55 @@ namespace BringBackSociety.Game.Input
       _distanceToOuterRadius = outerRadius - _innerRadius;
     }
 
-    /// <summary> The relative strength of the current direction of the mouse. Between 0 and 100. </summary>
+    /// <summary> The relative strength of the current direction of the mouse. Between 0 and 1. </summary>
     public float Strength { get; private set; }
 
     /// <summary>
     ///  The current rotation that would be applied to an object to rotate it in the same direction as
     ///  the mouse.
     /// </summary>
-    public Quaternion Direction { get; private set; }
+    public Quaternion Direction
+    {
+      get
+      {
+        return Quaternion.FromToRotation(Vector3.forward,
+                                         new Vector3(EuelerDirection.x, 0, EuelerDirection.y));
+      }
+    }
 
     /// <summary>
     ///  The current relative distance from the center of the screen where the mouse currently is.
     /// </summary>
-    public Vector2 CurrentPosition { get; private set; }
+    public Vector2 EuelerDirection { get; private set; }
 
-    /// <summary> Updates the location of the mouse. </summary>
-    /// <param name="location"> The location of the mouse in screen coordinates. </param>
-    public void UpdatePosition(Vector2 location)
+    /// <summary> The direction position. </summary>
+    private Vector2 _directionPosition;
+
+    /// <summary> The diff in position of the mouse from last time. </summary>
+    /// <param name="diff"> The difference in position from the last update. </param>
+    public void Update(Vector2 diff)
     {
-      var ray = location - _center;
-      float distance = ray.magnitude;
+      _directionPosition += diff;
+      float relativeStrength = _directionPosition.magnitude - _innerRadius;
 
-      if (distance < _innerRadius)
+      // if our relative strength is less than zero, then we're in the inner circle
+      // so we basically have no direction and no strength
+      if (relativeStrength < 0)
       {
-        // we're within the inner circle, so don't change position at call
         Strength = 0;
-        CurrentPosition = new Vector2(0, 0);
+        EuelerDirection = new Vector2(0, 0);
         return;
       }
 
+      // make the magnitude of the vector doesn't exceed the outer circle
+      if (relativeStrength > _distanceToOuterRadius)
+      {
+        _directionPosition = _directionPosition.normalized * _distanceToOuterRadius;
+      }
+
       // otherwise the strength is a percentage based on how far close to the outer radius the position is
-      var strength = (Mathf.Min(_distanceToOuterRadius, distance - _innerRadius))
-                     / (_distanceToOuterRadius);
-
-      CurrentPosition = ray.normalized;
-
-      Strength = strength * 100;
-      Direction = Quaternion.FromToRotation(Vector3.forward,
-        new Vector3(CurrentPosition.x, 0, CurrentPosition.y));
+      Strength = relativeStrength / _distanceToOuterRadius;
+      EuelerDirection = _directionPosition.normalized;
     }
   }
 }

@@ -28,6 +28,7 @@ namespace Scripts
     private float _playerY;
 
     private TargetLocator _locator;
+    private Vector2 _lastMousePosition;
 
     public void Start()
     {
@@ -99,7 +100,8 @@ namespace Scripts
 
       _mover.TargetVelocity = targetVelocity;
 
-      _locator.UpdatePosition(Input.mousePosition);
+      var diff = UpdateAndDiff(Input.mousePosition);
+      _locator.Update(diff);
 
       var targetRotation = _locator.Direction;
 
@@ -107,13 +109,13 @@ namespace Scripts
       targetRotation.z = 0;
 
       _mover.TargetRotation = targetRotation;
-      _mover.TargetStrength = _locator.Strength;
+      _mover.TargetStrength = _locator.Strength * 100;
 
       Debug.DrawLine(new Vector3(0, 3, 0),
                      new Vector3(
-                       _locator.CurrentPosition.x * _locator.Strength / 100,
+                       _locator.EuelerDirection.x * _locator.Strength,
                        3,
-                       _locator.CurrentPosition.y * _locator.Strength / 100));
+                       _locator.EuelerDirection.y * _locator.Strength));
 
       var position = _player.transform.position;
       position.y = _playerY;
@@ -121,6 +123,17 @@ namespace Scripts
       _camera.transform.position = position + _playerPositionOffset;
 
       Screen.showCursor = false;
+    }
+
+    /// <summary> The last position calculated from all of the previous diffs. </summary>
+    /// <remarks> Used to calculate newer diffs. </remarks>
+    private Vector2 _lastRelativePosition;
+
+    private Vector2 UpdateAndDiff(Vector2 newPosition)
+    {
+      var diff = newPosition - _lastRelativePosition;
+      _lastRelativePosition = newPosition;
+      return diff;
     }
   }
 }
