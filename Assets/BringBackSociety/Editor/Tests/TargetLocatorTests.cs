@@ -24,57 +24,57 @@ namespace Assets.BringBackSociety.Tests
     [Description("Creation works")]
     public void Creation_works()
     {
-      _locator.UpdatePosition(new Vector2(50, 50));
+      _locator.Update(new Vector2(50, 50));
     }
 
     [Test]
     [Description("Strength at 50 is zero")]
     public void Strength_at_50_is_zero()
     {
-      _locator.UpdatePosition(new Vector2(50, 50));
+      _locator.Update(new Vector2(50, 50));
 
-      Assert.AreEqual(0, _locator.Strength);
+      Assert.AreEqual(0, _locator.Strength * 100);
     }
 
     [Test]
     [Description("Strength at 0 is 100")]
     public void Strength_at_0_is_100()
     {
-      _locator.UpdatePosition(new Vector2(100, 100));
+      _locator.Update(new Vector2(100, 100));
 
-      Assert.AreEqual(100, _locator.Strength, 3);
+      Assert.AreEqual(100, _locator.Strength * 100, 3);
     }
 
     [Test]
     [Description("Position is currect")]
     public void Position_is_currect()
     {
-      _locator.UpdatePosition(new Vector2(57, 50));
-      AssertEx.AreEqual(new Vector2(7, 0).normalized, _locator.CurrentPosition);
+      _locator.Update(new Vector2(57, 50));
+      AssertEx.AreEqual(new Vector2(7, 0).normalized, _locator.EuelerDirection);
     }
 
     [Test]
     [Description("Strength at 7 is 40")]
     public void Strength_at_7_is_40()
     {
-      _locator.UpdatePosition(new Vector2(57, 50));
-      Assert.AreEqual(40, _locator.Strength, 0.001f);
+      _locator.Update(new Vector2(57, 50));
+      Assert.AreEqual(40, _locator.Strength * 100, 0.001f);
 
-      _locator.UpdatePosition(new Vector2(50, 57));
-      Assert.AreEqual(40, _locator.Strength, 0.001f);
+      _locator.Update(new Vector2(50, 57));
+      Assert.AreEqual(40, _locator.Strength * 100, 0.001f);
 
-      _locator.UpdatePosition(new Vector2(43, 50));
-      Assert.AreEqual(40, _locator.Strength, 0.001f);
+      _locator.Update(new Vector2(43, 50));
+      Assert.AreEqual(40, _locator.Strength * 100, 0.001f);
 
-      _locator.UpdatePosition(new Vector2(50, 43));
-      Assert.AreEqual(40, _locator.Strength, 0.001f);
+      _locator.Update(new Vector2(50, 43));
+      Assert.AreEqual(40, _locator.Strength * 100, 0.001f);
     }
 
     [Test]
     [Description("Positive x faces right")]
     public void Positive_x_faces_right()
     {
-      _locator.UpdatePosition(new Vector2(57, 50));
+      _locator.Update(new Vector2(57, 50));
 
       AssertEqual(Quaternion.AngleAxis(90, Vector3.up), _locator.Direction);
     }
@@ -83,7 +83,7 @@ namespace Assets.BringBackSociety.Tests
     [Description("Negative x faces left")]
     public void Negative_x_faces_left()
     {
-      _locator.UpdatePosition(new Vector2(43, 50));
+      _locator.Update(new Vector2(43, 50));
 
       AssertEqual(Quaternion.AngleAxis(270, Vector3.up), _locator.Direction);
     }
@@ -92,7 +92,7 @@ namespace Assets.BringBackSociety.Tests
     [Description("Positive y faces back")]
     public void Positive_y_faces_back()
     {
-      _locator.UpdatePosition(new Vector2(50, 57));
+      _locator.Update(new Vector2(50, 57));
 
       AssertEqual(Quaternion.AngleAxis(0, Vector3.up), _locator.Direction);
     }
@@ -101,7 +101,7 @@ namespace Assets.BringBackSociety.Tests
     [Description("Negative y faces front")]
     public void Negative_y_faces_front()
     {
-      _locator.UpdatePosition(new Vector2(50, 43));
+      _locator.Update(new Vector2(50, 43));
 
       AssertEqual(Quaternion.AngleAxis(180, Vector3.up), _locator.Direction);
     }
