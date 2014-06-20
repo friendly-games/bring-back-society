@@ -19,15 +19,15 @@ namespace Items
     [UsedImplicitly]
     private readonly GameObject _gameObject;
 
-    public Player(GameObject gameObject, ModelHost<IFireableWeaponModel> weaponHost)
+    public Player(GameObject gameObject, ModelHost<IFireableWeaponModel> equippedItemHost)
     {
       _gameObject = gameObject;
-      WeaponHost = weaponHost;
+      EquippedItemHost = equippedItemHost;
 
       Transform = gameObject.transform;
 
       Inventory = new StorageContainer(10);
-      EquippedWeapon = Inventory.GetCursor(0);
+      EquippedItem = Inventory.GetCursor(0);
     }
 
     /// <summary> The transform of the player. </summary>
@@ -37,9 +37,9 @@ namespace Items
     public StorageContainer Inventory { get; private set; }
 
     /// <inheritdoc />
-    public StorageContainer.Cursor EquippedWeapon { get; set; }
+    public StorageContainer.Cursor EquippedItem { get; set; }
 
     /// <inheritdoc />
-    public IModelHost<IFireableWeaponModel> WeaponHost { get; private set; }
+    public IModelHost<IFireableWeaponModel> EquippedItemHost { get; private set; }
   }
 }

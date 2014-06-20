@@ -43,4 +43,9 @@ namespace BringBackSociety.Items.Weapons
     /// <summary> The number of shots remaining until the clip needs to be refilled. </summary>
     public int ShotsRemaining { get; set; }
   }
+
+  /// <summary> Blueprint for an item that is usable. </summary>
+  internal interface IUsableBlueprint
+  {
+  }
 }

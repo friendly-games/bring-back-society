@@ -88,12 +88,17 @@ namespace Scripts
 
       if (Input.GetKey(KeyCode.Alpha1))
       {
-        _weapon.SwitchWeapons(0);
+        _weapon.SwitchSlots(0);
       }
 
       if (Input.GetKey(KeyCode.Alpha2))
       {
-        _weapon.SwitchWeapons(1);
+        _weapon.SwitchSlots(1);
+      }
+
+      if (Input.GetKey(KeyCode.Alpha3))
+      {
+        _weapon.SwitchSlots(2);
       }
 
       targetVelocity.Normalize();
