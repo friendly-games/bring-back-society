@@ -101,7 +101,7 @@ internal class Bootstrap : MonoBehaviour, IGui
            .ToList()
            .ForEach(itemStack => _player.Inventory.AddToStorage(itemStack));
 
-    SwitchWeapons(1);
+    SwitchSlots(1);
   }
 
   private void GenerateWorld()
@@ -116,13 +116,13 @@ internal class Bootstrap : MonoBehaviour, IGui
 
   public void Fire()
   {
-    _playerController.FireWeapon();
+    _playerController.UseItem();
   }
 
-  public void SwitchWeapons(int weapon)
+  public void SwitchSlots(int weapon)
   {
     var inventory = _player.Inventory;
-    var currentWeapon = _player.EquippedWeapon;
+    var currentWeapon = _player.EquippedItem;
 
     if (weapon < 0 || weapon >= inventory.Slots.Count)
       return;
@@ -133,13 +133,13 @@ internal class Bootstrap : MonoBehaviour, IGui
     if (newWeapon == currentWeapon)
       return;
 
-    _player.EquippedWeapon = newWeapon;
+    _player.EquippedItem = newWeapon;
 
-    var actualWeapon = _player.EquippedWeapon.Stack.Model as FireableWeapon;
+    var actualWeapon = _player.EquippedItem.Stack.Model as FireableWeapon;
 
     if (actualWeapon != null)
     {
-      _player.WeaponHost.SwitchToCopyOf(actualWeapon.Template.Model);
+      _player.EquippedItemHost.SwitchToCopyOf(actualWeapon.Template.Model);
     }
 
     Log.InfoFormat("Switched weapon to {0}", inventory.Slots[weapon]);
@@ -190,7 +190,7 @@ internal class Bootstrap : MonoBehaviour, IGui
 
       string label = (i + 1).ToString();
 
-      if (i == _player.EquippedWeapon.SlotNumber)
+      if (i == _player.EquippedItem.SlotNumber)
       {
         _weaponDrawer.AddItem("*" + " " + item.DisplayName, item.QuantityText);
       }

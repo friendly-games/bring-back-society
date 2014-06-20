@@ -22,10 +22,10 @@ namespace BringBackSociety.Services
     StorageContainer Inventory { get; }
 
     /// <summary> The selected slot of the player. </summary>
-    StorageContainer.Cursor EquippedWeapon { get; }
+    StorageContainer.Cursor EquippedItem { get; }
 
     /// <summary> The host for the weapon that the player is holding. </summary>
-    IModelHost<IFireableWeaponModel> WeaponHost { get; }
+    IModelHost<IFireableWeaponModel> EquippedItemHost { get; }
   }
 
   ///// <summary> Represents the inventory for a player. </summary>

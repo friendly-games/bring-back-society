@@ -27,17 +27,22 @@ namespace BringBackSociety.Controllers
       _weaponController = weaponController;
     }
 
-    /// <summary> Fire the current weapon. </summary>
+    /// <summary> Use the current item </summary>
     /// <exception cref="ArgumentOutOfRangeException"> Thrown when one or more arguments are outside
     ///  the required range. </exception>
-    public void FireWeapon()
+    public void UseItem()
     {
-      var weaponSlot = _player.Inventory.GetStack(_player.EquippedWeapon);
+      var weaponSlot = _player.Inventory.GetStack(_player.EquippedItem);
       var weapon = weaponSlot.Model as FireableWeapon;
 
-      if (weapon == null)
-        return;
+      if (weapon != null)
+      {
+        UseWeapon(weapon, _player.EquippedItemHost.CurrentModel);
+      }
+    }
 
+    private void UseWeapon(FireableWeapon weapon, IFireableWeaponModel model)
+    {
       _player.Inventory.ForceSnapshot();
 
       var result = _weaponController.FireWeapon(_player, weapon);
@@ -66,9 +71,9 @@ namespace BringBackSociety.Controllers
           throw new ArgumentOutOfRangeException();
       }
 
-      if (wasFired && _player.WeaponHost.CurrentModel != null)
+      if (wasFired && model != null)
       {
-        _player.WeaponHost.CurrentModel.TransitionToState(FireableWeaponState.Fired);
+        model.TransitionToState(FireableWeaponState.Fired);
       }
     }
   }
