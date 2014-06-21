@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -15,13 +16,18 @@ namespace BringBackSociety
     /// </summary>
     public const int Length = 32;
 
+    /// <summary>
+    /// The tiles that belong to the chunk.
+    /// </summary>
+    private readonly Tile[] _tiles;
+
     /// <summary> Constructor. </summary>
     /// <param name="coordinate"> The coordinate associated with the chunk. </param>
     public Chunk(ChunkCoordinate coordinate)
     {
       Coordinate = coordinate;
       Offset = new WorldPosition(coordinate.X * Chunk.Length, coordinate.Z * Chunk.Length);
-      Tiles = new Tile[Length * Length];
+      _tiles = new Tile[Length * Length];
     }
 
     /// <summary> User defined data. </summary>
@@ -63,11 +69,6 @@ namespace BringBackSociety
     public Chunk Back { get; set; }
 
     /// <summary>
-    /// The tiles that belong to the chunk.
-    /// </summary>
-    public Tile[] Tiles { get; private set; }
-
-    /// <summary>
     ///  The tile at the specified world position.
     /// </summary>
     public Tile this[WorldPosition position]
@@ -81,8 +82,8 @@ namespace BringBackSociety
     /// </summary>
     public Tile this[TileCoordinate position]
     {
-      get { return Tiles[position.Index]; }
-      set { Tiles[position.Index] = value; }
+      get { return _tiles[position.Index]; }
+      set { Change(position, value); }
     }
 
     /// <summary> Get a tile coordinate from the given position, for this chunk. </summary>
@@ -102,6 +103,25 @@ namespace BringBackSociety
     public override string ToString()
     {
       return Coordinate.ToString();
+    }
+
+    /// <summary> Invoked when a tile is changed. </summary>
+    public event Action<Chunk, TileCoordinate, Tile> Changed;
+
+    protected virtual void OnChanged(TileCoordinate coordinate, Tile value)
+    {
+      var handler = Changed;
+      if (handler != null)
+        handler(this, coordinate, value);
+    }
+
+    /// <summary> Changes. </summary>
+    /// <param name="coordinate"> Update the value of the given tile. </param>
+    /// <param name="value"> The value of the given tile. </param>
+    public void Change(TileCoordinate coordinate, Tile value)
+    {
+      _tiles[coordinate.Index] = value;
+      OnChanged(coordinate, value);
     }
 
     /// <summary> Set the left and right properties to point to each other. </summary>

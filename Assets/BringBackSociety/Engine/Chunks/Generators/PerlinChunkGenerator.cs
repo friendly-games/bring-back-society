@@ -34,14 +34,14 @@ namespace BringBackSociety.Engine
         for (int z = 0; z < Chunk.Length; z++)
         {
           var noise = _noise.Noise(world.X + x, world.Z + z);
-          chunk.Tiles[new TileCoordinate(x, z).Index] = new Tile
-                                                        {
-                                                          Wall = (byte) (noise > 0.5f ? 1 : 0),
-                                                          WallData =
-                                                          {
-                                                            Health = (byte) (noise * byte.MaxValue)
-                                                          }
-                                                        };
+          chunk[new TileCoordinate(x, z)] = new Tile
+                                            {
+                                              Type = (byte) (noise > 0.5f ? 1 : 0),
+                                              WallData =
+                                              {
+                                                Health = (byte) (noise * byte.MaxValue)
+                                              }
+                                            };
         }
       return chunk;
     }
