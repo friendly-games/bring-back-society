@@ -71,6 +71,21 @@ namespace BringBackSociety
           Chunk.LinkHorizontally(nodeToLeft, centerNode);
           Chunk.LinkVertically(centerNode, nodeAbove);
         }
+
+      foreach (var chunk in Chunks)
+      {
+        chunk.Changed += OnChunkChanged;
+      }
+    }
+
+    /// <summary> Occurs when the tile within a chunk changes.  </summary>
+    public event Action<Chunk, TileCoordinate, Tile> TileChanged;
+
+    private void OnChunkChanged(Chunk chunk, TileCoordinate tileCoordinate, Tile value)
+    {
+      var handler = TileChanged;
+      if (handler != null)
+        handler(chunk, tileCoordinate, value);
     }
 
     /// <summary> Initialize the world. </summary>

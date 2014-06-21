@@ -6,6 +6,7 @@ using BringBackSociety;
 using BringBackSociety.Engine;
 using BringBackSociety.Controllers;
 using BringBackSociety.Extensions;
+using BringBackSociety.Game;
 using BringBackSociety.Items;
 using BringBackSociety.Items.Weapons;
 using BringBackSociety.Scripts;
@@ -32,10 +33,6 @@ internal class Bootstrap : MonoBehaviour, IGui
   private DisplayStorageViewModel _containerViewModel;
   private PlayerController _playerController;
   private ChunkProcessor _processor;
-
-  static Bootstrap()
-  {
-  }
 
   public void Start()
   {
@@ -112,6 +109,29 @@ internal class Bootstrap : MonoBehaviour, IGui
     _processor = new ChunkProcessor(AllServices.Dispatcher, World);
 
     World.Initialize();
+    World.TileChanged += WorldOnTileChanged;
+  }
+
+  private void WorldOnTileChanged(Chunk chunk, TileCoordinate tileCoordinate, Tile arg3)
+  {
+    if (arg3.IsEmpty)
+    {
+      // game object is being destroyed:
+      var go = chunk.TagValue<GameObject>();
+      if (go == null)
+        return;
+
+      var parentProvider = go.GetComponent<WallParentProviderKillableBehavior>();
+
+      if (parentProvider == null)
+        return;
+
+      var obj = parentProvider.GetGameObjectFor(tileCoordinate);
+      if (obj == null)
+        return;
+
+      Destroy(obj);
+    }
   }
 
   public void Fire()

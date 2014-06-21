@@ -51,6 +51,18 @@ namespace BringBackSociety.Scripts
 
     #endregion
 
+    public GameObject GetGameObjectFor(TileCoordinate coordinate)
+    {
+      var position = new WorldPosition(Chunk.Coordinate, coordinate).ToVector3();
+      var matches = Physics.OverlapSphere(position, 0.01f);
+      foreach (var match in matches)
+      {
+        return match.gameObject;
+      }
+
+      return null;
+    }
+
     #region IKillable implementation
 
     /// <summary> A returnable Killable instance object </summary>
@@ -80,25 +92,19 @@ namespace BringBackSociety.Scripts
       /// <inheritdoc />
       int IDestroyable.Health
       {
-        get { return _parent.Chunk.Tiles[_tileCoordinate.Index].WallData.Health; }
+        get { return _parent.Chunk[_tileCoordinate].WallData.Health; }
         set
         {
-          if (value <= 0)
-          {
-            _parent.Chunk.Tiles[_tileCoordinate.Index].WallData.Health = 0;
-          }
-          else
-          {
-            _parent.Chunk.Tiles[_tileCoordinate.Index].WallData.Health = (byte) value;
-          }
+          var data = _parent.Chunk[_tileCoordinate];
+          data.WallData.Health = (byte) Math.Max(0, value);
+          _parent.Chunk[_tileCoordinate] = data;
         }
       }
 
       /// <inheritdoc />
       void IDestroyable.Destroy()
       {
-        _parent.Chunk.Tiles[_tileCoordinate.Index] = new Tile();
-        Destroy(_currentChild);
+        _parent.Chunk[_tileCoordinate] = new Tile();
       }
 
       /// <summary>
