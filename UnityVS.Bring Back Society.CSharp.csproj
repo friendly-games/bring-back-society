@@ -150,7 +150,10 @@
     <Compile Include="Assets\BringBackSociety\Scripts\ItemPickupBehavior.cs" />
     <Compile Include="Assets\BringBackSociety\Scripts\KillableBehavior.cs" />
     <Compile Include="Assets\BringBackSociety\Scripts\PlayerMonoBehaviour.cs" />
+    <Compile Include="Assets\BringBackSociety\Scripts\TileProxyProvider.cs" />
     <Compile Include="Assets\BringBackSociety\Scripts\WallParentProviderKillableBehavior.cs" />
+    <Compile Include="Assets\BringBackSociety\Game\Items\WallProxy.cs" />
+    <Compile Include="Assets\BringBackSociety\Game\Items\WallTemplate.cs" />
     <Compile Include="Assets\UnityTestTools\Assertions\AssertionComponent.cs" />
     <Compile Include="Assets\UnityTestTools\Assertions\AssertionException.cs" />
     <Compile Include="Assets\UnityTestTools\Assertions\Assertions.cs" />
