@@ -8,6 +8,9 @@ namespace BringBackSociety.Items
   [Serializable]
   public class Resistance
   {
+    /// <summary> Resistance against an object which does not have any special attributes. </summary>
+    public float PlainResistance = 1.0f;
+
     /// <summary> The entity's resistance to explosives. </summary>
     public float ExplosiveResistance = 1.0f;
 
