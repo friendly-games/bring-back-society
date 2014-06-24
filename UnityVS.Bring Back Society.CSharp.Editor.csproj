@@ -92,6 +92,7 @@
     <Compile Include="Assets\BringBackSociety\Editor\Tests\AssertEx.cs" />
     <Compile Include="Assets\BringBackSociety\Editor\Tests\Fixture.cs" />
     <Compile Include="Assets\BringBackSociety\Editor\Tests\Items\StorageContainerTests.cs" />
+    <Compile Include="Assets\BringBackSociety\Editor\Tests\System\ComponentInfoTests.cs" />
     <Compile Include="Assets\BringBackSociety\Editor\Tests\Tasks\CoroutineDispatcherTests.cs" />
     <Compile Include="Assets\BringBackSociety\Editor\Tests\Weapons\FireableWeaponStatsTests.cs" />
     <Compile Include="Assets\BringBackSociety\Editor\Tests\WorldCreationTests.cs" />
@@ -151,5 +152,6 @@
     <None Include="Assets\UnityVS\Editor\SyntaxTree.VisualStudio.Unity.Messaging.dll" />
     <None Include="Assets\UnityVS\Editor\UnityVS.VersionSpecific.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />
 </Project>
