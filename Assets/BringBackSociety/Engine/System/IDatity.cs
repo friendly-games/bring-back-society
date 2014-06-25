@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BringBackSociety.Items;
 
 namespace BringBackSociety.Engine.System
 {
@@ -27,29 +26,11 @@ namespace BringBackSociety.Engine.System
     IDatity Clone();
   }
 
-  /// <summary> An object that contains health. </summary>
-  internal interface IHealth : IReadWriteComponent
-  {
-    /// <summary> The current health of the entity. </summary>
-    int Health { get; set; }
-
-    /// <summary> Makes a deep copy of this object. </summary>
-    /// <returns> A copy of this object. </returns>
-    IComponent Clone();
-  }
-
   /// <summary> An entity that can be destroyed. </summary>
   internal interface IDestroyable : IComponent
   {
     /// <summary> Invoked when the object should be destroyed. </summary>
     void Destroy();
-  }
-
-  /// <summary> An object that has resistance against certain effects. </summary>
-  internal interface IResistable : IComponent
-  {
-    /// <summary> The resistance for the object. </summary>
-    Resistance Resistance { get; }
   }
 
   internal class DestroyableSystem
