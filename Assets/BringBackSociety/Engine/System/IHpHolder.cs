@@ -4,13 +4,13 @@ using System.Linq;
 
 namespace BringBackSociety.Engine.System
 {
-  /// <summary> An object that contains health. </summary>
-  internal interface IHealth : IReadWriteComponent
+  /// <summary> Represents an object that is killable. </summary>
+  public interface IHpHolder : IAspect
   {
+    /// <summary> The maximum amount of health that the entity can have. </summary>
+    int MaxHealth { get; }
+
     /// <summary> The current health of the entity. </summary>
     int Health { get; set; }
-
-    /// <summary> The maximum amount of health the entity can have. </summary>
-    int MaxHealth { get; }
   }
 }

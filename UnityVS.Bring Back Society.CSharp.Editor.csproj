@@ -92,7 +92,6 @@
     <Compile Include="Assets\BringBackSociety\Editor\Tests\AssertEx.cs" />
     <Compile Include="Assets\BringBackSociety\Editor\Tests\Fixture.cs" />
     <Compile Include="Assets\BringBackSociety\Editor\Tests\Items\StorageContainerTests.cs" />
-    <Compile Include="Assets\BringBackSociety\Editor\Tests\System\ComponentInfoTests.cs" />
     <Compile Include="Assets\BringBackSociety\Editor\Tests\Tasks\CoroutineDispatcherTests.cs" />
     <Compile Include="Assets\BringBackSociety\Editor\Tests\Weapons\FireableWeaponStatsTests.cs" />
     <Compile Include="Assets\BringBackSociety\Editor\Tests\WorldCreationTests.cs" />

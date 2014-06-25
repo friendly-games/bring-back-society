@@ -8,6 +8,9 @@ namespace BringBackSociety.Items
   [Serializable]
   public class Resistance
   {
+    /// <summary> The default to use if none is provided. </summary>
+    public static readonly Resistance Default = new Resistance();
+
     /// <summary> Resistance against an object which does not have any special attributes. </summary>
     public float PlainResistance = 1.0f;
 
