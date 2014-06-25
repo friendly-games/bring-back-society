@@ -20,7 +20,7 @@ namespace BringBackSociety.Engine.System
     {
       var info = ComponentInfo<T>.Info;
 
-      // make sure we fullfill the requirements
+      // make sure we fulfill the requirements
       foreach (var requiredComponent in info.Requirements)
       {
         if (!_components.ContainsKey(requiredComponent))

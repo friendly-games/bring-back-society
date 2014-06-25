@@ -97,6 +97,12 @@ namespace Assets.BringBackSociety.Editor.Tests.System
         get { throw new NotImplementedException(); }
         set { throw new NotImplementedException(); }
       }
+
+      /// <inheritdoc />
+      public ComponentInfo GetComponentInfo()
+      {
+        return ComponentInfo<IFake>.Info;
+      }
     }
   }
 }
