@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Behavior;
 using Behavior.Collidables;
 using BringBackSociety.Controllers;
 using BringBackSociety.Extensions;
@@ -47,7 +48,10 @@ namespace BringBackSociety.Scripts
       {
         case CollisionType.ItemCollector:
         {
-          var stack = rhs.gameObject.RetrieveObject<InventoryStack>();
+          var provider = rhs.gameObject.RetrieveOwnObject<IObjectProvider<InventoryStack>>();
+          if (provider == null)
+            return;
+          var stack = provider.Instance;
           _collectionService.Collect(stack);
         }
           break;

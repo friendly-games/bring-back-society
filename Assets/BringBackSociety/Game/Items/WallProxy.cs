@@ -41,23 +41,23 @@ namespace BringBackSociety.Game.Items
     /// <inheritdoc />
     public int Health
     {
-      get { return _tileReference.Value.WallData.Health; }
+      get { return _tileReference.GetValue().WallData.Health; }
       set
       {
         var current = Health;
         if (value == current)
           return;
 
-        var data = _tileReference.Value;
+        var data = _tileReference.GetValue();
         data.WallData.Health = (byte) Math.Max(0, value);
-        _tileReference.Value = data;
+        _tileReference.SetValue(data);
       }
     }
 
     /// <inheritdoc />
     public void Destroy()
     {
-      _tileReference.Value = Tile.Empty;
+      _tileReference.SetValue(Tile.Empty);
     }
   }
 }

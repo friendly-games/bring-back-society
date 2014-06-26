@@ -6,15 +6,12 @@ using BringBackSociety.Items;
 namespace BringBackSociety.Engine.System
 {
   /// <summary> A wall which is located at a specific tile. </summary>
-  internal class TileWall : IThing, IHpHolder, ICanBeDestroyed, IResist
+  internal class TileWallProxy : TileProxy, IHpHolder, ICanBeDestroyed, IResist
   {
-    private TileReference _reference;
-
     /// <summary> Constructor. </summary>
-    /// <param name="reference"> The reference to the tile. </param>
-    public TileWall(TileReference reference)
+    public TileWallProxy(IRecycler recycler)
+      : base(recycler)
     {
-      _reference = reference;
     }
 
     /// <inheritdoc />
@@ -40,23 +37,29 @@ namespace BringBackSociety.Engine.System
     /// <inheritdoc />
     public int Health
     {
-      get { return _reference.Value.WallData.Health; }
+      get { return Reference.GetValue().WallData.Health; }
       set
       {
         var current = Health;
         if (value == current)
           return;
 
-        var data = _reference.Value;
+        var data = Reference.GetValue();
         data.WallData.Health = (byte) Math.Max(0, value);
-        _reference.Value = data;
+        Reference.SetValue(data);
       }
     }
 
     /// <inheritdoc />
     public void MarkDestroyed()
     {
-      _reference.Value = Tile.Empty;
+      Reference.SetValue(Tile.Empty);
+    }
+
+    /// <inheritdoc />
+    public override string ToString()
+    {
+      return "Wall @ " + Reference;
     }
   }
 }

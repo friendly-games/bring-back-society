@@ -48,10 +48,21 @@ namespace BringBackSociety
     }
 
     /// <summary> The tile data of the tile at the given position. </summary>
-    public Tile Value
+    public void SetValue(Tile value)
     {
-      get { return _chunk[_coordinate]; }
-      set { _chunk[_coordinate] = value; }
+      _chunk[_coordinate] = value;
+    }
+
+    /// <summary> The tile data of the tile at the given position. </summary>
+    public Tile GetValue()
+    {
+      return _chunk[_coordinate];
+    }
+
+    /// <inheritdoc />
+    public override string ToString()
+    {
+      return _chunk.GetWorldLocationFrom(_coordinate).ToString();
     }
   }
 }

@@ -483,6 +483,7 @@ GameObject:
   - 54: {fileID: 980673494}
   - 114: {fileID: 980673499}
   - 114: {fileID: 980673500}
+  - 114: {fileID: 980673501}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -584,6 +585,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5185e302908ff6c44a2174890496b78b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &980673501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 980673493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 683edd9c30994f9468fc7823aeec787e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1133578356
 GameObject:
   m_ObjectHideFlags: 0
@@ -611,7 +623,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1133578356}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbdd60acc5a36dc4d80493b7e6896f51, type: 3}
+  m_Script: {fileID: 11500000, guid: de2b686f43148b046928b765a000c3ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!23 &1133578358
@@ -847,6 +859,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   resistance:
+    PlainResistance: 1
     ExplosiveResistance: 3
     BulletResistance: 1
 --- !u!1 &1311247453

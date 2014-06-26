@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BringBackSociety.Engine.System;
 using BringBackSociety.Extensions;
 using BringBackSociety.Items;
 using BringBackSociety.Items.Weapons;
@@ -18,6 +19,7 @@ namespace BringBackSociety.Controllers
 
     private readonly IRaycastService _raycastService;
     private readonly IRandomNumberGenerator _randomNumberGenerator;
+    private readonly DamageSystem _damageSystem;
 
     /// <summary> Constructor. </summary>
     public FireableWeaponController(IRaycastService raycastService,
@@ -25,6 +27,7 @@ namespace BringBackSociety.Controllers
     {
       _raycastService = raycastService;
       _randomNumberGenerator = randomNumberGenerator;
+      _damageSystem = new DamageSystem();
     }
 
     /// <summary> Have the actor fire their primary weapon. </summary>
@@ -56,16 +59,16 @@ namespace BringBackSociety.Controllers
         }
 
         float distance;
-        var hitObject = _raycastService.Raycast<IDestroyable>(ray, stats.MaxDistance, out distance);
+        var thing = _raycastService.Raycast(ray, stats.MaxDistance, out distance);
 
         Debugging.Drawing.Draw(ray, distance);
 
-        if (hitObject != null)
+        if (thing != null)
         {
           float damage = weapon.Stats.CalculateDamage(distance);
 
-          Log.InfoFormat("Hit {0} with {1}.  Damage: {2}", hitObject, weapon, damage);
-          Damage(hitObject, (int) damage);
+          Log.InfoFormat("Hit {0} with {1}.  Damage: {2}", thing, weapon, damage);
+          _damageSystem.ApplyDamage(new Damage((int) damage), thing);
 
           result = FireResult.Hit;
         }
@@ -109,20 +112,6 @@ namespace BringBackSociety.Controllers
         return ReloadResult.ClipHasBeenFilled;
       else
         return ReloadResult.AddedSomeAndNowOutOfAmmo;
-    }
-
-    /// <summary> Perform damage on the killable object </summary>
-    /// <param name="destroyable"> The killable to act on. </param>
-    /// <param name="damageAmount">The amount of damage to perform. </param>
-    private void Damage(IDestroyable destroyable, int damageAmount)
-    {
-      destroyable.Health -= (int) (damageAmount / destroyable.Resistance.BulletResistance);
-      Log.InfoFormat("Damaged {0}. Health remaining: {1}", destroyable, destroyable.Health);
-
-      if (destroyable.Health <= 0)
-      {
-        destroyable.Destroy();
-      }
     }
 
     /// <summary> All of the possible results of firing a weapon. </summary>
