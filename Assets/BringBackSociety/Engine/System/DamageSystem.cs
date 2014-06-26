@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using BringBackSociety.Items;
+using log4net;
 
 namespace BringBackSociety.Engine.System
 {
@@ -10,6 +11,9 @@ namespace BringBackSociety.Engine.System
   /// </summary>
   internal class DamageSystem
   {
+    /// <summary> Provides logging for the class. </summary>
+    private static readonly ILog Log = LogManager.GetLogger(typeof(DamageSystem));
+
     /// <summary> Applies damage to the given thing. </summary>
     /// <param name="damage"> The damage to apply. </param>
     /// <param name="thing"> The thing that could be damaged. </param>
@@ -27,6 +31,8 @@ namespace BringBackSociety.Engine.System
         : resistanceProvider.Resistance;
 
       hpHolder.Health -= damage.Amount;
+
+      Log.InfoFormat("Damaged {0}. Health remaining: {1}", hpHolder, hpHolder.Health);
 
       if (hpHolder.Health <= 0 && destroyable != null)
       {

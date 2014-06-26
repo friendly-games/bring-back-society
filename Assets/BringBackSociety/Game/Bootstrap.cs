@@ -186,10 +186,12 @@ internal class Bootstrap : MonoBehaviour, IGui
 
   private void DrawLookAtItem()
   {
-    var component = AllServices.RaycastService.Raycast<IComponent>(_player.Transform.ToRay(), 100);
-    if (component != null)
+    float distance;
+    var thing = AllServices.RaycastService.Raycast(_player.Transform.ToRay(), 100, out distance);
+    if (thing != null)
     {
-      _currentObjectDrawer.Add(component);
+      // TODO:
+      //_currentObjectDrawer.Add(component);
       _currentObjectDrawer.Draw();
     }
   }

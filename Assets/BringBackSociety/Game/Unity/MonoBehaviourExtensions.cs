@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Behavior;
+using BringBackSociety.Engine.System;
+using BringBackSociety.Game.System;
 using BringBackSociety.Items;
 using log4net;
 using UnityEngine;
@@ -18,31 +19,6 @@ public static class MonoBehaviourExtensions
     return gameObject.GetComponent(typeof(T)) as T;
   }
 
-  public static IComponent RetrieveComponent(this GameObject gameObject)
-  {
-    var instance = gameObject.RetrieveOwnObject<IComponent>();
-
-    // if it wasn't found on the game object itself
-    if (instance == null)
-    {
-      // and it has a parent
-      var parent = gameObject.GetParent();
-      if (parent != null)
-      {
-        // that is a provider for the child
-        var provider = parent.RetrieveOwnObject<IParentProvider>();
-        if (provider != null && provider.IsApplicable(gameObject))
-        {
-          // then use that instance
-          provider.With(gameObject);
-          instance = provider.Component;
-        }
-      }
-    }
-
-    return instance;
-  }
-
   /// <summary>
   ///  Get the component of the specified type from the game object, or attempt to get the the
   ///  component via it's parent component.
@@ -50,39 +26,38 @@ public static class MonoBehaviourExtensions
   public static T RetrieveComponent<T>(this GameObject gameObject)
     where T : class, IComponent
   {
-    return RetrieveComponent(gameObject) as T;
+    var instance = gameObject.RetrieveOwnObject<IComponent>();
+    return instance as T;
   }
 
-  /// <summary> Retrieve an object provided by a game object in the hierarchy. </summary>
-  /// <typeparam name="T"> The type of object to retrieve. </typeparam>
+  /// <summary>
+  ///  Retrieve the thing associated with the game object, or attempt to retrieve a proxy thing from
+  ///  the game object's parent.
+  /// </summary>
   /// <param name="gameObject"> The gameObject where the hierarchal search should begin for the
   ///  object. </param>
-  /// <returns> A object found, or null if the object could not be found. </returns>
-  public static T RetrieveObject<T>(this GameObject gameObject)
+  /// <returns> An IThing. </returns>
+  internal static IThing RetrieveThing(this GameObject gameObject)
   {
-    IObjectProvider<T> currentValue;
-    GameObject currentGameObject = gameObject;
+    IThing thing;
 
-    do
-    {
-      // try to retrieve it from ourselves
-      currentValue = currentGameObject.RetrieveOwnObject<IObjectProvider<T>>();
+    // if the game object is itself a thing, return it directly
+    thing = gameObject.RetrieveOwnObject<IThing>();
+    if (thing != null)
+      return thing;
 
-      // if that doesn't work, set our self to our parent
-      if (currentValue == null)
-      {
-        currentGameObject = currentGameObject.GetParent();
-      }
+    // otherwise try to get its parent
+    var parent = gameObject.GetParent();
+    if (parent == null)
+      return null;
 
-      // and keep going until we have no parent or until we have a value
-    } while (currentValue == null && currentGameObject != null);
+    // and make sure it's a candidate to return a proxy for this child
+    var proxyParent = parent.RetrieveOwnObject<IProxyParent>();
+    if (proxyParent == null)
+      return null;
 
-    if (currentValue != null)
-    {
-      return currentValue.Instance;
-    }
-
-    return default(T);
+    // and return that proxy
+    return proxyParent.RetrieveProxyFor(gameObject);
   }
 
   /// <summary>

@@ -73,6 +73,7 @@
     <Compile Include="Assets\BringBackSociety\Engine\Debugging.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Extensions\CoordinateExtensions.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Extensions\MathExtensions.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\IRecycler.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Items\FireableWeaponItem.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Items\FireableWeaponStats.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Items\IAmmoModel.cs" />
@@ -90,13 +91,17 @@
     <Compile Include="Assets\BringBackSociety\Engine\Items\INamed.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Items\INamedItem.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Items\InventoryItem.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\System\IProxy.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\System\IResist.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Items\ISnapshotable.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Items\ITileItem.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Items\IUiResource.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Items\Resistance.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\System\IThing.cs" />
-    <Compile Include="Assets\BringBackSociety\Engine\System\TileWall.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\ResourcePool.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\System\TileProxy.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\System\TileThingResourceManager.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\System\TileWallProxy.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Items\Weapons\AmmoType.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Items\Weapons\FireableWeapon.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Mapping\WallData.cs" />
@@ -144,6 +149,7 @@
     <Compile Include="Assets\BringBackSociety\Game\Services\ItemCollectorService.cs" />
     <Compile Include="Assets\BringBackSociety\Game\Services\PerlinNoise.cs" />
     <Compile Include="Assets\BringBackSociety\Game\Services\RaycastService.cs" />
+    <Compile Include="Assets\BringBackSociety\Game\System\IProxyParent.cs" />
     <Compile Include="Assets\BringBackSociety\Game\Unity\IObjectProvider.cs" />
     <Compile Include="Assets\BringBackSociety\Game\Unity\IParentProvider.cs" />
     <Compile Include="Assets\BringBackSociety\Game\Unity\IStart.cs" />
@@ -153,6 +159,7 @@
     <Compile Include="Assets\BringBackSociety\Game\Unity\Prefabs.cs" />
     <Compile Include="Assets\BringBackSociety\Game\Unity\UnitySystem.cs" />
     <Compile Include="Assets\BringBackSociety\Game\ViewModels\DisplayStorageViewModel.cs" />
+    <Compile Include="Assets\BringBackSociety\Scripts\ChunkGroupBehavior.cs" />
     <Compile Include="Assets\BringBackSociety\Scripts\ExtendedBehaviour.cs" />
     <Compile Include="Assets\BringBackSociety\Scripts\FireableWeaponBehavior.cs" />
     <Compile Include="Assets\BringBackSociety\Scripts\ItemPickupBehavior.cs" />

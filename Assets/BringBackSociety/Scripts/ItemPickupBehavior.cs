@@ -13,7 +13,7 @@ namespace BringBackSociety.Scripts
     public void Start()
     {
       // TODO change this to something more than just the instance data
-      Instance = new InventoryStack(GlobalResources.Ammos[2], 20);
+      Instance = new InventoryStack(GlobalResources.Ammos[1], 20);
     }
 
     /// <summary> The data that will be picked up by the player. </summary>

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using BringBackSociety.Engine.System;
 using BringBackSociety.Extensions;
 using BringBackSociety.Scripts;
 using BringBackSociety.Tasks;
@@ -26,6 +27,7 @@ namespace BringBackSociety.Game
     private readonly GameObject _allWalls;
     private readonly ILog _log = LogManager.GetLogger(typeof(ChunkProcessor));
     private Chunk _oldCenterChunk;
+    private readonly TileThingResourceManager _tileResourceManager;
 
     /// <summary> Constructor. </summary>
     /// <exception cref="ArgumentNullException"> Thrown when one or more required arguments are null. </exception>
@@ -37,6 +39,7 @@ namespace BringBackSociety.Game
 
       _dispatcher = dispatcher;
       _world = world;
+      _tileResourceManager = new TileThingResourceManager(world);
       _chunksToLoad = new LinkedList<Chunk>();
       _chunksToUnload = new LinkedList<Chunk>();
       _loadedChunks = new LinkedList<Chunk>();
@@ -47,7 +50,6 @@ namespace BringBackSociety.Game
       _allWalls = GameObject.Find("All.Walls");
     }
 
-   
     /// <summary> Process an incoming chunk change. </summary>
     public void HandleChunkChange()
     {
@@ -113,10 +115,7 @@ namespace BringBackSociety.Game
     private IEnumerator DoChunkProcessing()
     {
       _log.Info("Processing chunk change");
-
       _isChunkProcessorActive = true;
-
-      const int numRowsPerAdd = 256 / Chunk.Length;
 
       do
       {
@@ -125,6 +124,8 @@ namespace BringBackSociety.Game
           var chunk = _chunksToLoad.First.Value;
           _chunksToLoad.RemoveFirst();
 
+          const int numRowsPerAdd = 256 / Chunk.Length;
+
           if (!_loadedChunks.Contains(chunk))
           {
             _loadedChunks.AddLast(chunk);
@@ -132,6 +133,7 @@ namespace BringBackSociety.Game
             var chunkObject = new GameObject("Chunk[" + chunk.Coordinate + "]");
             var chunkOffset = chunk.Offset.ToVector3();
 
+            chunkObject.SetActive(false);
             chunkObject.transform.parent = _allWalls.transform;
 
             // go through all the tiles and create walls in all the right locations
@@ -148,7 +150,12 @@ namespace BringBackSociety.Game
 
             chunk.Tag = chunkObject;
             var wallParentKillable = chunkObject.AddComponent<WallParentProviderKillableBehavior>();
+            var chunkGroup = chunkObject.AddComponent<ChunkGroupBehavior>();
+
             wallParentKillable.Chunk = chunk;
+            chunkGroup.Initialize(chunk, _tileResourceManager);
+
+            chunkObject.SetActive(true);
           }
         }
 
