@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BringBackSociety.Engine.System;
 using BringBackSociety.Items;
 using UnityEngine;
 
 namespace BringBackSociety.Scripts
 {
   /// <summary> MonoBehavoir for a killable object. </summary>
-  public class KillableBehavior : MonoBehaviour, IDestroyable
+  public class KillableBehavior : MonoBehaviour, IThing, IHpHolder, ICanBeDestroyed, IResist
   {
     /// <summary> The maximum health amount of health for this entity. </summary>
     public int maxHealth = 100;
@@ -17,19 +18,19 @@ namespace BringBackSociety.Scripts
 
     private int _health;
 
-    Resistance IDestroyable.Resistance
+    Resistance IResist.Resistance
     {
       get { return resistance; }
     }
 
     /// <summary> The maximum amount of health that the entity can have. </summary>
-    int IDestroyable.MaxHealth
+    int IHpHolder.MaxHealth
     {
       get { return maxHealth; }
     }
 
     /// <summary> The health of the object. </summary>
-    int IDestroyable.Health
+    int IHpHolder.Health
     {
       get { return _health; }
       set { _health = value; }
@@ -38,12 +39,12 @@ namespace BringBackSociety.Scripts
     /// <inheritdoc />
     public void Start()
     {
-      IDestroyable destroyable = this;
+      IHpHolder destroyable = this;
       destroyable.Health = destroyable.MaxHealth;
     }
 
     /// <inheritdoc />
-    void IDestroyable.Destroy()
+    void ICanBeDestroyed.MarkDestroyed()
     {
       Destroy(gameObject);
     }

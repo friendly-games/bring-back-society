@@ -121,7 +121,7 @@ internal class Bootstrap : MonoBehaviour, IGui
       if (go == null)
         return;
 
-      var parentProvider = go.GetComponent<WallParentProviderKillableBehavior>();
+      var parentProvider = go.GetComponent<ChunkGroupBehavior>();
 
       if (parentProvider == null)
         return;
@@ -191,7 +191,7 @@ internal class Bootstrap : MonoBehaviour, IGui
     if (thing != null)
     {
       // TODO:
-      //_currentObjectDrawer.Add(component);
+      _currentObjectDrawer.Add(thing);
       _currentObjectDrawer.Draw();
     }
   }

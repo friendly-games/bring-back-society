@@ -77,34 +77,20 @@
     <Compile Include="Assets\BringBackSociety\Engine\Items\FireableWeaponItem.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Items\FireableWeaponStats.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Items\IAmmoModel.cs" />
-    <Compile Include="Assets\BringBackSociety\Engine\System\Damage.cs" />
-    <Compile Include="Assets\BringBackSociety\Engine\System\DamageSystem.cs" />
-    <Compile Include="Assets\BringBackSociety\Engine\System\IAspect.cs" />
-    <Compile Include="Assets\BringBackSociety\Engine\System\ICanBeDestroyed.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Items\IComponent.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Items\ICopyable.cs" />
-    <Compile Include="Assets\BringBackSociety\Engine\Items\IDestroyable.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Items\IDisplayableItem.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Items\IFireableWeaponModel.cs" />
-    <Compile Include="Assets\BringBackSociety\Engine\System\IHpHolder.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Items\IItemModel.cs" />
-    <Compile Include="Assets\BringBackSociety\Engine\Items\INamed.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Items\INamedItem.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Items\InventoryItem.cs" />
-    <Compile Include="Assets\BringBackSociety\Engine\System\IProxy.cs" />
-    <Compile Include="Assets\BringBackSociety\Engine\System\IResist.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Items\ISnapshotable.cs" />
-    <Compile Include="Assets\BringBackSociety\Engine\Items\ITileItem.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Items\IUiResource.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Items\Resistance.cs" />
-    <Compile Include="Assets\BringBackSociety\Engine\System\IThing.cs" />
-    <Compile Include="Assets\BringBackSociety\Engine\ResourcePool.cs" />
-    <Compile Include="Assets\BringBackSociety\Engine\System\TileProxy.cs" />
-    <Compile Include="Assets\BringBackSociety\Engine\System\TileThingResourceManager.cs" />
-    <Compile Include="Assets\BringBackSociety\Engine\System\TileWallProxy.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Items\Weapons\AmmoType.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Items\Weapons\FireableWeapon.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Mapping\WallData.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\ResourcePool.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Services\AllServices.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Services\IItemCollectionService.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Services\Implementations\RandomNumberGeneratorGenerator.cs" />
@@ -113,6 +99,17 @@
     <Compile Include="Assets\BringBackSociety\Engine\Services\IRandomNumberGenerator.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Services\IRaycastService.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\SnapshotToken.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\System\Damage.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\System\DamageSystem.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\System\IAspect.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\System\ICanBeDestroyed.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\System\IHpHolder.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\System\IProxy.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\System\IResist.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\System\IThing.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\System\TileProxy.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\System\TileThingResourceManager.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\System\TileWallProxy.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Tasks\Coroutine.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Tasks\CoroutineBase.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Tasks\CoroutineDispatcher.cs" />
@@ -134,9 +131,11 @@
     <Compile Include="Assets\BringBackSociety\Game\Collidables\ICollisionHandler.cs" />
     <Compile Include="Assets\BringBackSociety\Game\Drawing\PropertyDrawer.cs" />
     <Compile Include="Assets\BringBackSociety\Game\GlobalResources.cs" />
+    <Compile Include="Assets\BringBackSociety\Game\Input\TargetLocator.cs" />
     <Compile Include="Assets\BringBackSociety\Game\ItemCollector.cs" />
     <Compile Include="Assets\BringBackSociety\Game\Items\Ammo.cs" />
     <Compile Include="Assets\BringBackSociety\Game\Items\Player.cs" />
+    <Compile Include="Assets\BringBackSociety\Game\Items\WallTemplate.cs" />
     <Compile Include="Assets\BringBackSociety\Game\Models\BaseModel.cs" />
     <Compile Include="Assets\BringBackSociety\Game\Models\IModelProvider.cs" />
     <Compile Include="Assets\BringBackSociety\Game\Models\ModelHost.cs" />
@@ -145,7 +144,6 @@
     <Compile Include="Assets\BringBackSociety\Game\Scripts\DebugDraw.cs" />
     <Compile Include="Assets\BringBackSociety\Game\Scripts\IGui.cs" />
     <Compile Include="Assets\BringBackSociety\Game\Scripts\InputManager.cs" />
-    <Compile Include="Assets\BringBackSociety\Game\Input\TargetLocator.cs" />
     <Compile Include="Assets\BringBackSociety\Game\Services\ItemCollectorService.cs" />
     <Compile Include="Assets\BringBackSociety\Game\Services\PerlinNoise.cs" />
     <Compile Include="Assets\BringBackSociety\Game\Services\RaycastService.cs" />
@@ -166,9 +164,6 @@
     <Compile Include="Assets\BringBackSociety\Scripts\KillableBehavior.cs" />
     <Compile Include="Assets\BringBackSociety\Scripts\PlayerMonoBehaviour.cs" />
     <Compile Include="Assets\BringBackSociety\Scripts\TileProxyProvider.cs" />
-    <Compile Include="Assets\BringBackSociety\Scripts\WallParentProviderKillableBehavior.cs" />
-    <Compile Include="Assets\BringBackSociety\Game\Items\WallProxy.cs" />
-    <Compile Include="Assets\BringBackSociety\Game\Items\WallTemplate.cs" />
     <Compile Include="Assets\UnityTestTools\Assertions\AssertionComponent.cs" />
     <Compile Include="Assets\UnityTestTools\Assertions\AssertionException.cs" />
     <Compile Include="Assets\UnityTestTools\Assertions\Assertions.cs" />
@@ -212,6 +207,5 @@
     <None Include="Assets\BringBackSociety\Xternals\log4net.dll" />
     <None Include="Assets\BringBackSociety\Xternals\Moq.dll" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />
 </Project>

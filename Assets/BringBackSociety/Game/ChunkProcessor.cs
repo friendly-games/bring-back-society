@@ -149,10 +149,7 @@ namespace BringBackSociety.Game
             }
 
             chunk.Tag = chunkObject;
-            var wallParentKillable = chunkObject.AddComponent<WallParentProviderKillableBehavior>();
             var chunkGroup = chunkObject.AddComponent<ChunkGroupBehavior>();
-
-            wallParentKillable.Chunk = chunk;
             chunkGroup.Initialize(chunk, _tileResourceManager);
 
             chunkObject.SetActive(true);

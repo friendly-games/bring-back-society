@@ -39,5 +39,18 @@ namespace BringBackSociety.Scripts
       var worldPosition = child.transform.position.ToWorldPosition();
       return _resourceManager.Retrieve(worldPosition);
     }
+
+    public GameObject GetGameObjectFor(TileCoordinate coordinate)
+    {
+      // TODO fix this crap
+      var position = new WorldPosition(Chunk.Coordinate, coordinate).ToVector3();
+      var matches = Physics.OverlapSphere(position, 0.01f);
+      foreach (var match in matches)
+      {
+        return match.gameObject;
+      }
+
+      return null;
+    }
   }
 }
