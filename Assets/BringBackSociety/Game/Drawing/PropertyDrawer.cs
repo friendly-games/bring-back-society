@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Behavior;
 using BringBackSociety;
+using BringBackSociety.Engine.System;
 using BringBackSociety.Items;
 using UnityEngine;
 
@@ -27,29 +28,17 @@ namespace Drawing
     }
 
     /// <summary> Use the details from this component for drawing purposes. </summary>
-    /// <param name="component"> The component whose information should be processed. </param>
-    public void Add(IComponent component)
+    /// <param name="thing"> The component whose information should be processed. </param>
+    internal void Add(IThing thing)
     {
       Start();
 
-      var name = component as INamed;
-      if (name != null)
-      {
-        AddItem("Name:", name.Name);
-      }
+      AddItem("Name:", thing.ToString());
 
-      var destroyable = component as IDestroyable;
-      if (destroyable != null)
+      var hpHolder = thing as IHpHolder;
+      if (hpHolder != null)
       {
-        AddItem("Health:", destroyable.Health.ToString());
-      }
-
-      var tileItem = component as ITileItem;
-      if (tileItem != null)
-      {
-        AddItem("Chunk:", tileItem.TileCoordinate.ToString());
-        AddItem("Tile:", tileItem.ChunkCoordinate.ToString());
-        AddItem("World:", new WorldPosition(tileItem.ChunkCoordinate, tileItem.TileCoordinate).ToString());
+        AddItem("Health:", hpHolder.Health.ToString());
       }
     }
 
