@@ -53,11 +53,11 @@ namespace ViewModels
 
         if (slot.Model != null)
         {
-          _items[i] = new ItemSlotViewModel(slot.Model.Name, count.ToString(), slot.Model.Resource);
+          _items[i] = new ItemSlotViewModel(slot.Model.Name, count.ToString());
         }
         else
         {
-          _items[i] = new ItemSlotViewModel("<>", "-", null);
+          _items[i] = new ItemSlotViewModel("<>", "-");
         }
       }
     }
@@ -68,13 +68,11 @@ namespace ViewModels
   {
     private readonly string _displayName;
     private readonly string _quantityText;
-    private readonly IUiResource _uiResource;
 
-    public ItemSlotViewModel(string displayName, string quantityText, IUiResource uiResource)
+    public ItemSlotViewModel(string displayName, string quantityText)
     {
       _displayName = displayName;
       _quantityText = quantityText;
-      _uiResource = uiResource;
     }
 
     /// <summary> The text to display regarding the name of the item. </summary>
@@ -87,12 +85,6 @@ namespace ViewModels
     public string QuantityText
     {
       get { return _quantityText; }
-    }
-
-    /// <summary> The UI Resources associated with the item.  </summary>
-    public IUiResource UiResource
-    {
-      get { return _uiResource; }
     }
   }
 }

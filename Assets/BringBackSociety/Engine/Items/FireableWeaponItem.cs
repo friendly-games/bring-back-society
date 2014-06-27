@@ -8,12 +8,10 @@
     /// <param name="stats"> The damage stats for the item. </param>
     /// <param name="resource"> The ui resource associated with the item. </param>
     public FireableWeaponItem(IFireableWeaponModel model,
-                              FireableWeaponStats stats,
-                              IUiResource resource)
+                              FireableWeaponStats stats)
     {
       Model = model;
       Stats = stats;
-      Resource = resource;
     }
 
     /// <summary> The ui component associated with the item. </summary>
@@ -21,9 +19,6 @@
 
     /// <summary> The damage stats for the item. </summary>
     public FireableWeaponStats Stats { get; private set; }
-
-    /// <summary> Info about the weapon that is passed to the ui. </summary>
-    public IUiResource Resource { get; private set; }
 
     /// <inheritdoc />
     public int StackAmount
