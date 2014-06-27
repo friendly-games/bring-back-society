@@ -17,9 +17,6 @@ namespace Items
     public int StackAmount { get; set; }
 
     /// <inheritdoc />
-    public IUiResource Resource { get; set; }
-
-    /// <inheritdoc />
     public AmmoType AmmoType { get; set; }
   }
 }

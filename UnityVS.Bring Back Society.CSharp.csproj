@@ -82,7 +82,6 @@
     <Compile Include="Assets\BringBackSociety\Engine\Items\IDisplayableItem.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Items\IFireableWeaponModel.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Items\IItemModel.cs" />
-    <Compile Include="Assets\BringBackSociety\Engine\Items\INamedItem.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Items\InventoryItem.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Items\ISnapshotable.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\Items\IUiResource.cs" />
@@ -103,10 +102,18 @@
     <Compile Include="Assets\BringBackSociety\Engine\System\DamageSystem.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\System\IAspect.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\System\ICanBeDestroyed.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\System\ICanStack.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\System\IHpHolder.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\System\IItem.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\System\IProxy.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\System\IResist.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\System\IResourceProvider.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\System\IResourceUser.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\System\ItemStack.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\System\IThing.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\System\Resource.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\System\ResourceItem.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\System\StackableWeight.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\System\TileProxy.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\System\TileThingResourceManager.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\System\TileWallProxy.cs" />
