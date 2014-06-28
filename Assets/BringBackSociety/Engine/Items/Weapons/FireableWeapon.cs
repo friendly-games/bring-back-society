@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using BringBackSociety.Engine.System;
 
 namespace BringBackSociety.Items.Weapons
 {
   /// <summary> An instance of a weapon that can be fired. </summary>
-  internal class FireableWeapon : IItemModel
+  internal class FireableWeapon : Gun, IItemModel
   {
     /// <summary> Constructor. </summary>
     public FireableWeapon(FireableWeaponTemplate template)
+      : base(template.Stats, template.Model)
     {
       Template = template;
     }

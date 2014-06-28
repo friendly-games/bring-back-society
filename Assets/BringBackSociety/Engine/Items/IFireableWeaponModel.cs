@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BringBackSociety.Items.Weapons;
 using BringBackSociety.ViewModels;
 
 namespace BringBackSociety.Items
@@ -17,9 +16,6 @@ namespace BringBackSociety.Items
     /// <summary> Transition the weapon into the given state. </summary>
     /// <param name="state"> The state to enter. </param>
     void TransitionToState(FireableWeaponState state);
-
-    /// <summary> The fireable weapon instance which is associated with this model. </summary>
-    FireableWeapon FireableWeapon { get; set; }
   }
 
   /// <summary> Instance template for a fireable weapon. </summary>

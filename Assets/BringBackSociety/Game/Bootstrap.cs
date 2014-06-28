@@ -5,6 +5,7 @@ using System.Threading;
 using BringBackSociety;
 using BringBackSociety.Engine;
 using BringBackSociety.Controllers;
+using BringBackSociety.Engine.System;
 using BringBackSociety.Extensions;
 using BringBackSociety.Game;
 using BringBackSociety.Items;
@@ -155,11 +156,11 @@ internal class Bootstrap : MonoBehaviour, IGui
 
     _player.EquippedItem = newWeapon;
 
-    var actualWeapon = _player.EquippedItem.Stack.Model as FireableWeapon;
+    var actualWeapon = _player.EquippedItem.Stack.Model as IGun;
 
     if (actualWeapon != null)
     {
-      _player.EquippedItemHost.SwitchToCopyOf(actualWeapon.Template.Model);
+      _player.EquippedItemHost.SwitchToCopyOf(actualWeapon.Model);
     }
 
     Log.InfoFormat("Switched weapon to {0}", inventory.Slots[weapon]);

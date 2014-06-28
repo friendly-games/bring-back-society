@@ -100,11 +100,15 @@
     <Compile Include="Assets\BringBackSociety\Engine\SnapshotToken.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\System\Damage.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\System\DamageSystem.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\System\Gun.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\System\GunStats.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\System\IAspect.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\System\ICanBeDestroyed.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\System\ICanStack.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\System\IGun.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\System\IHpHolder.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\System\IItem.cs" />
+    <Compile Include="Assets\BringBackSociety\Engine\System\IItemThing.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\System\IProxy.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\System\IResist.cs" />
     <Compile Include="Assets\BringBackSociety\Engine\System\IResourceProvider.cs" />

@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using BringBackSociety.Items;
-using BringBackSociety.Items.Weapons;
 using Models;
 using UnityEngine;
 
@@ -42,9 +41,6 @@ namespace BringBackSociety.Scripts
 
         _state = FireableWeaponState.None;
       }
-
-      /// <inheritdoc />
-      public FireableWeapon FireableWeapon { get; set; }
 
       /// <inheritdoc />
       public bool CanEnterState(FireableWeaponState state)

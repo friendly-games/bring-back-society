@@ -34,14 +34,14 @@ namespace BringBackSociety.Controllers
     /// <param name="player"> The actor who should fire their weapon. </param>
     /// <param name="weapon"> The weapon that should be fired. </param>
     /// <returns> The result of firing the weapon </returns>
-    public FireResult FireWeapon(IPlayer player, FireableWeapon weapon)
+    public FireResult FireWeapon(IPlayer player, IGun weapon)
     {
       if (weapon.ShotsRemaining == 0)
         return FireResult.OutOfAmmo;
 
       var result = FireResult.Missed;
 
-      var stats = weapon.Stats;
+      var stats = weapon.BaseStats;
 
       var right = player.Transform.right;
       var up = player.Transform.up;
@@ -65,10 +65,8 @@ namespace BringBackSociety.Controllers
 
         if (thing != null)
         {
-          float damage = weapon.Stats.CalculateDamage(distance);
-
-          Log.InfoFormat("Hit {0} with {1}.  Damage: {2}", thing, weapon, damage);
-          _damageSystem.ApplyDamage(new Damage((int) damage), thing);
+          var damageSystem = new DamageSystem();
+          damageSystem.ApplyDamage(weapon.BaseStats, distance, thing);
 
           result = FireResult.Hit;
         }
@@ -83,18 +81,19 @@ namespace BringBackSociety.Controllers
     /// <param name="inventory"> The inventory to reload the weapon with. </param>
     /// <param name="weapon"> The weapon that should be reloaded. </param>
     /// <returns> true if it succeeds, false if it fails. </returns>
-    public ReloadResult Reload(StorageContainer inventory, FireableWeapon weapon)
+    public ReloadResult Reload(StorageContainer inventory, IGun weapon)
     {
       var countController = new InventoryCountController(inventory);
 
-      if (weapon.ShotsRemaining == weapon.Stats.ClipSize)
+      if (weapon.ShotsRemaining == weapon.BaseStats.ClipSize)
         return ReloadResult.ClipIsAlreadyFilled;
 
       int initialCount = weapon.ShotsRemaining;
 
-      while (weapon.ShotsRemaining < weapon.Stats.ClipSize)
+      while (weapon.ShotsRemaining < weapon.BaseStats.ClipSize)
       {
-        var ammoCursor = countController.GetAmmoCursor(weapon.Stats.AmmoType);
+        // TODO update
+        var ammoCursor = countController.GetAmmoCursor(GlobalResources.Ammos[0].AmmoType);
         var ammoStack = ammoCursor.Stack;
 
         if (ammoStack.IsEmpty)
@@ -108,7 +107,7 @@ namespace BringBackSociety.Controllers
       // we didn't add any
       if (weapon.ShotsRemaining == initialCount)
         return ReloadResult.OutOfAmmo;
-      else if (weapon.ShotsRemaining == weapon.Stats.ClipSize)
+      else if (weapon.ShotsRemaining == weapon.BaseStats.ClipSize)
         return ReloadResult.ClipHasBeenFilled;
       else
         return ReloadResult.AddedSomeAndNowOutOfAmmo;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using BringBackSociety.Engine.System;
 using BringBackSociety.Items.Weapons;
 
 namespace BringBackSociety.Items
@@ -46,6 +47,19 @@ namespace BringBackSociety.Items
 
       // never do negative damage
       return Math.Max(damage, 0);
+    }
+
+    public static implicit operator GunStats(FireableWeaponStats stats)
+    {
+      return new GunStats()
+             {
+               ClipSize = stats.ClipSize,
+               DamagePerShot = stats.DamagePerShot,
+               FalloffDistance = stats.FalloffDistance,
+               MaxDistance = stats.MaxDistance,
+               NumberOfPellets = stats.NumberOfPellets,
+               Spread = stats.Spread
+             };
     }
   }
 }
