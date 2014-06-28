@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BringBackSociety.Engine.System;
 using BringBackSociety.Items;
 using BringBackSociety.Items.Weapons;
 using BringBackSociety.Services;
@@ -33,7 +34,7 @@ namespace BringBackSociety.Controllers
     public void UseItem()
     {
       var weaponSlot = _player.Inventory.GetStack(_player.EquippedItem);
-      var weapon = weaponSlot.Model as FireableWeapon;
+      var weapon = weaponSlot.Model as IGun;
 
       if (weapon != null)
       {
@@ -41,7 +42,7 @@ namespace BringBackSociety.Controllers
       }
     }
 
-    private void UseWeapon(FireableWeapon weapon, IFireableWeaponModel model)
+    private void UseWeapon(IGun weapon, IFireableWeaponModel model)
     {
       _player.Inventory.ForceSnapshot();
 

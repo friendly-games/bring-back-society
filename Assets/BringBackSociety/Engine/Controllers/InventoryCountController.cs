@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BringBackSociety.Engine.System;
 using BringBackSociety.Items;
 using BringBackSociety.Items.Weapons;
 
@@ -28,7 +29,7 @@ namespace BringBackSociety.Controllers
     {
       var model = stack.Model;
 
-      var weapon = model as FireableWeapon;
+      var weapon = model as IGun;
       if (weapon != null)
       {
         return GetDisplayFor(weapon);
@@ -40,7 +41,7 @@ namespace BringBackSociety.Controllers
     }
 
     /// <summary> Gets the display count for fireable weapons. </summary>
-    private int GetDisplayFor(FireableWeapon weapon)
+    private int GetDisplayFor(IGun weapon)
     {
       return weapon.ShotsRemaining;
     }
